@@ -3,541 +3,131 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Door-to-Door ist die Königsklasse im Vertrieb: Enno Scharf, 12+ Jahre D2D Solar an der Haustür. Team, Praxis, Skripte – auch für Einsteiger.">
-  <title>D2D Solar Recruiting | Mit Enno Scharf ins Team</title>
+  <meta name="description" content="Datenschutzerklärung von Enno Scharf.">
+  <title>Datenschutz | Enno Scharf</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      margin: 0;
+      background: #071426;
+      color: #f4f7ff;
+    }
+    .legal-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .legal-header {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(7, 20, 38, 0.9);
+      backdrop-filter: blur(8px);
+    }
+    .legal-header__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 0;
+    }
+    .legal-back {
+      color: #f4f7ff;
+      text-decoration: none;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 999px;
+      padding: 0.5rem 0.9rem;
+      font-weight: 600;
+    }
+    .legal-main {
+      width: min(920px, 92vw);
+      margin: 0 auto;
+      padding: 2.5rem 0 3rem;
+    }
+    .legal-main h1 {
+      margin-top: 0;
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
+    }
+    .legal-main h2 {
+      margin-top: 2rem;
+      font-size: clamp(1.15rem, 3.6vw, 1.45rem);
+    }
+    .legal-main p {
+      line-height: 1.7;
+      margin: 0.5rem 0 0;
+      color: rgba(244, 247, 255, 0.92);
+    }
+    .legal-main a {
+      color: #a9c7ff;
+    }
+  </style>
 </head>
 <body>
-
-  <div class="grain" aria-hidden="true"></div>
-
-  <!-- Navigation -->
-  <header class="nav" id="nav">
-    <div class="nav__inner">
-      <a href="#" class="nav__logo" aria-label="Startseite">
-        <span class="logo-text" aria-hidden="true">Enno Scharf</span>
-      </a>
-      <nav class="nav__links" aria-label="Hauptnavigation">
-        <a href="#story">Story</a>
-        <a href="#company-video">Film</a>
-        <a href="#recruit">Für dich</a>
-        <a href="#benefits">Vorteile</a>
-        <a href="#faq">FAQ</a>
-      </nav>
-      <a href="#apply" class="nav__cta btn btn--primary btn--sm">Jetzt bewerben</a>
-      <button class="nav__toggle" id="navToggle" aria-label="Menü öffnen" aria-expanded="false">
-        <span></span><span></span>
-      </button>
-    </div>
-    <div class="nav__mobile" id="navMobile" aria-hidden="true">
-      <a href="#story">Story</a>
-      <a href="#company-video">Film</a>
-      <a href="#recruit">Für dich</a>
-      <a href="#benefits">Vorteile</a>
-      <a href="#faq">FAQ</a>
-      <a href="#apply" class="btn btn--primary">Jetzt bewerben</a>
-    </div>
-  </header>
-
-  <main>
-
-    <!-- 1. Hero -->
-    <section class="hero" id="hero">
-      <div class="hero__bg" aria-hidden="true">
-        <img
-          src="Titelbild.PNG"
-          alt=""
-          class="hero__img"
-          width="1920"
-          height="1080"
-          fetchpriority="high"
-          decoding="async"
-          onerror="this.remove()"
-        >
-        <div class="hero__mesh"></div>
-        <div class="hero__overlay"></div>
-        <div class="hero__glow"></div>
-      </div>
-      <div class="hero__content container">
-        <div class="desktop-only">
-          <h1 class="hero__title reveal">
-            Door-to-Door ist die Königsklasse<br>
-            <em>im Vertrieb.</em>
-          </h1>
-          <div class="hero__subtitle hero__subtitle--stack reveal reveal--delay-1">
-            <p>
-              Ich bin <strong>Enno Scharf</strong>. Seit <strong>12+ Jahren</strong> Door-to-Door im Solar – direkt an der Haustür.
-            </p>
-            <p>
-              Dort lernst du, was dir kein Bürojob gibt: Selbstvertrauen, Menschenkenntnis, mentale Stärke – auch unter Druck.
-            </p>
-            <p>
-              Door-to-Door ist hart. Genau deshalb verändert es Menschen.
-            </p>
-            <p>
-              Ich suche neue Leute fürs Team – mit oder ohne Erfahrung. Bei uns: echte Praxis, Skripte, und jemand, der zeigt, wie Vertrieb an der Tür läuft.
-            </p>
-          </div>
-        </div>
-        <div class="mobile-only">
-          <h1 class="hero__title reveal">
-            Door-to-Door Vertrieb.<br>
-            Echt. Direkt. Stark.
-          </h1>
-          <p class="hero__subtitle reveal reveal--delay-1">
-            Ich bin Enno Scharf. Seit über 12 Jahren draußen im Solarvertrieb. Wenn du lernen, verdienen und mental stärker werden willst, bekommst du hier echte Praxis statt leere Versprechen.
-          </p>
-        </div>
-        <div class="hero__actions reveal reveal--delay-2">
-          <a href="#apply" class="btn btn--primary btn--lg btn--glow">Kostenlos bewerben</a>
-          <a href="#story" class="btn btn--ghost btn--lg">Meine Story</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- 2. Story – Enno-led -->
-    <section class="editorial editorial--light section--soft-top" id="story">
-      <div class="container">
-        <div class="editorial__copy editorial__copy--solo reveal">
-            <span class="section__eyebrow">Warum ich Leute suche</span>
-            <h2 class="section__title section__title--editorial">
-              Ich war lange allein an der Tür.<br>
-              <span class="text-gradient">Jetzt will ich Wissen weitergeben – mit dir im Team.</span>
-            </h2>
-            <div class="editorial__body">
-              <p class="editorial__lead">
-                Ich bin <strong>Enno Scharf</strong>, 32. Über <strong>12 Jahre</strong> habe ich Door-to-Door Vertrieb im Solarbereich gemacht – von den ersten unsicheren Gesprächen bis zu Tagen, an denen alles sitzt. Heute suche ich <strong>neue Leute</strong>, die mit mir aktiv im Außendienst arbeiten wollen: nicht als anonyme Nummer, sondern mit echtem Zugang zu dem, was ich selbst jeden Tag nutze.
-              </p>
-              <p>
-                Solar ist das Produkt: verständlich, gefragt, gut erklärbar an der Haustür. Was dich weiterbringt, ist das <strong>Wie</strong>: wie du anklopfst, wie du bleibst, wie du aus einem schweren Block trotzdem einen guten Tag machst – ohne peinliche Tricks.
-              </p>
-              <p>
-                Im Rücken hast du ein kleines Team – <strong>Björn Schaper</strong> hilft im operativen Alltag. Aber Training, Feedback und ob wir zusammenpassen, läuft über mich – weil ich noch selbst draußen bin.
-              </p>
-            </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Story Teil 2 – Dunkle Sektion -->
-    <section class="editorial editorial--dark">
-      <div class="container">
-        <blockquote class="pull-quote reveal">
-          <span class="pull-quote__mark" aria-hidden="true">"</span>
-          <span class="pull-quote__text">Als D2Dler gewinnt nicht der mit dem tollsten Lebenslauf – sondern der, der eine Runde dranhängt.</span>
-          <span class="pull-quote__mark pull-quote__mark--end" aria-hidden="true">"</span>
-        </blockquote>
-        <div class="editorial__split reveal reveal--delay-1">
-          <div class="editorial__body editorial__body--light">
-            <p>
-              Der Wendepunkt war simpel: keine Motivations-Sprüche mehr – sondern <strong>Systeme</strong>, die im Door-to-Door tragen. Jahre am Feld, viele Fehler, viel Nachbessern – bis klar war, was wirklich funktioniert.
-            </p>
-            <p>
-              Heute bin ich ruhiger und klarer an der Tür – nicht weil es „easy“ ist, sondern weil ich die Abkürzungen kenne, die mir früher gefehlt haben.
-            </p>
-          </div>
-          <div class="editorial__body editorial__body--light">
-            <p>
-              Genau deshalb will ich dir den Teil abnehmen, der Zeit frisst: <strong>Du musst nicht alles noch mal alleine erfinden.</strong> Wenn du lernbereit bist, ehrlich bleibst und liefern willst, bekommst du das, was mir damals gefehlt hat: Abläufe, Skripte und Feedback, die aus echten Türen und echten Einwänden kommen.
-            </p>
-            <p class="editorial__closing">
-              Mein Antrieb: dir den Einstieg zu erleichtern – damit du <strong>verdienen</strong>, <strong>lernen</strong> und <strong>dranbleiben</strong> kannst, ohne alles alleine ausprobieren zu müssen.
-            </p>
-          </div>
-        </div>
-        <div class="pill-row reveal reveal--delay-2">
-          <span class="pill">Funktionierende Prozesse</span>
-          <span class="pill">Erprobte Skripte</span>
-          <span class="pill">Echte Praxis-Erfahrung</span>
-          <span class="pill">Persönliches Coaching</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- Intro-Film (iPhone-Demo) -->
-    <section class="phone-showcase section--soft-top" id="company-video" aria-labelledby="phone-showcase-heading">
-      <div class="container">
-        <div class="phone-showcase__copy reveal">
-          <h2 id="phone-showcase-heading">D2D in seiner reinsten Form</h2>
-          <p class="phone-showcase__subhead">Ein kurzer, echter Blick in den Außendienst.</p>
-          <p>
-            <strong>D2D ist die Königsdisziplin im Vertrieb.</strong> Nicht, weil es bequem ist, sondern weil du hier lernst,
-            unter Druck klar zu bleiben und trotzdem zu liefern.
-          </p>
-          <p>
-            An schwierigen Tagen sagt dir der Kopf: falsches Gebiet, falsche Zeit, zu müde, heute lieber früher Schluss.
-            Manchmal fühlt sich jeder Schritt schwer an. Genau dann trennt sich Durchschnitt von Niveau.
-          </p>
-          <p class="phone-showcase__highlight">
-            Du gehst weiter. Du klingelst weiter. Du wirst stärker.
-          </p>
-        </div>
-        <div
-          class="phone-showcase__device"
-          role="group"
-          aria-label="Videoplayer: Enno Scharf – Außendienst &amp; Zusammenarbeit"
-        >
-          <span class="phone-showcase__island" aria-hidden="true"></span>
-          <div class="phone-showcase__screen">
-            <iframe
-              class="phone-showcase__video"
-              src="https://www.youtube.com/embed/DAJzPwBrLqo"
-              title="Enno Scharf Video"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen>
-            </iframe>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Recruit Block – Für dich -->
-    <section class="editorial editorial--recruit" id="recruit">
-      <div class="container">
-        <div class="recruit-panel reveal">
-          <span class="section__eyebrow section__eyebrow--light">Für dich</span>
-          <h2 class="recruit-panel__title">
-            Du willst rausgehen<br>
-            und Geld verdienen?<br>
-            <span class="text-gradient-light">Dann passt du vielleicht zu uns.</span>
-          </h2>
-          <div class="recruit-panel__quote">
-            <p>Kein perfekter Lebenslauf nötig. Was zählt: <strong>Lust auf die Tür</strong>, Ehrlichkeit und die Bereitschaft, jeden Tag ein Stück besser zu werden.</p>
-          </div>
-          <div class="recruit-panel__body">
-            <p>
-              Ich suche Menschen fürs Door-to-Door im Solarbereich – ob mit oder ohne Erfahrung. Wenn du Gas gibst, wenn’s mal hakt, und trotzdem weitermachst, bist du hier richtig. Wir arbeiten aktiv zusammen, nicht als anonyme Stellenanzeige.
-            </p>
-          </div>
-          <ul class="recruit-checklist">
-            <li>Bereit, im Außendienst jeden Tag besser zu werden</li>
-            <li>Willst Verantwortung fürs eigene Ergebnis</li>
-            <li>Offen für ehrliches Feedback &amp; Coaching aus der Praxis</li>
-            <li>Lust auf Door-to-Door mit klarem System</li>
-          </ul>
-          <a href="#apply" class="btn btn--primary btn--lg btn--glow">Ja – ich will dazugehören</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- 3. Vorteile -->
-    <section class="section benefits section--divider" id="benefits">
-      <div class="container">
-        <aside class="lead-econ reveal reveal--delay-2" aria-labelledby="lead-econ-title">
-          <div class="lead-econ__card">
-            <header class="lead-econ__header">
-              <span class="lead-econ__eyebrow">Einordnung aus der Praxis</span>
-              <h3 class="lead-econ__title" id="lead-econ-title">So kann sich starkes Tempo rechnen – im typischen Rahmen.</h3>
-              <p class="lead-econ__lede">Provision statt starrem Stundenlohn: die Zahlen unten sind eine <strong>Überschlagsrechnung zur Orientierung</strong>, kein Versprechen.</p>
-            </header>
-
-            <div class="lead-econ__flow" role="group" aria-describedby="lead-econ-note">
-              <div class="lead-econ__step">
-                <span class="lead-econ__step-label">Durchschnitt pro Lead</span>
-                <p class="lead-econ__step-value">
-                  <span class="lead-econ__approx" aria-hidden="true">~</span><span class="lead-econ__sr">circa</span>&nbsp;<span class="lead-econ__num">60</span>&nbsp;<span class="lead-econ__unit">€</span>
-                </p>
-                <p class="lead-econ__step-meta">im Schnitt – je qualifiziertem Lead</p>
-              </div>
-
-              <div class="lead-econ__connector" aria-hidden="true">
-                <span class="lead-econ__op">×</span>
-              </div>
-
-              <div class="lead-econ__step">
-                <span class="lead-econ__step-label">Rhythmus vor Ort</span>
-                <p class="lead-econ__step-value">
-                  <span class="lead-econ__num">1–3</span>&nbsp;<span class="lead-econ__unit-wrap"><span class="lead-econ__thin">Termine</span> <span class="lead-econ__per">pro Stunde</span></span>
-                </p>
-                <p class="lead-econ__step-meta">typischer Rahmen, abhängig von Route &amp; Erfahrung</p>
-              </div>
-
-              <div class="lead-econ__connector" aria-hidden="true">
-                <span class="lead-econ__op">≈</span>
-              </div>
-
-              <div class="lead-econ__step lead-econ__step--accent">
-                <span class="lead-econ__step-label">Ableitung (Orientierung)</span>
-                <p class="lead-econ__step-value">
-                  <span class="lead-econ__approx" aria-hidden="true">≈</span><span class="lead-econ__sr">ungefähr</span>&nbsp;<span class="lead-econ__num">60–180</span>&nbsp;<span class="lead-econ__unit">€</span>&nbsp;<span class="lead-econ__per">pro Stunde</span>
-                </p>
-                <p class="lead-econ__step-meta">abgeleitet · nur zur Einordnung, kein Fixlohn</p>
-              </div>
-            </div>
-
-            <p class="lead-econ__note" id="lead-econ-note"><strong>Keine Garantie</strong> für konkrete Abrechnung oder Stundenleistung – wie in der FAQ besprechen wir Details persönlich im Kennenlerngespräch.</p>
-          </div>
-        </aside>
-
-      </div>
-    </section>
-
-    <!-- 4. Vertrauen -->
-    <section class="section trust section--divider section--soft-top" id="trust">
-      <div class="container">
-        <div class="trust-banner reveal">
-          <div class="trust-banner__item">
-            <span class="trust-banner__value">12+</span>
-            <span class="trust-banner__label">Jahre Door-to-Door</span>
-          </div>
-          <div class="trust-banner__divider"></div>
-          <div class="trust-banner__item">
-            <span class="trust-banner__value">Solar</span>
-            <span class="trust-banner__label">Produkt an der Haustür</span>
-          </div>
-          <div class="trust-banner__divider"></div>
-          <div class="trust-banner__item">
-            <span class="trust-banner__value">48h</span>
-            <span class="trust-banner__label">persönliche Rückmeldung</span>
-          </div>
-        </div>
-        <div class="trust__grid reveal reveal--delay-1">
-          <div class="trust__text">
-            <h2 class="section__title">Ich verspreche dir keine Abkürzung – aber einen ehrlichen Einstieg.</h2>
-            <p>Klare Worte, kurze Wege, kein leeres Gerede. Ich bin noch selbst unterwegs und weiß, wie sich ein harter Block anfühlt – und wie man trotzdem weitermacht. Wenn du als Einsteiger Gas geben willst, hol ich dich da ab, wo ich selbst mal gestanden habe.</p>
-            <a href="#apply" class="btn btn--dark btn--lg">Jetzt bewerben</a>
-          </div>
-          <div class="trust__visual">
-            <img src="Schaper Scharf.jpg" alt="Enno Scharf – Door-to-Door &amp; Team" onerror="this.remove()">
-            <div class="trust__badge">
-              <img src="logo 1.PNG" alt="" onerror="this.remove()">
-              <div>
-                <strong>Enno Scharf</strong>
-                <span>D2D Solar · Team &amp; Coaching</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <aside class="growth-section reveal reveal--delay-3" aria-labelledby="growth-section-title">
-          <div class="growth-section__card">
-            <header class="growth-section__header">
-              <span class="growth-section__eyebrow">ENTWICKLUNG AUS DER PRAXIS</span>
-              <h2 class="growth-section__title" id="growth-section-title">Wer kannst du dadurch werden?</h2>
-              <p class="growth-section__lede">Es geht nicht nur um Provision. Es geht darum, Selbstvertrauen, Mut und innere Stärke aufzubauen.</p>
-            </header>
-
-            <div class="growth-section__grid">
-              <article class="growth-section__tile growth-section__tile--pink">
-                <span class="growth-section__label">SELBSTVERTRAUEN</span>
-                <h3 class="growth-section__big">Sicher auftreten</h3>
-                <p class="growth-section__body">Du lernst, auf fremde Menschen zuzugehen, Gespräche zu führen und auch nach Absagen ruhig und professionell zu bleiben.</p>
-              </article>
-              <article class="growth-section__tile growth-section__tile--accent">
-                <span class="growth-section__label">MUT</span>
-                <h3 class="growth-section__big">Angst überwinden</h3>
-                <p class="growth-section__body">Jeder Tag draußen fordert dich. Genau dadurch wächst du über dich hinaus und entwickelst echte mentale Stärke.</p>
-              </article>
-              <article class="growth-section__tile growth-section__tile--cyan">
-                <span class="growth-section__label">INNERE STÄRKE</span>
-                <h3 class="growth-section__big">Vom Zweifler zum Macher</h3>
-                <p class="growth-section__body">Wer konstant umsetzt, baut Disziplin, Verantwortung und ein Selbstbild auf, das weit über Vertrieb hinausgeht.</p>
-              </article>
-            </div>
-
-            <p class="growth-section__closing">Kein Motivationsgerede. Wir erwarten Einsatz. Aber wenn du bereit bist zu lernen und umzusetzen, bekommst du ein Umfeld, das dich wirklich weiterbringt.</p>
-
-            <div class="growth-section__cta">
-              <p class="growth-section__cta-line">Bereit, mehr aus dir zu machen?</p>
-              <a href="#apply" class="btn btn--primary btn--lg btn--glow">Jetzt bewerben</a>
-            </div>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <!-- 5. FAQ -->
-    <section class="section faq" id="faq">
-      <div class="container">
-        <div class="section__header section__header--center reveal">
-          <span class="section__eyebrow">FAQ</span>
-          <h2 class="section__title">Häufige Fragen –<br><span class="text-gradient">ehrlich beantwortet.</span></h2>
-        </div>
-        <div class="faq__list reveal reveal--delay-1">
-          <details class="faq__item">
-            <summary>Ist der Job wirklich so einfach, wie viele behaupten?</summary>
-            <p>Nein. Vertrieb ist leistungsorientiert – nichts für Leute, die nur auf schnelles Geld hoffen, ohne etwas dafür zu tun.</p>
-            <p>Im Door-to-Door brauchst du Disziplin, Kommunikation und den Mut, jeden Tag auf Menschen zuzugehen. Es gibt gute und schlechte Tage. Wer lernt und dranbleibt, kann sich hier ein starkes Einkommen aufbauen.</p>
-          </details>
-          <details class="faq__item">
-            <summary>Was macht euch anders als ein klassisches Solar-Setup?</summary>
-            <p>Keine aufpolierte Solar-Show von der Zentrale: Du arbeitest mit jemandem, der selbst noch an der Tür ist. Skripte, Abläufe und Feedback kommen aus der Praxis – nicht aus Folien.</p>
-          </details>
-          <details class="faq__item">
-            <summary>Wie sieht die Vergütung aus?</summary>
-            <p>Provision, ungedeckelt: Wenn du im Feld lieferst, verdienst du mit. Konkrete Rahmen klären wir transparent im Kennenlerngespräch – ohne leere Versprechen.</p>
-          </details>
-          <details class="faq__item">
-            <summary>Muss ich Kaltakquise machen?</summary>
-            <p>Ja – Door-to-Door heißt, aktiv an Haustüren zu gehen. Aber mit Struktur, Skripten und Begleitung von jemandem, der denselben Job kennt. Kein planloses Drauflos.</p>
-          </details>
-          <details class="faq__item">
-            <summary>Wie schnell kann ich starten?</summary>
-            <p>Bewerbung absenden → kurzes Gespräch → Kennenlernen im Team → Start. Ich melde mich innerhalb von 48 Stunden persönlich bei dir.</p>
-          </details>
-        </div>
-      </div>
-    </section>
-
-    <!-- 6. Bewerbung -->
-    <section class="section apply" id="apply">
-      <div class="apply__bg" aria-hidden="true"></div>
-      <div class="container">
-        <div class="apply__inner reveal">
-          <div class="apply__text">
-            <span class="section__eyebrow section__eyebrow--light">Letzter Schritt</span>
-            <h2 class="section__title section__title--light">
-              Bewerbung fürs D2D<br>mit Enno
-            </h2>
-            <p>
-              Wenn du bis hier gelesen hast und Lust auf die Tür hast: Schick mir Kurzinfos. Ich melde mich persönlich – und wir klären ehrlich, ob der Einstieg ins Door-to-Door Solar zu dir passt.
-            </p>
-            <div class="apply__trust">
-              <span>✓ Unverbindlich</span>
-              <span>✓ Antwort in 48h</span>
-              <span>✓ Persönliches Gespräch</span>
-            </div>
-          </div>
-          <form class="apply__form" id="applyForm" action="https://formspree.io/f/xlgvoyrr" method="POST" accept-charset="UTF-8">
-            <input type="hidden" name="_subject" value="Neue Bewerbung – D2D Solar">
-            <div class="form__row">
-              <label class="form__field">
-                <span>Vorname</span>
-                <input type="text" name="firstname" placeholder="Max" required autocomplete="given-name">
-              </label>
-              <label class="form__field">
-                <span>Nachname</span>
-                <input type="text" name="lastname" placeholder="Mustermann" required autocomplete="family-name">
-              </label>
-            </div>
-            <label class="form__field">
-              <span>E-Mail</span>
-              <input type="email" name="email" placeholder="max@beispiel.de" required autocomplete="email">
-            </label>
-            <label class="form__field">
-              <span>Telefon</span>
-              <input type="tel" name="phone" placeholder="+49 123 456789" required autocomplete="tel">
-            </label>
-            <label class="form__field">
-              <span>Warum D2D bei mir – kurz? (optional)</span>
-              <textarea name="message" rows="3" placeholder="Erfahrung, Ziel, warum du im Außendienst performen willst …"></textarea>
-            </label>
-
-            <div class="form__steps" id="applyFormSteps">
-              <div class="form__step form__step--visible" id="step-drivers" data-form-step="drivers">
-                <fieldset class="form__group">
-                  <legend class="form__legend">Führerschein</legend>
-                  <div class="form__options" role="radiogroup" aria-required="true">
-                    <label class="form__option">
-                      <input type="radio" name="drivers_license" value="Ja" required>
-                      <span>Ja</span>
-                    </label>
-                    <label class="form__option">
-                      <input type="radio" name="drivers_license" value="Nein">
-                      <span>Nein</span>
-                    </label>
-                  </div>
-                </fieldset>
-              </div>
-
-              <div class="form__step" id="step-sales" data-form-step="sales" aria-hidden="true">
-                <fieldset class="form__group">
-                  <legend class="form__legend">Vertriebserfahrung</legend>
-                  <div class="form__options" role="radiogroup" aria-required="true">
-                    <label class="form__option">
-                      <input type="radio" name="sales_experience" value="Ja">
-                      <span>Ja</span>
-                    </label>
-                    <label class="form__option">
-                      <input type="radio" name="sales_experience" value="Nein">
-                      <span>Nein</span>
-                    </label>
-                  </div>
-                </fieldset>
-              </div>
-
-              <div class="form__step" id="step-sales-detail" data-form-step="sales-detail" aria-hidden="true">
-                <label class="form__field">
-                  <span>Wie lange?</span>
-                  <select name="sales_experience_duration">
-                    <option value="" disabled selected>Bitte wählen</option>
-                    <option value="Weniger als 6 Monate">Weniger als 6 Monate</option>
-                    <option value="6–12 Monate">6–12 Monate</option>
-                    <option value="1–2 Jahre">1–2 Jahre</option>
-                    <option value="2–5 Jahre">2–5 Jahre</option>
-                    <option value="Mehr als 5 Jahre">Mehr als 5 Jahre</option>
-                  </select>
-                </label>
-                <label class="form__field">
-                  <span>Welche Tätigkeit?</span>
-                  <input type="text" name="sales_experience_activity" placeholder="z. B. Door-to-Door, Telefonvertrieb …" autocomplete="off">
-                </label>
-              </div>
-
-              <div class="form__step" id="step-hours" data-form-step="hours" aria-hidden="true">
-                <fieldset class="form__group">
-                  <legend class="form__legend">Wie viele Stunden pro Woche möchtest du investieren?</legend>
-                  <div class="form__options form__options--triple" role="radiogroup" aria-required="true">
-                    <label class="form__option">
-                      <input type="radio" name="hours_per_week" value="0–5">
-                      <span>0–5</span>
-                    </label>
-                    <label class="form__option">
-                      <input type="radio" name="hours_per_week" value="5–15">
-                      <span>5–15</span>
-                    </label>
-                    <label class="form__option">
-                      <input type="radio" name="hours_per_week" value="15–25">
-                      <span>15–25</span>
-                    </label>
-                  </div>
-                </fieldset>
-              </div>
-            </div>
-
-            <label class="form__checkbox">
-              <input type="checkbox" name="privacy" required>
-              <span>Ich stimme der Verarbeitung meiner Daten gemäß Datenschutzerklärung zu.</span>
-            </label>
-            <button type="submit" class="btn btn--primary btn--lg btn--full btn--glow">Bewerbung absenden →</button>
-          </form>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- 7. Footer -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer__top">
-        <a href="#" class="footer__logo">
-          <span class="logo-text" aria-hidden="true">Enno Scharf</span>
+  <div class="legal-page">
+    <header class="legal-header">
+      <div class="container legal-header__inner">
+        <strong>Enno Scharf</strong>
+        <a class="legal-back" href="index.html" aria-label="Zur Startseite">
+          Zur Startseite
         </a>
-        <nav class="footer__nav" aria-label="Footer Navigation">
-          <a href="#story">Story</a>
-          <a href="#company-video">Film</a>
-          <a href="#recruit">Für dich</a>
-          <a href="#benefits">Vorteile</a>
-          <a href="#faq">FAQ</a>
-          <a href="#apply">Bewerben</a>
-        </nav>
       </div>
-      <div class="footer__bottom">
-        <p>&copy; <span id="year"></span> Enno Scharf · D2D Solar Recruiting. Alle Rechte vorbehalten.</p>
-        <div class="footer__legal">
-          <a href="impressum.html">Impressum</a>
-          <a href="datenschutz.html">Datenschutz</a>
-        </div>
-      </div>
-    </div>
-  </footer>
+    </header>
 
-  <script src="script.js"></script>
+    <main class="legal-main">
+      <h1>Datenschutzerklärung</h1>
+
+      <section aria-labelledby="verantwortlicher">
+        <h2 id="verantwortlicher">Verantwortlicher</h2>
+        <p>Enno Scharf<br>Podbielskistraße 276<br>30655 Hannover</p>
+        <p>E-Mail: <a href="mailto:e.scharf@energieversum.de">e.scharf@energieversum.de</a></p>
+        <p>Unternehmensform: Einzelunternehmen</p>
+      </section>
+
+      <section aria-labelledby="datenerfassung">
+        <h2 id="datenerfassung">Datenerfassung / Hinweis</h2>
+        <p>
+          Der Schutz Ihrer persönlichen Daten ist uns wichtig. Personenbezogene Daten werden auf dieser Website nur im notwendigen Umfang
+          verarbeitet. Die Verarbeitung erfolgt auf Grundlage der jeweils geltenden gesetzlichen Bestimmungen.
+        </p>
+        <p>
+          Beim Besuch dieser Website können technisch erforderliche Daten (z. B. Browsertyp, Uhrzeit des Zugriffs, aufgerufene Seite)
+          vorübergehend verarbeitet werden, um die sichere Bereitstellung der Website zu gewährleisten.
+        </p>
+      </section>
+
+      <section aria-labelledby="formspree">
+        <h2 id="formspree">Nutzung von Formspree</h2>
+        <p>
+          Für Kontakt- und Bewerbungsformulare nutzen wir den Dienst Formspree. Wenn Sie ein Formular absenden, werden die von Ihnen
+          eingegebenen Daten an Formspree übermittelt und dort zur Bearbeitung Ihrer Anfrage verarbeitet.
+        </p>
+        <p>
+          Weitere Informationen zur Datenverarbeitung durch Formspree finden Sie in der Datenschutzerklärung von Formspree:
+          <a href="https://formspree.io/legal/privacy-policy/" target="_blank" rel="noopener noreferrer">
+            https://formspree.io/legal/privacy-policy/
+          </a>.
+        </p>
+      </section>
+
+      <section aria-labelledby="rechte">
+        <h2 id="rechte">Rechte der Nutzer</h2>
+        <p>
+          Sie haben jederzeit das Recht auf Auskunft über die zu Ihrer Person gespeicherten Daten sowie auf Berichtigung, Löschung
+          oder Einschränkung der Verarbeitung, sofern dem keine gesetzlichen Aufbewahrungspflichten entgegenstehen.
+        </p>
+        <p>
+          Außerdem haben Sie das Recht auf Datenübertragbarkeit sowie das Recht, eine erteilte Einwilligung mit Wirkung für die Zukunft
+          zu widerrufen. Bei datenschutzrechtlichen Anliegen können Sie uns jederzeit per E-Mail kontaktieren.
+        </p>
+      </section>
+
+      <section aria-labelledby="ssl">
+        <h2 id="ssl">SSL-Verschlüsselung</h2>
+        <p>
+          Diese Seite nutzt aus Sicherheitsgründen und zum Schutz der Übertragung vertraulicher Inhalte eine SSL- bzw. TLS-Verschlüsselung.
+          Eine verschlüsselte Verbindung erkennen Sie daran, dass die Adresszeile des Browsers mit „https://“ beginnt.
+        </p>
+      </section>
+    </main>
+  </div>
 </body>
 </html>
