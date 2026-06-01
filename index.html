@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8">
@@ -65,16 +65,16 @@
         </h1>
         <div class="hero__subtitle hero__subtitle--stack reveal reveal--delay-1">
           <p>
-            Ich bin <strong>Enno Scharf</strong>. Seit über <strong>12 Jahren</strong> stehe ich im Door-to-Door Vertrieb direkt an der Haustür – im Solarbereich.
+            Ich bin <strong>Enno Scharf</strong>. Seit <strong>12+ Jahren</strong> Door-to-Door im Solar – direkt an der Haustür.
           </p>
           <p>
-            Und genau dort lernst du Dinge, die dir kein normales Umfeld beibringen kann: Selbstvertrauen, Menschenkenntnis, mentale Stärke und die Fähigkeit, auch unter Druck abzuliefern.
+            Dort lernst du, was dir kein Bürojob gibt: Selbstvertrauen, Menschenkenntnis, mentale Stärke – auch unter Druck.
           </p>
           <p>
-            Door-to-Door ist hart. Genau deshalb verändert es Menschen so extrem.
+            Door-to-Door ist hart. Genau deshalb verändert es Menschen.
           </p>
           <p>
-            Heute suche ich neue Leute fürs Team. Egal ob mit oder ohne Erfahrung. Wenn du bereit bist zu lernen, dranzubleiben und wirklich etwas aus dir zu machen, bekommst du bei uns echte Praxis, funktionierende Skripte und jemanden, der dir zeigt, wie Vertrieb an der Tür wirklich funktioniert.
+            Ich suche neue Leute fürs Team – mit oder ohne Erfahrung. Bei uns: echte Praxis, Skripte, und jemand, der zeigt, wie Vertrieb an der Tür läuft.
           </p>
         </div>
         <div class="hero__actions reveal reveal--delay-2">
@@ -168,14 +168,18 @@
         >
           <span class="phone-showcase__island" aria-hidden="true"></span>
           <div class="phone-showcase__screen">
-         <iframe
-  class="phone-showcase__video"
-  src="https://www.youtube.com/embed/DAJzPwBrLqo"
-  title="Enno Scharf Video"
-  frameborder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-  allowfullscreen>
-</iframe>
+            <video
+              class="phone-showcase__video"
+              controls
+              playsinline
+              webkit-playsinline
+              preload="metadata"
+              poster="Video Logo .PNG"
+              src="video/Captions_A9E99C.MP4"
+            >
+              Dein Browser unterstützt das Abspielen dieses Videos nicht.
+              <a href="video/Captions_A9E99C.MP4">MP4 herunterladen</a>.
+            </video>
           </div>
         </div>
       </div>
@@ -288,7 +292,8 @@
             <a href="#apply" class="btn btn--dark btn--lg">Jetzt bewerben</a>
           </div>
           <div class="trust__visual">
-            <img src="Schaper Scharf.jpg" alt="Enno Scharf – Door-to-Door & Team" onerror="this.remove()">
+            <img src="Schaper Scharf.jpg" alt="Enno Scharf – Door-to-Door &amp; Team" onerror="this.remove()">
+            <div class="trust__badge">
               <img src="logo 1.PNG" alt="" onerror="this.remove()">
               <div>
                 <strong>Enno Scharf</strong>
@@ -415,6 +420,78 @@
               <span>Warum D2D bei mir – kurz? (optional)</span>
               <textarea name="message" rows="3" placeholder="Erfahrung, Ziel, warum du im Außendienst performen willst …"></textarea>
             </label>
+
+            <div class="form__steps" id="applyFormSteps">
+              <div class="form__step form__step--visible" id="step-drivers" data-form-step="drivers">
+                <fieldset class="form__group">
+                  <legend class="form__legend">Führerschein</legend>
+                  <div class="form__options" role="radiogroup" aria-required="true">
+                    <label class="form__option">
+                      <input type="radio" name="drivers_license" value="Ja" required>
+                      <span>Ja</span>
+                    </label>
+                    <label class="form__option">
+                      <input type="radio" name="drivers_license" value="Nein">
+                      <span>Nein</span>
+                    </label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div class="form__step" id="step-sales" data-form-step="sales" aria-hidden="true">
+                <fieldset class="form__group">
+                  <legend class="form__legend">Vertriebserfahrung</legend>
+                  <div class="form__options" role="radiogroup" aria-required="true">
+                    <label class="form__option">
+                      <input type="radio" name="sales_experience" value="Ja">
+                      <span>Ja</span>
+                    </label>
+                    <label class="form__option">
+                      <input type="radio" name="sales_experience" value="Nein">
+                      <span>Nein</span>
+                    </label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div class="form__step" id="step-sales-detail" data-form-step="sales-detail" aria-hidden="true">
+                <label class="form__field">
+                  <span>Wie lange?</span>
+                  <select name="sales_experience_duration">
+                    <option value="" disabled selected>Bitte wählen</option>
+                    <option value="Weniger als 6 Monate">Weniger als 6 Monate</option>
+                    <option value="6–12 Monate">6–12 Monate</option>
+                    <option value="1–2 Jahre">1–2 Jahre</option>
+                    <option value="2–5 Jahre">2–5 Jahre</option>
+                    <option value="Mehr als 5 Jahre">Mehr als 5 Jahre</option>
+                  </select>
+                </label>
+                <label class="form__field">
+                  <span>Welche Tätigkeit?</span>
+                  <input type="text" name="sales_experience_activity" placeholder="z. B. Door-to-Door, Telefonvertrieb …" autocomplete="off">
+                </label>
+              </div>
+
+              <div class="form__step" id="step-hours" data-form-step="hours" aria-hidden="true">
+                <fieldset class="form__group">
+                  <legend class="form__legend">Wie viele Stunden pro Woche möchtest du investieren?</legend>
+                  <div class="form__options form__options--triple" role="radiogroup" aria-required="true">
+                    <label class="form__option">
+                      <input type="radio" name="hours_per_week" value="0–5">
+                      <span>0–5</span>
+                    </label>
+                    <label class="form__option">
+                      <input type="radio" name="hours_per_week" value="5–15">
+                      <span>5–15</span>
+                    </label>
+                    <label class="form__option">
+                      <input type="radio" name="hours_per_week" value="15–25">
+                      <span>15–25</span>
+                    </label>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
 
             <label class="form__checkbox">
               <input type="checkbox" name="privacy" required>
