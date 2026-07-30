@@ -442,6 +442,13 @@
         });
 
         if (res.ok) {
+          /* Meta-Standard-Event "Lead" - erst hier, wo der Versand bestaetigt
+             ist, nicht schon beim Klick. Ohne Einwilligung existiert fbq gar
+             nicht, deshalb die Pruefung; nach einem Widerruf sendet Meta von
+             sich aus nichts mehr. Bewusst ohne Parameter: In den Pixel gehoeren
+             keine Bewerberdaten. */
+          if (typeof window.fbq === 'function') window.fbq('track', 'Lead');
+
           form.hidden = true;
           successBox.hidden = false;
           form.reset();
