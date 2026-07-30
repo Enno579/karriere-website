@@ -3,189 +3,302 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Vertriebspartner (m/w/d) für Door-to-Door im Solarbereich gesucht: Terminvereinbarungen ohne Verkaufsdruck – mit Enno Scharf persönlich und partnerschaftlich.">
-  <title>D2D Solar Recruiting | Mit Enno Scharf ins Team</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="description" content="Vertriebspartner (m/w/d) für Photovoltaik-D2D in Hannover und Umgebung: qualifizierte Beratungstermine vereinbaren, ohne selbst Photovoltaikanlagen zu verkaufen. Auch für Quereinsteiger.">
+  <meta name="theme-color" content="#fdf6ea">
+  <title>Vertriebspartner Photovoltaik-D2D Hannover | Enno Scharf</title>
+  <link rel="preload" as="image" href="assets/img/hero-wohnsiedlung.webp" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <noscript>
+    <style>
+      /* Ohne JavaScript: Bewerbungsformular direkt in der Seite ausspielen. */
+      .apply-dialog {
+        display: block;
+        position: static;
+        max-width: 100%;
+        max-height: none;
+        margin: 0;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      /* Nur die Schritt-Navigation ausblenden – der Footer selbst trägt
+         den Absenden-Button und muss sichtbar bleiben. */
+      .apply-dialog__close,
+      .apply-dialog__progress,
+      .apply-dialog__back,
+      .apply-dialog__next,
+      .apply-cta { display: none !important; }
+      .apply-step {
+        display: block !important;
+        margin-bottom: 1.5rem;
+      }
+      .apply-dialog__submit { display: flex !important; }
+      /* Das Padding hält sonst Platz für einen Button frei, den es hier
+         nicht gibt – oben auf dem Sheet eine sichtbare Lücke. */
+      .apply-dialog__head { padding: 1.5rem 1.25rem 0 !important; }
+      .reveal { opacity: 1 !important; transform: none !important; }
+    </style>
+  </noscript>
 </head>
 <body>
 
   <div class="grain" aria-hidden="true"></div>
 
+  <a class="skip-link" href="#hero">Zum Inhalt springen</a>
+
   <!-- Navigation -->
   <header class="nav" id="nav">
     <div class="nav__inner">
-      <a href="#" class="nav__logo" aria-label="Startseite">
-        <span class="logo-text" aria-hidden="true">Enno Scharf</span>
+      <a href="#hero" class="nav__logo" aria-label="Startseite">
+        <span class="logo">
+          <picture>
+            <source srcset="assets/img/logo-dunkel.webp" type="image/webp">
+            <img src="assets/img/logo-dunkel.png" alt="Scharf Photovoltaik" class="logo__img logo__img--dark" width="552" height="154" decoding="async">
+          </picture>
+          <picture>
+            <source srcset="assets/img/logo-hell.webp" type="image/webp">
+            <img src="assets/img/logo-hell.png" alt="" aria-hidden="true" class="logo__img logo__img--light" width="552" height="154" decoding="async">
+          </picture>
+        </span>
       </a>
       <nav class="nav__links" aria-label="Hauptnavigation">
-        <a href="#story">Story</a>
-        <a href="#company-video">Film</a>
-        <a href="#recruit">Für dich</a>
-        <a href="#benefits">Vorteile</a>
-        <a href="#faq">FAQ</a>
+        <a href="#hero">Startseite</a>
+        <a href="#d2d">Über D2D</a>
+        <a href="#about">Über uns</a>
+        <a href="#process">Bewerbungsablauf</a>
       </nav>
-      <a href="#apply" class="nav__cta btn btn--primary btn--sm">Jetzt bewerben</a>
-      <button class="nav__toggle" id="navToggle" aria-label="Menü öffnen" aria-expanded="false">
+      <a href="#apply" class="nav__cta btn btn--primary btn--sm" data-apply-open>Jetzt bewerben</a>
+      <button class="nav__toggle" id="navToggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="navMobile">
         <span></span><span></span>
       </button>
     </div>
-    <div class="nav__mobile" id="navMobile" aria-hidden="true">
-      <a href="#story">Story</a>
-      <a href="#company-video">Film</a>
-      <a href="#recruit">Für dich</a>
-      <a href="#benefits">Vorteile</a>
-      <a href="#faq">FAQ</a>
-      <a href="#apply" class="btn btn--primary">Jetzt bewerben</a>
-    </div>
   </header>
+
+  <!--
+    Bewusst außerhalb von .nav: der Header wird beim Scrollen per transform
+    bewegt, und ein transformierter Vorfahre wird zum Containing Block für
+    position:fixed-Kinder. Das Menü würde sonst an der Header-Höhe kleben.
+  -->
+  <div class="nav__mobile" id="navMobile" aria-hidden="true">
+    <a href="#hero">Startseite</a>
+    <a href="#d2d">Über D2D</a>
+    <a href="#about">Über uns</a>
+    <a href="#process">Bewerbungsablauf</a>
+    <a href="#apply" class="btn btn--primary" data-apply-open>Jetzt bewerben</a>
+  </div>
 
   <main>
 
-    <!-- 1. Hero -->
-    <section class="hero" id="hero">
+    <!-- Hero -->
+    <section class="hero hero--light" id="hero">
       <div class="hero__bg" aria-hidden="true">
-        <img
-          src="Titelbild.PNG"
-          alt=""
-          class="hero__img"
-          width="1920"
-          height="1080"
-          fetchpriority="high"
-          decoding="async"
-          onerror="this.remove()"
-        >
-        <div class="hero__mesh"></div>
-        <div class="hero__overlay"></div>
-        <div class="hero__glow"></div>
+        <picture>
+          <source srcset="assets/img/hero-wohnsiedlung.webp" type="image/webp">
+          <img
+            src="assets/img/hero-wohnsiedlung.jpg"
+            alt=""
+            class="hero__img"
+            width="1672"
+            height="941"
+            fetchpriority="high"
+            decoding="async"
+          >
+        </picture>
+        <div class="hero__scrim"></div>
       </div>
       <div class="hero__content container">
         <div class="hero__layout">
           <div class="hero__copy">
-            <h1 class="hero__title reveal">
-              Wir suchen Vertriebspartner für Door-to-Door Solar
-            </h1>
-            <p class="hero__subhead reveal reveal--delay-1">
-              Termine vereinbaren statt verkaufen – mit persönlicher Einarbeitung von Enno Scharf.
+            <p class="hero__location reveal">
+              <span class="hero__location-pin" aria-hidden="true">
+                <svg width="14" height="17" viewBox="0 0 14 17" fill="none">
+                  <path d="M7 1a5.5 5.5 0 0 1 5.5 5.5c0 3.9-4.4 8.6-5.1 9.3a.55.55 0 0 1-.8 0C5.9 15.1 1.5 10.4 1.5 6.5A5.5 5.5 0 0 1 7 1Z" stroke="currentColor" stroke-width="1.6"/>
+                  <circle cx="7" cy="6.5" r="2" fill="currentColor"/>
+                </svg>
+              </span>
+              Hannover und Umgebung
             </p>
-            <ul class="hero__benefits reveal reveal--delay-2">
+
+            <h1 class="hero__title reveal reveal--delay-1">
+              Starte als Door-to-Door Vertriebspartner im Solar-Bereich (m/w/d)
+            </h1>
+
+            <p class="hero__subhead reveal reveal--delay-2">
+              Vereinbare qualifizierte Beratungstermine – ohne selbst Photovoltaikanlagen verkaufen zu müssen.
+            </p>
+
+            <ul class="hero__benefits reveal reveal--delay-3">
               <li class="hero__benefit">
                 <span class="hero__check" aria-hidden="true">
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="10" cy="10" r="10" fill="rgba(255, 255, 255, 0.18)"/>
-                    <path d="M6.25 10.25l2.25 2.25 5.25-5.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="10" cy="10" r="10" fill="currentColor" opacity="0.16"/>
+                    <path d="M6.25 10.25l2.25 2.25 5.25-5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 </span>
-                Kein Verkauf
+                Kein Verkauf – lediglich Termine vereinbaren
               </li>
               <li class="hero__benefit">
                 <span class="hero__check" aria-hidden="true">
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="10" cy="10" r="10" fill="rgba(255, 255, 255, 0.18)"/>
-                    <path d="M6.25 10.25l2.25 2.25 5.25-5.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="10" cy="10" r="10" fill="currentColor" opacity="0.16"/>
+                    <path d="M6.25 10.25l2.25 2.25 5.25-5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 </span>
-                Nur Termine vereinbaren
+                Für Quereinsteiger geeignet
               </li>
               <li class="hero__benefit">
                 <span class="hero__check" aria-hidden="true">
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="10" cy="10" r="10" fill="rgba(255, 255, 255, 0.18)"/>
-                    <path d="M6.25 10.25l2.25 2.25 5.25-5.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="10" cy="10" r="10" fill="currentColor" opacity="0.16"/>
+                    <path d="M6.25 10.25l2.25 2.25 5.25-5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 </span>
-                Zukunftsbranche Solar
+                Erneuerbare-Energien-Branche
               </li>
               <li class="hero__benefit">
                 <span class="hero__check" aria-hidden="true">
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="10" cy="10" r="10" fill="rgba(255, 255, 255, 0.18)"/>
-                    <path d="M6.25 10.25l2.25 2.25 5.25-5.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="10" cy="10" r="10" fill="currentColor" opacity="0.16"/>
+                    <path d="M6.25 10.25l2.25 2.25 5.25-5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 </span>
-                Persönliche Einarbeitung
+                85–255 € pro Stunde
               </li>
             </ul>
-            <div class="hero__actions reveal reveal--delay-3">
-              <a href="#apply" class="btn btn--primary btn--lg btn--glow">Jetzt bewerben</a>
+
+            <div class="hero__actions reveal reveal--delay-4">
+              <a href="#apply" class="btn btn--primary btn--lg" data-apply-open>Jetzt bewerben</a>
+              <p class="hero__note">Beantworte nur 3 Fragen, um dich zu bewerben.</p>
             </div>
           </div>
+
           <figure class="hero__portrait reveal reveal--delay-2">
             <div class="hero__portrait-card">
               <div class="hero__portrait-media">
-                <img
-                  src="Scharf.jpg"
-                  alt="Enno Scharf – Door-to-Door Solar Vertrieb"
-                  width="640"
-                  height="800"
-                  decoding="async"
-                  fetchpriority="high"
-                >
+                <picture>
+                  <source srcset="assets/img/enno-hero.webp" type="image/webp">
+                  <img
+                    src="assets/img/enno-hero.jpg"
+                    alt="Enno Scharf"
+                    width="760"
+                    height="972"
+                    decoding="async"
+                    fetchpriority="high"
+                  >
+                </picture>
               </div>
-              <div class="hero__portrait-caption">
+              <figcaption class="hero__portrait-caption">
                 <strong>Enno Scharf</strong>
-                <span>12+ Jahre D2D Solar</span>
-                <span>Persönliche Einarbeitung</span>
-              </div>
+                <span>Inhaber von Scharf Photovoltaik</span>
+                <span>12+ Jahre D2D im Photovoltaik-Vertrieb</span>
+              </figcaption>
             </div>
           </figure>
         </div>
       </div>
     </section>
 
-    <!-- 2. Story – Enno-led -->
-    <section class="editorial editorial--light section--soft-top" id="story">
+    <!-- Dein Ablauf vor Ort – Schritte werden beim Scrollen hervorgehoben -->
+    <section class="section tasks" id="d2d" aria-labelledby="d2d-title">
       <div class="container">
-        <div class="editorial__intro reveal">
-          <div class="editorial__copy">
-            <span class="section__eyebrow">Warum ich Leute suche</span>
-            <h2 class="section__title section__title--editorial">
-              Ich war lange allein an der Tür.<br>
-              <span class="text-gradient">Jetzt will ich Wissen weitergeben – mit dir im Team.</span>
-            </h2>
-            <div class="editorial__body">
-              <p class="editorial__lead">
-                Ich bin <strong>Enno Scharf</strong>, 32. Über <strong>12 Jahre</strong> habe ich Door-to-Door Vertrieb im Solarbereich gemacht – von den ersten unsicheren Gesprächen bis zu Tagen, an denen alles sitzt. Heute suche ich <strong>neue Leute</strong>, die mit mir aktiv im Außendienst arbeiten wollen: nicht als anonyme Nummer, sondern mit echtem Zugang zu dem, was ich selbst jeden Tag nutze.
-              </p>
-              <p>
-                Solar ist das Produkt: verständlich, gefragt, gut erklärbar an der Haustür. Was dich weiterbringt, ist das <strong>Wie</strong>: wie du anklopfst, wie du bleibst, wie du aus einem schweren Block trotzdem einen guten Tag machst – ohne peinliche Tricks.
-              </p>
-            </div>
-          </div>
-          <figure class="editorial__visual">
-            <img
-              src="Scharf2.jpg"
-              alt="Enno Scharf – Door-to-Door Solar im Außendienst"
-              width="1544"
-              height="1158"
-              loading="lazy"
-              decoding="async"
-            >
-          </figure>
+        <div class="section__header section__header--center reveal">
+          <span class="section__eyebrow">Über D2D</span>
+          <h2 class="section__title" id="d2d-title">
+            Dein <span class="text-gradient">Ablauf vor Ort</span>
+          </h2>
         </div>
-        <div class="section-cta reveal reveal--delay-3">
-          <a href="#apply" class="btn btn--primary btn--lg btn--glow">Jetzt bewerben</a>
+
+        <!--
+          Das SVG liegt neben der Liste, nicht darin: in <ol> gehören nur
+          <li>. Gezeichnet wird es erst nach dem Layout – seine Stützpunkte
+          sind die tatsächlichen Marker-Mittelpunkte, die je nach Breite und
+          Textumbruch woanders liegen. Ohne JavaScript bleibt es leer und
+          die senkrechte Liste steht unverändert.
+        -->
+        <div class="tasks__wrap">
+          <svg class="tasks__curve" id="tasksCurve" aria-hidden="true" focusable="false">
+            <path class="tasks__curve-track" fill="none"></path>
+            <path class="tasks__curve-lead" fill="none"></path>
+            <circle class="tasks__curve-head" r="5"></circle>
+          </svg>
+          <ol class="tasks__list" id="tasksList">
+            <li class="tasks__step" data-task-step>
+              <span class="tasks__marker" aria-hidden="true"><span class="tasks__num">1</span></span>
+              <div class="tasks__body">
+                <h4 class="tasks__heading">Eigenheimbesitzer ansprechen</h4>
+                <p class="tasks__text">
+                  Du gehst in ausgewählte Wohngebiete und sprichst Eigentümer freundlich und
+                  respektvoll an.
+                </p>
+              </div>
+            </li>
+            <li class="tasks__step" data-task-step>
+              <span class="tasks__marker" aria-hidden="true"><span class="tasks__num">2</span></span>
+              <div class="tasks__body">
+                <h4 class="tasks__heading">Interesse qualifizieren</h4>
+                <p class="tasks__text">
+                  Mit einem klaren Gesprächsleitfaden findest du heraus, ob grundsätzlich Interesse
+                  und Bedarf bestehen.
+                </p>
+              </div>
+            </li>
+            <li class="tasks__step" data-task-step>
+              <span class="tasks__marker" aria-hidden="true">
+                <span class="tasks__num">3</span>
+                <!-- löst die Ziffer ab, sobald der letzte Schritt erreicht ist -->
+                <span class="tasks__check">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                    <path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </span>
+              <div class="tasks__body">
+                <h4 class="tasks__heading">Beratungstermin vereinbaren</h4>
+                <p class="tasks__text">
+                  Passt der Interessent zu unseren Voraussetzungen, vereinbarst du einen Termin
+                  mit unserem Fachberater.
+                </p>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <p class="tasks__handoff reveal">
+          <strong>Danach ist deine Aufgabe erledigt.</strong>
+          Den anschließenden Verkauf und die technische Beratung übernimmt unser Fachteam.
+        </p>
+
+        <div class="section-cta reveal reveal--delay-1">
+          <a href="#apply" class="btn btn--primary btn--lg" data-apply-open>Jetzt bewerben</a>
         </div>
       </div>
     </section>
 
     <!-- Verdienst / Lead Economics -->
-    <section class="section section--lead-econ section--divider section--soft-top" aria-labelledby="lead-econ-title">
+    <section class="section section--lead-econ section--divider" aria-labelledby="lead-econ-title">
       <div class="container">
         <aside class="lead-econ reveal reveal--delay-2" aria-labelledby="lead-econ-title">
           <div class="lead-econ__card">
             <header class="lead-econ__header">
               <span class="lead-econ__eyebrow">Einordnung aus der Praxis</span>
-              <h3 class="lead-econ__title" id="lead-econ-title">So kann sich starkes Tempo rechnen – im typischen Rahmen.</h3>
-              <p class="lead-econ__lede">Provision statt starrem Stundenlohn: die Zahlen unten sind eine <strong>Überschlagsrechnung zur Orientierung</strong>, kein Versprechen.</p>
+              <h2 class="lead-econ__title" id="lead-econ-title">So kann sich starkes Tempo rechnen – im typischen Rahmen.</h2>
+              <p class="lead-econ__lede">Provision statt starrem Stundenlohn.</p>
             </header>
 
-            <div class="lead-econ__flow" role="group" aria-describedby="lead-econ-note">
+            <div class="lead-econ__flow" role="group">
+              <!--
+                Alle drei Karten tragen exakt dieselbe Reihenfolge:
+                __approx? · __num · __unit · __per. Die Bezugsgröße wird nie
+                verschachtelt – sonst multiplizieren sich die em-Werte und
+                dieselbe Angabe erscheint je Karte unterschiedlich groß.
+              -->
               <div class="lead-econ__step">
                 <span class="lead-econ__step-label">Durchschnitt pro Lead</span>
                 <p class="lead-econ__step-value">
-                  <span class="lead-econ__approx" aria-hidden="true">~</span><span class="lead-econ__sr">circa</span>&nbsp;<span class="lead-econ__num">60</span>&nbsp;<span class="lead-econ__unit">€</span>
+                  <span class="lead-econ__approx" aria-hidden="true">~</span><span class="lead-econ__sr">circa</span>
+                  <span class="lead-econ__num">85</span>
+                  <span class="lead-econ__unit">€</span>
+                  <span class="lead-econ__per">je Termin</span>
                 </p>
-                <p class="lead-econ__step-meta">im Schnitt – je qualifiziertem Lead</p>
+                <p class="lead-econ__step-meta">Vergütet wird der qualifizierte Termin.</p>
               </div>
 
               <div class="lead-econ__connector" aria-hidden="true">
@@ -195,7 +308,9 @@
               <div class="lead-econ__step">
                 <span class="lead-econ__step-label">Rhythmus vor Ort</span>
                 <p class="lead-econ__step-value">
-                  <span class="lead-econ__num">1–3</span>&nbsp;<span class="lead-econ__unit-wrap"><span class="lead-econ__thin">Termine</span> <span class="lead-econ__per">pro Stunde</span></span>
+                  <span class="lead-econ__num">1–3</span>
+                  <span class="lead-econ__unit">Termine</span>
+                  <span class="lead-econ__per">pro Stunde</span>
                 </p>
                 <p class="lead-econ__step-meta">typischer Rahmen, abhängig von Route &amp; Erfahrung</p>
               </div>
@@ -207,208 +322,239 @@
               <div class="lead-econ__step lead-econ__step--accent">
                 <span class="lead-econ__step-label">Ableitung (Orientierung)</span>
                 <p class="lead-econ__step-value">
-                  <span class="lead-econ__approx" aria-hidden="true">≈</span><span class="lead-econ__sr">ungefähr</span>&nbsp;<span class="lead-econ__num">60–180</span>&nbsp;<span class="lead-econ__unit">€</span>&nbsp;<span class="lead-econ__per">pro Stunde</span>
+                  <span class="lead-econ__approx" aria-hidden="true">≈</span><span class="lead-econ__sr">ungefähr</span>
+                  <span class="lead-econ__num">85–255</span>
+                  <span class="lead-econ__unit">€</span>
+                  <span class="lead-econ__per">pro Stunde</span>
                 </p>
-                <p class="lead-econ__step-meta">abgeleitet · nur zur Einordnung, kein Fixlohn</p>
               </div>
             </div>
-
-            <p class="lead-econ__note" id="lead-econ-note"><strong>Keine Garantie</strong> für konkrete Abrechnung oder Stundenleistung – wie in der FAQ besprechen wir Details persönlich im Kennenlerngespräch.</p>
           </div>
         </aside>
-        <div class="section-cta reveal reveal--delay-3">
-          <a href="#apply" class="btn btn--primary btn--lg btn--glow">Jetzt bewerben</a>
-        </div>
       </div>
     </section>
 
-    <!-- Intro-Film (iPhone-Demo) -->
-    <section class="phone-showcase section--soft-top" id="company-video" aria-labelledby="phone-showcase-heading">
-      <div class="container">
-        <div class="phone-showcase__copy reveal">
-          <h2 id="phone-showcase-heading">D2D in seiner reinsten Form</h2>
-          <p class="phone-showcase__subhead">Ein kurzer, echter Blick in den Außendienst.</p>
-          <p>
-            <strong>D2D ist die Königsdisziplin im Vertrieb.</strong> Nicht, weil es bequem ist, sondern weil du hier lernst,
-            unter Druck klar zu bleiben und trotzdem zu liefern.
-          </p>
-          <p>
-            An schwierigen Tagen sagt dir der Kopf: falsches Gebiet, falsche Zeit, zu müde, heute lieber früher Schluss.
-            Manchmal fühlt sich jeder Schritt schwer an. Genau dann trennt sich Durchschnitt von Niveau.
-          </p>
-          <p class="phone-showcase__highlight">
-            Du gehst weiter. Du klingelst weiter. Du wirst stärker.
-          </p>
-        </div>
-        <div
-          class="phone-showcase__device"
-          role="group"
-          aria-label="Videoplayer: Enno Scharf – Außendienst &amp; Zusammenarbeit"
-        >
-          <span class="phone-showcase__island" aria-hidden="true"></span>
-          <div class="phone-showcase__screen">
-            <iframe
-              class="phone-showcase__video"
-              src="https://www.youtube.com/embed/07eJrFrOdwc"
-              title="Enno Scharf Video"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen>
-            </iframe>
-          </div>
-        </div>
-        <div class="section-cta reveal reveal--delay-2">
-          <a href="#apply" class="btn btn--primary btn--lg btn--glow">Jetzt bewerben</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Recruit Block – Fit-Check -->
-    <section class="editorial editorial--recruit" id="recruit">
+    <!-- Passt die Tätigkeit zu dir? – Fit-Check -->
+    <section class="section editorial editorial--recruit" id="recruit">
       <div class="container">
         <div class="recruit-panel reveal">
-          <h2 class="recruit-panel__title">Passt Door-to-Door Solar zu dir?</h2>
+          <h2 class="recruit-panel__title">Passt Door-to-Door zu dir?</h2>
           <p class="recruit-panel__intro">
-            <em>Nicht jeder fühlt sich im Außendienst wohl – und das ist völlig okay. Entscheidend ist, dass du Lust hast, dich weiterzuentwickeln und Verantwortung für deinen Erfolg zu übernehmen.</em>
+            <em>Du musst kein fertiger Vertriebler sein.</em>
           </p>
 
           <div class="recruit__grid">
             <article class="recruit-fit-card recruit-fit-card--yes reveal reveal--delay-1">
-              <h3 class="recruit-fit-card__heading">Du passt gut zu uns, wenn …</h3>
+              <h3 class="recruit-fit-card__heading">Du passt gut zu uns, wenn du …</h3>
               <ul class="recruit-fit-card__list">
                 <li class="recruit-fit-card__item">
                   <span class="recruit-fit-card__badge recruit-fit-card__badge--yes" aria-hidden="true">✓</span>
-                  <span class="recruit-fit-card__text">Du dich von einem <strong>Nein</strong> nicht entmutigen lässt.</span>
+                  <span class="recruit-fit-card__text">offen auf Menschen zugehen möchtest</span>
                 </li>
                 <li class="recruit-fit-card__item">
                   <span class="recruit-fit-card__badge recruit-fit-card__badge--yes" aria-hidden="true">✓</span>
-                  <span class="recruit-fit-card__text">Du offen und respektvoll auf Menschen zugehen kannst.</span>
+                  <span class="recruit-fit-card__text">mit einem <strong>Nein</strong> umgehen kannst</span>
                 </li>
                 <li class="recruit-fit-card__item">
                   <span class="recruit-fit-card__badge recruit-fit-card__badge--yes" aria-hidden="true">✓</span>
-                  <span class="recruit-fit-card__text">Du diszipliniert arbeitest – auch wenn dir niemand zuschaut.</span>
-                </li>
-                <li class="recruit-fit-card__item">
-                  <span class="recruit-fit-card__badge recruit-fit-card__badge--yes" aria-hidden="true">✓</span>
-                  <span class="recruit-fit-card__text">Du Verantwortung für deinen Erfolg übernehmen und persönlich wachsen willst.</span>
-                </li>
-                <li class="recruit-fit-card__item">
-                  <span class="recruit-fit-card__badge recruit-fit-card__badge--yes" aria-hidden="true">✓</span>
-                  <span class="recruit-fit-card__text">Du zuverlässig bist und im Team mit anpackst.</span>
+                  <span class="recruit-fit-card__text">eigenständig und diszipliniert arbeiten kannst</span>
                 </li>
               </ul>
+              <p class="recruit-fit-card__note">
+                Vertriebserfahrung ist hilfreich, aber keine Voraussetzung.
+              </p>
             </article>
 
             <article class="recruit-fit-card recruit-fit-card--no reveal reveal--delay-2">
-              <h3 class="recruit-fit-card__heading">Du passt eher nicht zu uns, wenn …</h3>
+              <h3 class="recruit-fit-card__heading">Die Tätigkeit passt eher nicht zu dir, wenn du …</h3>
               <ul class="recruit-fit-card__list">
                 <li class="recruit-fit-card__item">
                   <span class="recruit-fit-card__badge recruit-fit-card__badge--no" aria-hidden="true">✕</span>
-                  <span class="recruit-fit-card__text">Du erwartest, dass Erfolg ohne eigenen Einsatz kommt.</span>
+                  <span class="recruit-fit-card__text">ein garantiertes Einkommen ohne eigene Leistung erwartest</span>
                 </li>
                 <li class="recruit-fit-card__item">
                   <span class="recruit-fit-card__badge recruit-fit-card__badge--no" aria-hidden="true">✕</span>
-                  <span class="recruit-fit-card__text">Du ständig Ausreden für deine Ergebnisse suchst.</span>
+                  <span class="recruit-fit-card__text">nicht aktiv auf fremde Menschen zugehen möchtest</span>
                 </li>
                 <li class="recruit-fit-card__item">
                   <span class="recruit-fit-card__badge recruit-fit-card__badge--no" aria-hidden="true">✕</span>
-                  <span class="recruit-fit-card__text">Du alle paar Wochen den nächsten Job suchst.</span>
-                </li>
-                <li class="recruit-fit-card__item">
-                  <span class="recruit-fit-card__badge recruit-fit-card__badge--no" aria-hidden="true">✕</span>
-                  <span class="recruit-fit-card__text">Du alles besser weißt und kein Feedback annehmen möchtest.</span>
-                </li>
-                <li class="recruit-fit-card__item">
-                  <span class="recruit-fit-card__badge recruit-fit-card__badge--no" aria-hidden="true">✕</span>
-                  <span class="recruit-fit-card__text">Du lieber wartest, bis dir jemand sagt, was du tun sollst.</span>
+                  <span class="recruit-fit-card__text">nach wenigen Absagen schnell aufgibst</span>
                 </li>
               </ul>
             </article>
           </div>
+
+          <!--
+            Vorerfahrung und Schlusswort standen früher als zwei getrennte
+            Blöcke mit je eigenem Trennstrich hier unten. Sie sagen dasselbe
+            weiter – ein Abschnitt, eine Linie, eine Schriftgröße.
+          -->
+          <div class="recruit-panel__aside reveal reveal--delay-3">
+            <h3 class="recruit-panel__subtitle">Benötige ich Vorerfahrung?</h3>
+            <p>
+              Nein, du brauchst keine Vorerfahrung. <strong>Du musst Menschen ansprechen können.</strong>
+            </p>
+            <p>
+              Deine Aufgabe ist nicht, technische Fragen zu beantworten oder komplette
+              Photovoltaikanlagen zu verkaufen.
+            </p>
+            <p>
+              Du stellst an der Haustür den ersten Kontakt her und prüfst, ob sich der Eigentümer
+              grundsätzlich mit einer Photovoltaikanlage beschäftigt.
+            </p>
+            <p>
+              Wir versprechen dir kein schnelles Geld ohne Einsatz. Wir bieten dir jedoch einen
+              <strong>strukturierten Einstieg</strong>, <strong>persönliche Unterstützung</strong> und die
+              Möglichkeit, für deine Ergebnisse <strong>leistungsorientiert vergütet</strong> zu werden.
+            </p>
+          </div>
         </div>
         <div class="section-cta reveal reveal--delay-3">
-          <a href="#apply" class="btn btn--primary btn--lg btn--glow">Jetzt bewerben</a>
+          <a href="#apply" class="btn btn--primary btn--lg" data-apply-open>Jetzt bewerben</a>
         </div>
       </div>
     </section>
 
-    <!-- 4. Vertrauen -->
-    <section class="section trust section--divider section--soft-top" id="trust">
+    <!-- Über uns – Ansprechpartner und Team -->
+    <section class="section editorial editorial--light" id="about" aria-labelledby="about-title">
       <div class="container">
-        <div class="trust-banner reveal">
-          <div class="trust-banner__item">
-            <span class="trust-banner__value">12+</span>
-            <span class="trust-banner__label">Jahre Door-to-Door</span>
-          </div>
-          <div class="trust-banner__divider"></div>
-          <div class="trust-banner__item">
-            <span class="trust-banner__value">Solar</span>
-            <span class="trust-banner__label">Produkt an der Haustür</span>
-          </div>
-          <div class="trust-banner__divider"></div>
-          <div class="trust-banner__item">
-            <span class="trust-banner__value">48h</span>
-            <span class="trust-banner__label">persönliche Rückmeldung</span>
-          </div>
-        </div>
-        <div class="trust__grid reveal reveal--delay-1">
-          <div class="trust__text">
-            <h2 class="section__title">Ich verspreche dir keine Abkürzung – aber einen ehrlichen Einstieg.</h2>
-            <p>Klare Worte, kurze Wege, kein leeres Gerede. Ich bin noch selbst unterwegs und weiß, wie sich ein harter Block anfühlt – und wie man trotzdem weitermacht. Wenn du als Einsteiger Gas geben willst, hol ich dich da ab, wo ich selbst mal gestanden habe.</p>
-          </div>
-          <div class="trust__visual">
-            <img src="Schaper Scharf.jpg" alt="Enno Scharf – Door-to-Door &amp; Team" onerror="this.remove()">
-            <div class="trust__badge">
-              <img src="logo 1.PNG" alt="" onerror="this.remove()">
-              <div>
-                <strong>Enno Scharf</strong>
-                <span>D2D Solar · Team &amp; Coaching</span>
-              </div>
+        <div class="editorial__intro reveal">
+          <div class="editorial__copy">
+            <span class="section__eyebrow">Dein Ansprechpartner</span>
+            <h2 class="section__title section__title--editorial" id="about-title">
+              Lerne direkt von jemandem, der
+              <span class="text-gradient">selbst an der Haustür verkauft hat.</span>
+            </h2>
+            <div class="editorial__body">
+              <p class="editorial__lead">
+                Ich bin <strong>Enno Scharf</strong> und seit mehr als zwölf Jahren im
+                Door-to-Door-Vertrieb tätig. Ich kenne sowohl die erfolgreichen Tage als auch die
+                Situationen, in denen mehrere Gespräche hintereinander nicht funktionieren.
+              </p>
+              <p>
+                Deshalb bekommst du von mir keine theoretischen Motivationssprüche, sondern
+                konkrete Unterstützung aus der Praxis.
+              </p>
+            </div>
+
+            <div class="about__learn reveal reveal--delay-1">
+              <h3 class="about__learn-title">Ich zeige dir:</h3>
+              <ul class="about__learn-list">
+                    <li class="about__learn-item">
+                      <span class="about__learn-badge" aria-hidden="true">
+                        <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+                          <path d="M4.5 10.5l3.5 3.5 7.5-8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </span>
+                      <span>wie du natürlich und selbstbewusst auftrittst</span>
+                    </li>
+                    <li class="about__learn-item">
+                      <span class="about__learn-badge" aria-hidden="true">
+                        <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+                          <path d="M4.5 10.5l3.5 3.5 7.5-8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </span>
+                      <span>wie du ein Gespräch an der Haustür eröffnest</span>
+                    </li>
+                    <li class="about__learn-item">
+                      <span class="about__learn-badge" aria-hidden="true">
+                        <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+                          <path d="M4.5 10.5l3.5 3.5 7.5-8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </span>
+                      <span>wie du Interesse erkennst</span>
+                    </li>
+                    <li class="about__learn-item">
+                      <span class="about__learn-badge" aria-hidden="true">
+                        <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+                          <path d="M4.5 10.5l3.5 3.5 7.5-8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </span>
+                      <span>wie du einen Termin sauber qualifizierst</span>
+                    </li>
+                    <li class="about__learn-item">
+                      <span class="about__learn-badge" aria-hidden="true">
+                        <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+                          <path d="M4.5 10.5l3.5 3.5 7.5-8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </span>
+                      <span>wie du mit Ablehnung umgehst</span>
+                    </li>
+                    <li class="about__learn-item">
+                      <span class="about__learn-badge" aria-hidden="true">
+                        <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+                          <path d="M4.5 10.5l3.5 3.5 7.5-8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </span>
+                      <span>und wie du konstant gute Ergebnisse erreichst</span>
+                    </li>
+              </ul>
+            </div>
+
+            <p class="about__promise reveal reveal--delay-2">
+              <strong>Du bist bei uns keine anonyme Personalnummer.</strong>
+              Wir arbeiten persönlich zusammen und erwarten im Gegenzug Zuverlässigkeit,
+              Lernbereitschaft und ehrlichen Einsatz.
+            </p>
+
+            <div class="section-cta reveal reveal--delay-3">
+              <a href="#apply" class="btn btn--primary btn--lg" data-apply-open>Jetzt bewerben</a>
             </div>
           </div>
+          <figure class="editorial__visual">
+            <picture>
+              <source srcset="assets/img/enno-ueber-uns.webp" type="image/webp">
+              <img
+                src="assets/img/enno-ueber-uns.jpg"
+                alt="Enno Scharf"
+                width="1000"
+                height="1249"
+                loading="lazy"
+                decoding="async"
+              >
+            </picture>
+          </figure>
         </div>
+
       </div>
     </section>
 
-    <!-- 3. Vorteile / Entwicklung -->
-    <section class="section benefits section--divider" id="benefits">
+    <!-- Bewerbungsablauf -->
+    <section class="section process section--divider" id="process" aria-labelledby="process-title">
       <div class="container">
-        <aside class="growth-section reveal reveal--delay-3" aria-labelledby="growth-section-title">
-          <div class="growth-section__card">
-            <header class="growth-section__header">
-              <span class="growth-section__eyebrow">ENTWICKLUNG AUS DER PRAXIS</span>
-              <h2 class="growth-section__title" id="growth-section-title">Wer kannst du dadurch werden?</h2>
-              <p class="growth-section__lede">Es geht nicht nur um Provision. Es geht darum, Selbstvertrauen, Mut und innere Stärke aufzubauen.</p>
-            </header>
+        <div class="section__header section__header--center reveal">
+          <span class="section__eyebrow">Bewerbungsablauf</span>
+          <h2 class="section__title" id="process-title">
+            So läuft deine Bewerbung ab –<br>
+            <span class="text-gradient">in drei Schritten zu deinem Einstieg.</span>
+          </h2>
+        </div>
 
-            <div class="growth-section__grid">
-              <article class="growth-section__tile growth-section__tile--pink">
-                <span class="growth-section__label">SELBSTVERTRAUEN</span>
-                <h3 class="growth-section__big">Sicher auftreten</h3>
-                <p class="growth-section__body">Du lernst, auf fremde Menschen zuzugehen, Gespräche zu führen und auch nach Absagen ruhig und professionell zu bleiben.</p>
-              </article>
-              <article class="growth-section__tile growth-section__tile--accent">
-                <span class="growth-section__label">MUT</span>
-                <h3 class="growth-section__big">Angst überwinden</h3>
-                <p class="growth-section__body">Jeder Tag draußen fordert dich. Genau dadurch wächst du über dich hinaus und entwickelst echte mentale Stärke.</p>
-              </article>
-              <article class="growth-section__tile growth-section__tile--cyan">
-                <span class="growth-section__label">INNERE STÄRKE</span>
-                <h3 class="growth-section__big">Vom Zweifler zum Macher</h3>
-                <p class="growth-section__body">Wer konstant umsetzt, baut Disziplin, Verantwortung und ein Selbstbild auf, das weit über Vertrieb hinausgeht.</p>
-              </article>
-            </div>
+        <ol class="process__list">
+          <li class="process__step reveal reveal--delay-1">
+            <span class="process__num" aria-hidden="true">1</span>
+            <h3 class="process__heading">Kurzbewerbung absenden</h3>
+            <p class="process__text">Beantworte 3 kurze Fragen zu dir.</p>
+          </li>
+          <li class="process__step reveal reveal--delay-2">
+            <span class="process__num" aria-hidden="true">2</span>
+            <h3 class="process__heading">Persönliches Kennenlerngespräch</h3>
+            <p class="process__text">Wir kontaktieren dich persönlich innerhalb von 48 Stunden und sprechen telefonisch darüber, was du suchst, wie die Tätigkeit funktioniert und ob eine Zusammenarbeit für beide Seiten passt.</p>
+          </li>
+          <li class="process__step reveal reveal--delay-3">
+            <span class="process__num" aria-hidden="true">3</span>
+            <h3 class="process__heading">Einarbeitung und Start</h3>
+            <p class="process__text">Wenn wir zusammenpassen, vereinbaren wir deine Einarbeitung und deinen ersten gemeinsamen Einsatz im Gebiet.</p>
+          </li>
+        </ol>
 
-            <p class="growth-section__closing">Kein Motivationsgerede. Wir erwarten Einsatz. Aber wenn du bereit bist zu lernen und umzusetzen, bekommst du ein Umfeld, das dich wirklich weiterbringt.</p>
-          </div>
-        </aside>
         <div class="section-cta reveal reveal--delay-3">
-          <a href="#apply" class="btn btn--primary btn--lg btn--glow">Jetzt bewerben</a>
+          <a href="#apply" class="btn btn--primary btn--lg" data-apply-open>Jetzt bewerben</a>
         </div>
       </div>
     </section>
 
-    <!-- 5. FAQ -->
+    <!-- FAQ -->
     <section class="section faq" id="faq">
       <div class="container">
         <div class="section__header section__header--center reveal">
@@ -417,34 +563,33 @@
         </div>
         <div class="faq__list reveal reveal--delay-1">
           <details class="faq__item">
-            <summary>Ist der Job wirklich so einfach, wie viele behaupten?</summary>
-            <p>Nein. Vertrieb ist leistungsorientiert – nichts für Leute, die nur auf schnelles Geld hoffen, ohne etwas dafür zu tun.</p>
-            <p>Im Door-to-Door brauchst du Disziplin, Kommunikation und den Mut, jeden Tag auf Menschen zuzugehen. Es gibt gute und schlechte Tage. Wer lernt und dranbleibt, kann sich hier ein starkes Einkommen aufbauen.</p>
-          </details>
-          <details class="faq__item">
-            <summary>Was macht euch anders als ein klassisches Solar-Setup?</summary>
-            <p>Keine aufpolierte Solar-Show von der Zentrale: Du arbeitest mit jemandem, der selbst noch an der Tür ist. Skripte, Abläufe und Feedback kommen aus der Praxis – nicht aus Folien.</p>
-          </details>
-          <details class="faq__item">
-            <summary>Wie sieht die Vergütung aus?</summary>
-            <p>Provision, ungedeckelt: Wenn du im Feld lieferst, verdienst du mit. Konkrete Rahmen klären wir transparent im Kennenlerngespräch – ohne leere Versprechen.</p>
-          </details>
-          <details class="faq__item">
-            <summary>Muss ich Kaltakquise machen?</summary>
-            <p>Ja – Door-to-Door heißt, aktiv an Haustüren zu gehen. Aber mit Struktur, Skripten und Begleitung von jemandem, der denselben Job kennt. Kein planloses Drauflos.</p>
-          </details>
-          <details class="faq__item">
             <summary>Wie schnell kann ich starten?</summary>
-            <p>Bewerbung absenden → kurzes Gespräch → Kennenlernen im Team → Start. Ich melde mich innerhalb von 48 Stunden persönlich bei dir.</p>
+            <p>So schnell wie du kannst. Bewerbung absenden → kurzes Gespräch → Kennenlernen im Team → Start. Ich melde mich innerhalb von 48 Stunden persönlich bei dir.</p>
+          </details>
+          <details class="faq__item">
+            <summary>Wo findet die Arbeit statt?</summary>
+            <p>Die Arbeit findet in ausgewählten Wohngebieten in Hannover und 50 km Umgebung statt.</p>
+          </details>
+          <details class="faq__item">
+            <summary>Brauche ich Vorerfahrung?</summary>
+            <p>Nein. In der persönlichen Einarbeitung mit uns lernst du alles, was du für den Job brauchst.</p>
+          </details>
+          <details class="faq__item">
+            <summary>Auf welcher Stundenbasis ist die Arbeit?</summary>
+            <p>Grundsätzlich entscheidest du selbst, wie viele Stunden du arbeitest. Je mehr du verdienen willst, desto mehr Stunden solltest du investieren.</p>
+          </details>
+          <details class="faq__item">
+            <summary>Bin ich fest angestellt?</summary>
+            <p>Nein. Du arbeitest auf Provisionsbasis und wirst nach Leistung vergütet, nicht nach Stunden.</p>
           </details>
         </div>
         <div class="section-cta reveal reveal--delay-2">
-          <a href="#apply" class="btn btn--primary btn--lg btn--glow">Jetzt bewerben</a>
+          <a href="#apply" class="btn btn--primary btn--lg" data-apply-open>Jetzt bewerben</a>
         </div>
       </div>
     </section>
 
-    <!-- 6. Bewerbung -->
+    <!-- Bewerbung -->
     <section class="section apply" id="apply">
       <div class="apply__bg" aria-hidden="true"></div>
       <div class="container">
@@ -452,10 +597,10 @@
           <div class="apply__text">
             <span class="section__eyebrow section__eyebrow--light">Letzter Schritt</span>
             <h2 class="section__title section__title--light">
-              Bewerbung fürs D2D<br>mit Enno
+              Bewerbung als Door-to-Door Vertriebspartner im Solar-Bereich (m/w/d)
             </h2>
             <p>
-              Wenn du bis hier gelesen hast und Lust auf die Tür hast: Schick mir Kurzinfos. Ich melde mich persönlich – und wir klären ehrlich, ob der Einstieg ins Door-to-Door Solar zu dir passt.
+              Wenn du Lust auf Door-to-Door hast, bewirb dich noch heute. Ich melde mich persönlich und wir klären, ob der Einstieg ins Door-to-Door für die Solarbranche zu dir passt.
             </p>
             <div class="apply__trust">
               <span>✓ Unverbindlich</span>
@@ -463,141 +608,236 @@
               <span>✓ Persönliches Gespräch</span>
             </div>
           </div>
-          <form class="apply__form" id="applyForm" action="https://formspree.io/f/xlgvoyrr" method="POST" accept-charset="UTF-8">
-            <input type="hidden" name="_subject" value="Neue Bewerbung – D2D Solar">
-            <div class="form__row">
+
+          <div class="apply-cta">
+            <span class="apply-cta__eyebrow">Bewerbung in 3 Fragen</span>
+            <p class="apply-cta__lede">Keine Bewerbungsmappe, kein Anschreiben. Drei kurze Fragen – in unter zwei Minuten erledigt.</p>
+            <ol class="apply-cta__steps">
+              <li><span class="apply-cta__num">1</span> Führerschein und Auto</li>
+              <li><span class="apply-cta__num">2</span> Zeitlicher Rahmen</li>
+              <li><span class="apply-cta__num">3</span> Kontaktdaten</li>
+            </ol>
+            <button type="button" class="btn btn--primary btn--lg btn--full btn--glow" data-apply-open>
+              Jetzt bewerben →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Multi-Step-Bewerbungsdialog -->
+      <dialog class="apply-dialog" id="applyDialog" aria-labelledby="applyDialogTitle">
+        <form
+          class="apply-dialog__form"
+          id="applyForm"
+          action="https://formspree.io/f/xlgvoyrr"
+          method="POST"
+          accept-charset="UTF-8"
+        >
+          <input type="hidden" name="_subject" value="Neue Bewerbung – D2D Solar">
+          <!--
+            Formspree setzt die Antwortadresse aus einem Feld namens `email`
+            oder `_replyto`. Das sichtbare Feld heißt jetzt „E-Mail“, damit
+            im Posteingang deutsche Beschriftungen stehen – die Adresse wird
+            deshalb zusätzlich hierher gespiegelt (script.js). Felder mit
+            führendem Unterstrich gelten bei Formspree als Steuerfelder und
+            tauchen in der Mail nicht auf.
+          -->
+          <input type="hidden" name="_replyto" id="applyReplyTo">
+
+          <header class="apply-dialog__head">
+            <div class="apply-dialog__heading">
+              <h2 class="apply-dialog__title" id="applyDialogTitle">Bewerbung als Door-to-Door Vertriebspartner im Solar-Bereich (m/w/d)</h2>
+              <p class="apply-dialog__subtitle">Drei kurze Fragen – ich melde mich innerhalb von 48 Stunden persönlich.</p>
+            </div>
+            <button type="button" class="apply-dialog__close" data-apply-close aria-label="Bewerbung schließen">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <path d="M4 4l10 10M14 4L4 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </header>
+
+          <div class="apply-dialog__progress">
+            <div class="apply-dialog__bar" role="presentation">
+              <span class="apply-dialog__bar-fill" id="applyProgressFill"></span>
+            </div>
+            <p class="apply-dialog__count" id="applyProgressLabel">Schritt 1 von 3</p>
+          </div>
+
+          <div class="apply-dialog__body" id="applyStepper">
+
+            <!-- Schritt 1 -->
+            <section class="apply-step" data-step data-step-name="Führerschein und Auto">
+              <h3 class="apply-step__question">Hast du Führerschein und Auto?</h3>
+              <p class="apply-step__hint">Für die Anfahrt in dein Gebiet brauchst du in der Regel beides.</p>
+              <fieldset class="form__group">
+                <legend class="sr-only">Führerschein und Auto</legend>
+                <div class="form__options" data-autoadvance>
+                  <label class="form__option">
+                    <input type="radio" name="Führerschein und Auto" value="Ja, beides" data-required-step>
+                    <span>Ja, beides</span>
+                  </label>
+                  <label class="form__option">
+                    <input type="radio" name="Führerschein und Auto" value="Nein">
+                    <span>Nein</span>
+                  </label>
+                </div>
+              </fieldset>
+            </section>
+
+            <!-- Schritt 2 -->
+            <section class="apply-step" data-step data-step-name="Zeitlicher Rahmen" hidden>
+              <h3 class="apply-step__question">Wie viele Stunden pro Woche willst du investieren?</h3>
+              <p class="apply-step__hint">Ehrliche Einschätzung reicht – wir sprechen ohnehin persönlich darüber.</p>
+              <fieldset class="form__group">
+                <legend class="sr-only">Stunden pro Woche</legend>
+                <div class="form__options form__options--triple" data-autoadvance>
+                  <label class="form__option">
+                    <input type="radio" name="Stunden pro Woche" value="0–5" data-required-step>
+                    <span>0–5</span>
+                  </label>
+                  <label class="form__option">
+                    <input type="radio" name="Stunden pro Woche" value="5–15">
+                    <span>5–15</span>
+                  </label>
+                  <label class="form__option">
+                    <input type="radio" name="Stunden pro Woche" value="15–25">
+                    <span>15–25</span>
+                  </label>
+                </div>
+              </fieldset>
+            </section>
+
+            <!-- Schritt 3 -->
+            <section class="apply-step" data-step data-step-name="Kontaktdaten" hidden>
+              <h3 class="apply-step__question">Wie erreiche ich dich?</h3>
+              <!-- Ein Feld pro Zeile: nebeneinander mussten Vor- und
+                   Nachname sich die Breite teilen und wirkten gedrängt. -->
               <label class="form__field">
                 <span>Vorname</span>
-                <input type="text" name="firstname" placeholder="Max" required autocomplete="given-name">
+                <input type="text" name="Vorname" placeholder="Max" autocomplete="given-name" data-required-step>
               </label>
               <label class="form__field">
                 <span>Nachname</span>
-                <input type="text" name="lastname" placeholder="Mustermann" required autocomplete="family-name">
+                <input type="text" name="Nachname" placeholder="Mustermann" autocomplete="family-name" data-required-step>
               </label>
-            </div>
-            <label class="form__field">
-              <span>E-Mail</span>
-              <input type="email" name="email" placeholder="max@beispiel.de" required autocomplete="email">
-            </label>
-            <label class="form__field">
-              <span>Telefon</span>
-              <input type="tel" name="phone" placeholder="+49 123 456789" required autocomplete="tel">
-            </label>
-            <label class="form__field">
-              <span>Warum D2D bei mir – kurz? (optional)</span>
-              <textarea name="message" rows="3" placeholder="Erfahrung, Ziel, warum du im Außendienst performen willst …"></textarea>
-            </label>
+              <label class="form__field">
+                <span>E-Mail</span>
+                <input type="email" name="E-Mail" placeholder="max@beispiel.de" autocomplete="email" data-required-step>
+              </label>
+              <label class="form__field">
+                <span>Telefon</span>
+                <input type="tel" name="Telefon" placeholder="+49 123 456789" autocomplete="tel" data-required-step>
+              </label>
+              <!--
+                Freitext und Einwilligung standen früher in einem vierten
+                Schritt. Beides sind keine Fragen, sondern Beiwerk zum
+                Absenden – im dritten Schritt bleibt die Seite bei den
+                drei Fragen, die außen versprochen werden.
+              -->
+              <label class="form__field">
+                <span>Warum D2D bei mir? (optional)</span>
+                <textarea name="Nachricht" rows="3" placeholder="Erfahrung, Ziel, warum du im Außendienst performen willst …"></textarea>
+              </label>
+              <label class="form__checkbox">
+                <input type="checkbox" name="Datenschutz" required data-required-step>
+                <span>Ich stimme der Verarbeitung meiner Daten gemäß <a href="datenschutz.html" target="_blank" rel="noopener">Datenschutzerklärung</a> zu.</span>
+              </label>
+            </section>
+          </div>
 
-            <div class="form__steps" id="applyFormSteps">
-              <div class="form__step form__step--visible" id="step-drivers" data-form-step="drivers">
-                <fieldset class="form__group">
-                  <legend class="form__legend">Führerschein</legend>
-                  <div class="form__options" role="radiogroup" aria-required="true">
-                    <label class="form__option">
-                      <input type="radio" name="drivers_license" value="Ja" required>
-                      <span>Ja</span>
-                    </label>
-                    <label class="form__option">
-                      <input type="radio" name="drivers_license" value="Nein">
-                      <span>Nein</span>
-                    </label>
-                  </div>
-                </fieldset>
-              </div>
+          <p class="apply-dialog__error" id="applyError" role="alert" hidden></p>
 
-              <div class="form__step" id="step-sales" data-form-step="sales" aria-hidden="true">
-                <fieldset class="form__group">
-                  <legend class="form__legend">Vertriebserfahrung</legend>
-                  <div class="form__options" role="radiogroup" aria-required="true">
-                    <label class="form__option">
-                      <input type="radio" name="sales_experience" value="Ja">
-                      <span>Ja</span>
-                    </label>
-                    <label class="form__option">
-                      <input type="radio" name="sales_experience" value="Nein">
-                      <span>Nein</span>
-                    </label>
-                  </div>
-                </fieldset>
-              </div>
+          <footer class="apply-dialog__nav">
+            <button type="button" class="btn btn--ghost apply-dialog__back" id="applyBack" hidden>
+              ← Zurück
+            </button>
+            <button type="button" class="btn btn--primary apply-dialog__next" id="applyNext">
+              Weiter →
+            </button>
+            <button type="submit" class="btn btn--primary btn--glow apply-dialog__submit" id="applySubmit" hidden>
+              Bewerbung absenden
+            </button>
+          </footer>
+        </form>
 
-              <div class="form__step" id="step-sales-detail" data-form-step="sales-detail" aria-hidden="true">
-                <label class="form__field">
-                  <span>Wie lange?</span>
-                  <select name="sales_experience_duration">
-                    <option value="" disabled selected>Bitte wählen</option>
-                    <option value="Weniger als 6 Monate">Weniger als 6 Monate</option>
-                    <option value="6–12 Monate">6–12 Monate</option>
-                    <option value="1–2 Jahre">1–2 Jahre</option>
-                    <option value="2–5 Jahre">2–5 Jahre</option>
-                    <option value="Mehr als 5 Jahre">Mehr als 5 Jahre</option>
-                  </select>
-                </label>
-                <label class="form__field">
-                  <span>Welche Tätigkeit?</span>
-                  <input type="text" name="sales_experience_activity" placeholder="z. B. Door-to-Door, Telefonvertrieb …" autocomplete="off">
-                </label>
-              </div>
-
-              <div class="form__step" id="step-hours" data-form-step="hours" aria-hidden="true">
-                <fieldset class="form__group">
-                  <legend class="form__legend">Wie viele Stunden pro Woche möchtest du investieren?</legend>
-                  <div class="form__options form__options--triple" role="radiogroup" aria-required="true">
-                    <label class="form__option">
-                      <input type="radio" name="hours_per_week" value="0–5">
-                      <span>0–5</span>
-                    </label>
-                    <label class="form__option">
-                      <input type="radio" name="hours_per_week" value="5–15">
-                      <span>5–15</span>
-                    </label>
-                    <label class="form__option">
-                      <input type="radio" name="hours_per_week" value="15–25">
-                      <span>15–25</span>
-                    </label>
-                  </div>
-                </fieldset>
-              </div>
-            </div>
-
-            <label class="form__checkbox">
-              <input type="checkbox" name="privacy" required>
-              <span>Ich stimme der Verarbeitung meiner Daten gemäß Datenschutzerklärung zu.</span>
-            </label>
-            <button type="submit" class="btn btn--primary btn--lg btn--full btn--glow">Bewerbung absenden →</button>
-          </form>
+        <div class="apply-dialog__success" id="applySuccess" hidden>
+          <span class="apply-dialog__success-icon" aria-hidden="true">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <h2 class="apply-dialog__success-title">Danke – deine Bewerbung ist da.</h2>
+          <p class="apply-dialog__success-text">
+            Ich schaue sie mir persönlich an und melde mich innerhalb von 48 Stunden bei dir.
+            Wenn es passt, sprechen wir direkt über den Einstieg.
+          </p>
+          <button type="button" class="btn btn--primary btn--lg" data-apply-close>Schließen</button>
         </div>
-      </div>
+      </dialog>
     </section>
 
   </main>
 
-  <!-- 7. Footer -->
+  <!-- Footer -->
   <footer class="footer">
     <div class="container">
       <div class="footer__top">
-        <a href="#" class="footer__logo">
-          <span class="logo-text" aria-hidden="true">Enno Scharf</span>
+        <a href="#hero" class="footer__logo" aria-label="Startseite">
+          <span class="logo logo--light-only">
+            <picture>
+              <source srcset="assets/img/logo-hell.webp" type="image/webp">
+              <img src="assets/img/logo-hell.png" alt="Scharf Photovoltaik" class="logo__img" width="552" height="154" loading="lazy" decoding="async">
+            </picture>
+          </span>
         </a>
+        <!-- Dieselben Ziele wie im Header, in derselben Reihenfolge. -->
         <nav class="footer__nav" aria-label="Footer Navigation">
-          <a href="#story">Story</a>
-          <a href="#company-video">Film</a>
-          <a href="#recruit">Für dich</a>
-          <a href="#benefits">Vorteile</a>
-          <a href="#faq">FAQ</a>
-          <a href="#apply">Bewerben</a>
+          <a href="#hero">Startseite</a>
+          <a href="#d2d">Über D2D</a>
+          <a href="#about">Über uns</a>
+          <a href="#process">Bewerbungsablauf</a>
         </nav>
       </div>
       <div class="footer__bottom">
-        <p>&copy; <span id="year"></span> Enno Scharf · D2D Solar Recruiting. Alle Rechte vorbehalten.</p>
+        <p>&copy; <span id="year">2026</span> Enno Scharf · D2D Solar Recruiting. Alle Rechte vorbehalten.</p>
         <div class="footer__legal">
           <a href="impressum.html">Impressum</a>
           <a href="datenschutz.html">Datenschutz</a>
+          <button type="button" class="footer__legal-btn" data-consent="reopen">Datenschutz-Einstellungen</button>
         </div>
       </div>
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <!--
+    Einwilligungs-Banner.
+    Steuert genau eine Einwilligung: den Meta-Pixel. Vor der Zustimmung
+    lädt die Seite nichts von Dritten und setzt keine Cookies. Die Wahl
+    liegt im localStorage, nicht in einem Cookie – die Freischaltung
+    selbst steckt in script.js, Abschnitt 7.
+  -->
+  <div class="consent" id="consentBanner" role="dialog" aria-modal="false"
+       aria-labelledby="consentTitle" aria-describedby="consentText" hidden>
+    <div class="consent__inner">
+      <div class="consent__body">
+        <h2 class="consent__title" id="consentTitle">Datenschutz-Einstellungen</h2>
+        <p class="consent__text" id="consentText">
+          Wir messen mit dem Meta-Pixel, wie gut unsere Stellenanzeigen ankommen –
+          nur mit Ihrer Zustimmung und jederzeit widerrufbar.
+          <a href="datenschutz.html">Mehr im Datenschutz</a>.
+        </p>
+      </div>
+      <div class="consent__actions">
+        <button type="button" class="btn btn--ghost consent__btn" data-consent="deny">
+          Nur notwendige
+        </button>
+        <button type="button" class="btn btn--primary consent__btn" data-consent="allow">
+          Akzeptieren
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/js/script.js" defer></script>
 </body>
 </html>

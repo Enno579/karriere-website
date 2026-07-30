@@ -1,0 +1,3909 @@
+/* ============================================
+   Enno Scharf – PV recruiting (premium LP)
+   ============================================ */
+
+:root {
+  --ink-950: #150c04;
+  --ink-900: #21150a;
+  --ink-800: #36220d;
+  --ink-700: #4e3113;
+  --ink-600: #70471c;
+  /* Gelbtöne aus dem Logo abgeleitet (#fdc606 / #fdd406). */
+  --accent: #fcc00a;        /* Markengelb – Flächen, Icons, Deko */
+  --accent-bright: #fde047; /* helles Gelb – Akzente auf dunklem Grund */
+  --accent-deep: #eda008;   /* tiefes Gold */
+  --accent-glow: rgba(252, 192, 10, 0.45);
+
+  /* Gelb erreicht auf Weiß nur rund 1.6:1 und ist damit als Textfarbe
+     unbrauchbar. Für Text und kleine Icons auf hellem Grund deshalb
+     diese dunkle Goldstufe verwenden (5.4:1) – nicht --accent. */
+  --accent-text: #9a5b00;
+
+  /* Haken in Aufzählungen. Grün trägt hier die Bedeutung "erfüllt" und
+     ist deshalb keine Markenfarbe. 5.1:1 auf Weiß. */
+  --check: #157f3c;
+  --white: #ffffff;
+  /* Warmweiß am Übergang vom Hero in den Ablauf: der Hero blendet nach
+     unten darauf aus, der Ablauf beginnt damit. Beide Seiten der Naht
+     tragen denselben Ton, sonst bricht dort die Farbtemperatur. */
+  --cream: #fdf7e8;
+  --gray-50: #fdfaf6;
+  --gray-100: #f9f2e9;
+  --gray-200: #ecdfcd;
+  --gray-400: #b09a83;
+  --gray-500: #7d6650;
+  --gray-600: #54432f;
+
+  /* System UI stack (Apple-like; no bundled font files) */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  --nav-height: 72px;
+  --container: min(1180px, calc(100% - 2rem));
+
+  /* Vertikaler Rhythmus: jede .section nutzt padding-block: var(--section-y).
+     Der Abstand zwischen zwei Sections ist damit immer exakt 2 x --section-y.
+     Nicht mit Multiplikatoren arbeiten – nur diesen Wert je Breakpoint setzen. */
+  --section-y: clamp(3.5rem, 6.5vw, 6rem);
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast: 0.22s;
+  --dur-md: 0.35s;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* muss Klassenregeln wie `.apply-step { display: block }` schlagen */
+[hidden] { display: none !important; }
+
+html {
+  scroll-behavior: smooth;
+  /* etwas Luft unter dem Header, damit Sprungziele nicht am Rand kleben */
+  scroll-padding-top: calc(var(--nav-height) + 1.25rem);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* `clip` statt `hidden`: verhindert, dass das Wurzelelement zum Scroll-Container
+   wird. `hidden` auf <body> erzeugte hier Scroll-Ruckeln und brach position:sticky. */
+@supports (overflow: clip) {
+  html { overflow-x: clip; }
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.47;
+  color: var(--gray-600);
+  background: var(--white);
+}
+
+/* Scroll-Sperre für Modal und Mobile-Menü: position:fixed statt overflow:hidden,
+   weil iOS Safari overflow:hidden auf <body> ignoriert. Der Offset wird per JS
+   gesetzt und beim Schließen wieder zurückgescrollt. */
+body.is-scroll-locked {
+  position: fixed;
+  inset-inline: 0;
+  width: 100%;
+  overflow-y: scroll;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 10000;
+  transform: translate(-50%, -150%);
+  padding: 0.75rem 1.25rem;
+  background: var(--white);
+  color: var(--ink-900);
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 0 0 12px 12px;
+  transition: transform var(--dur-md) var(--ease);
+}
+
+.skip-link:focus-visible {
+  transform: translate(-50%, 0);
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+.container { width: var(--container); margin-inline: auto; }
+
+.section__eyebrow {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+  margin-bottom: 1rem;
+}
+
+.section__eyebrow--light { color: var(--accent-bright); }
+
+.section__title {
+  font-family: var(--font-sans);
+  font-size: clamp(2.125rem, 4.75vw, 3.5rem);
+  font-weight: 600;
+  letter-spacing: -0.022em;
+  line-height: 1.07;
+  color: var(--ink-900);
+  margin-bottom: 1.35rem;
+}
+
+.section__title--editorial { font-size: clamp(2.5rem, 5.5vw, 4rem); }
+.section__title--light { color: var(--white); }
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--ink-800) 0%, var(--accent-text) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Logo ───────────────────────────────────────────────────
+   Zwei Fassungen liegen im Markup, umgeschaltet wird per CSS:
+   oben über dem hellen Hero die dunkle, auf dem dunklen Header-
+   Balken und im Footer die helle. Der Wechsel läuft über opacity
+   auf gestapelten Bildern, damit nichts springt.
+
+   Beide Dateien liegen auf derselben Leinwand (552×154) und sind so
+   ineinander eingepasst, dass die Wortmarke in beiden gleich groß ist
+   und an derselben Stelle sitzt. Die gelieferten Fassungen sind nämlich
+   nicht dasselbe Lockup – bei gleicher Gesamthöhe wäre die Schrift der
+   hellen rund 22 % größer. Neu eingespielte Logos deshalb wieder
+   normalisieren, nicht einfach ersetzen.
+   ------------------------------------------------------------ */
+.logo {
+  position: relative;
+  display: inline-grid;
+  line-height: 0;
+}
+
+.logo picture {
+  grid-area: 1 / 1;
+  display: block;
+}
+
+.logo__img {
+  display: block;
+  height: 44px;
+  width: auto;
+  transition: opacity var(--dur-md) var(--ease);
+}
+
+/* gestapelt: beide Fassungen liegen übereinander, nur eine ist sichtbar */
+.nav__logo .logo__img--light { opacity: 0; }
+.nav__logo .logo__img--dark  { opacity: 1; }
+
+.nav--scrolled .nav__logo .logo__img--light { opacity: 1; }
+.nav--scrolled .nav__logo .logo__img--dark  { opacity: 0; }
+
+/* Footer trägt nur die helle Fassung */
+.logo--light-only .logo__img { height: 38px; }
+
+/* ─── Buttons ────────────────────────────────────────────────
+   Eine CTA-Farbe für die ganze Seite. Vorher war der Primär-Button
+   weiß – auf den hellen Sections (gray-50) verschwand er dadurch
+   fast im Hintergrund. Blau trägt auf hell wie auf dunkel.
+   ------------------------------------------------------------ */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  padding: 0.875rem 1.75rem;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  border-radius: 100px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform var(--dur-fast) var(--ease),
+    box-shadow var(--dur-md) var(--ease),
+    background var(--dur-md) var(--ease),
+    color var(--dur-md) var(--ease),
+    border-color var(--dur-md) var(--ease);
+  white-space: nowrap;
+}
+
+.btn--sm { min-height: 40px; padding: 0.5rem 1.15rem; font-size: 0.8125rem; }
+.btn--lg { min-height: 56px; padding: 1.05rem 2.25rem; font-size: 1.0625rem; }
+.btn--full { width: 100%; }
+
+.btn--primary {
+  /* Dunkle Schrift auf Gelb: Weiß erreicht auf diesen Tönen nur
+     1.3-2.0:1 und wäre damit nicht lesbar. So sind es 8.7 bis 13.5:1. */
+  background: linear-gradient(180deg, #fde047 0%, #fdd406 55%, #f0a707 100%);
+  color: var(--ink-900);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    0 1px 2px rgba(54, 34, 13, 0.28),
+    0 8px 24px rgba(237, 160, 8, 0.32);
+}
+
+/* Für den Einsatz auf Foto-/Dunkelflächen, wo Weiß mehr Kontrast bringt. */
+.btn--light {
+  background: var(--white);
+  color: var(--ink-900);
+  box-shadow:
+    0 1px 2px rgba(21, 12, 4, 0.2),
+    0 10px 30px rgba(21, 12, 4, 0.28);
+}
+
+.btn--ghost {
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn--primary:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.35),
+      0 2px 4px rgba(54, 34, 13, 0.3),
+      0 16px 38px rgba(237, 160, 8, 0.42);
+  }
+
+  .btn--light:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 2px 4px rgba(21, 12, 4, 0.22),
+      0 18px 42px rgba(21, 12, 4, 0.34);
+  }
+
+  .btn--ghost:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: var(--white);
+  }
+
+  .btn:active {
+    transform: translateY(0) scale(0.985);
+  }
+}
+
+/* Auf Touch nur das Eindrücken – ohne Hover-Anhebung, die dort hängen bleibt. */
+@media (hover: none) {
+  .btn:active { transform: scale(0.975); }
+}
+
+.btn[disabled],
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Dezenter Puls auf dem Haupt-CTA. Läuft als eigene Ebene, damit die
+   Animation nicht mit den box-shadow-Übergängen des Buttons kollidiert. */
+.btn--glow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: 0 0 0 0 rgba(252, 192, 10, 0.55);
+  animation: btnPulse 3.2s var(--ease) infinite;
+}
+
+@keyframes btnPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(252, 192, 10, 0.5); }
+  70%  { box-shadow: 0 0 0 12px rgba(252, 192, 10, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(252, 192, 10, 0); }
+}
+
+/* ─── Nav ────────────────────────────────────────────────────
+   Der Header liegt fix über dem Inhalt. Zwei Dinge lösen das
+   frühere Scroll-Problem:
+   1. Der Hintergrund liegt in einem ::before und wird nur über
+      `opacity` ein-/ausgeblendet. Vorher wurde `background` +
+      `backdrop-filter` direkt umgeschaltet – das erzwingt bei
+      jedem Statuswechsel ein Repaint der ganzen Leiste (sichtbares
+      Aufblitzen, Ruckeln auf Mobilgeräten).
+   2. Der Header selbst wird nur per `transform` bewegt (Ein-/
+      Ausblenden beim Scrollen) – das läuft auf dem Compositor.
+   ------------------------------------------------------------ */
+.nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 1000;
+  height: var(--nav-height);
+  transform: translate3d(0, 0, 0);
+  transition: transform 0.4s var(--ease);
+}
+
+.nav::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  /* deckend genug, damit heller Text darunter nicht mehr durchscheint */
+  background: linear-gradient(180deg, rgba(22, 13, 5, 0.97) 0%, rgba(33, 21, 10, 0.94) 100%);
+  -webkit-backdrop-filter: saturate(150%) blur(20px);
+  backdrop-filter: saturate(150%) blur(20px);
+  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.08);
+  opacity: 0;
+  transition: opacity var(--dur-md) var(--ease);
+  pointer-events: none;
+}
+
+.nav--scrolled::before { opacity: 1; }
+
+/* ─── Nav über dem hellen Hero ───────────────────────────────
+   Ganz oben liegt der Header transparent auf dem hellen Hero-Bild –
+   weiße Schrift wäre dort unlesbar. Solange nicht gescrollt wurde,
+   schaltet er deshalb auf dunkle Typo um. Ab .nav--scrolled greift
+   wieder die helle Schrift auf dem deckenden dunklen Balken. */
+.nav:not(.nav--scrolled):not(.nav--menu-open) .nav__links a {
+  color: var(--ink-800);
+}
+
+.nav:not(.nav--scrolled):not(.nav--menu-open) .nav__toggle span {
+  background: var(--ink-900);
+}
+
+/* Zarter heller Verlauf ganz oben: hebt die dunkle Typo vom Hero-Foto ab,
+   ohne einen sichtbaren Balken zu erzeugen. Verschwindet, sobald der
+   deckende Hintergrund übernimmt. */
+.nav::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0) 100%);
+  transition: opacity var(--dur-md) var(--ease);
+  pointer-events: none;
+}
+
+.nav--scrolled::after { opacity: 0; }
+
+/* ─── Nav bei offenem Mobil-Menü ─────────────────────────────
+   Der Header liegt über der Menüfläche (z-index 1000 gegen 999).
+   Ungescrollt trug er dort seinen hellen Verlauf für den Hero –
+   der oberste Streifen blieb dadurch hell, während darunter alles
+   dunkel war. Beide Ebenen werden deshalb ausgeblendet: den
+   Hintergrund liefert dann allein die Menüfläche, und der Streifen
+   hat exakt denselben Ton wie der Rest. Ein eigener dunkler
+   Header-Hintergrund käme nicht infrage – er ist ein anderer Ton
+   und zöge unten eine sichtbare Kante. */
+.nav--menu-open::before,
+.nav--menu-open::after { opacity: 0; }
+
+.nav--menu-open .nav__logo .logo__img--light { opacity: 1; }
+.nav--menu-open .nav__logo .logo__img--dark  { opacity: 0; }
+
+/* Beim Runterscrollen weg, beim Hochscrollen sofort zurück. */
+.nav--hidden { transform: translate3d(0, -100%, 0); }
+
+.nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  width: var(--container);
+  margin-inline: auto;
+}
+
+.nav__links { display: flex; gap: 2.25rem; }
+
+.nav__links a {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.65);
+  transition: color var(--dur-md) var(--ease);
+  position: relative;
+}
+
+.nav__links a:hover { color: var(--white); }
+
+@media (hover: hover) and (pointer: fine) {
+  .nav__links a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -0.35rem;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform var(--dur-md) var(--ease), opacity var(--dur-md) var(--ease);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .nav__links a:hover::after,
+  .nav__links a:focus-visible::after {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+.nav__logo {
+  transition: opacity var(--dur-md) var(--ease), transform var(--dur-md) var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nav__logo:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+  }
+}
+
+.nav__toggle {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  width: 28px;
+}
+
+.nav__toggle span {
+  display: block;
+  height: 2px;
+  background: var(--white);
+  border-radius: 2px;
+  transition: transform 0.3s var(--ease), opacity 0.3s;
+}
+
+.nav__toggle.is-active span:first-child { transform: translateY(4px) rotate(45deg); }
+.nav__toggle.is-active span:last-child { transform: translateY(-4px) rotate(-45deg); }
+
+.nav__mobile {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  padding-top: var(--nav-height);
+  background: var(--ink-900);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.75rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--dur-md) var(--ease), visibility var(--dur-md);
+}
+
+.nav__mobile.is-open { opacity: 1; visibility: visible; }
+
+/* :not(.btn) ist nötig – sonst überschreibt diese Regel die Button-Farbe
+   und der CTA wird weiß auf weiß. */
+.nav__mobile a:not(.btn) {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--white);
+}
+
+.nav__mobile .btn {
+  min-height: 48px;
+  width: min(100%, 18rem);
+  font-size: 1rem;
+}
+
+/* Hero */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+
+  /* Nur die X-Achse klemmen: der Halo hinter dem Portrait (.hero__portrait
+     ::before, inset:-18%) ragt sonst seitlich über den Viewport hinaus.
+     Wichtig ist `clip` statt `hidden` – bei `hidden` rechnet der Browser
+     die andere Achse von `visible` auf `auto` um und der Hero wird zum
+     eigenen Scroll-Container. Mit `clip` bleibt Y auf `visible`, es
+     entsteht keine Scrollleiste und kein Inhalt wird abgeschnitten. */
+  overflow-x: clip;
+}
+
+/* Enthält Bild und Scrim.
+
+   Vorher stand hier kein overflow und der Hero trug `overflow-x: hidden`.
+   Ist eine Achse hidden und die andere visible, rechnet der Browser die
+   visible-Achse zu `auto` – der Hero wurde dadurch zum eigenen Scroll-
+   Container mit einer vom Seitenscroll unabhängigen Scrollleiste.
+
+   Jetzt wird direkt hier abgeklemmt: `clip` erzeugt keinen Scroll-Container,
+   `hidden` davor ist der Fallback für Safari < 16. Der Hero-Inhalt bleibt
+   unangetastet. */
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  background: var(--ink-950);
+  overflow: hidden;
+  overflow: clip;
+}
+
+.hero__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  transform-origin: center center;
+}
+
+/* Overlay über dem Hero-Foto.
+   Zwei Ebenen: links ein kräftiger warmweißer Verlauf, damit die dunkle
+   Typo auf dem hellen, aber detailreichen Foto sicher lesbar bleibt –
+   rechts läuft er aus, damit das Motiv sichtbar bleibt. Darüber ein
+   zarter Orange-Gelb-Schleier als Markenton. */
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    /* Ausblendung zur Naht: das Foto lief vorher hart gegen die Kante des
+       nächsten Abschnitts. Zuerst gelistet heißt zuoberst gezeichnet. */
+    linear-gradient(
+      180deg,
+      rgba(253, 247, 232, 0) 74%,
+      rgba(253, 247, 232, 0.3) 84%,
+      rgba(253, 247, 232, 0.72) 92%,
+      rgba(253, 247, 232, 0.94) 97%,
+      var(--cream) 100%
+    ),
+    linear-gradient(
+      100deg,
+      rgba(255, 252, 246, 0.97) 0%,
+      rgba(255, 251, 243, 0.93) 30%,
+      rgba(255, 250, 240, 0.74) 52%,
+      rgba(255, 247, 232, 0.36) 78%,
+      rgba(255, 244, 224, 0.16) 100%
+    ),
+    radial-gradient(ellipse 85% 75% at 16% 45%, rgba(255, 253, 249, 0.82) 0%, transparent 72%);
+}
+
+.hero__scrim::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    /* Die Ausblendung zur Naht steht hier ein zweites Mal – dieses Element
+       liegt über dem Scrim, sonst legten sich die gelben Schleier unten
+       rechts wieder über den fertigen Übergang und die Naht wurde dort
+       sichtbar (gemessen 13/255 nur an der rechten Kante). */
+    linear-gradient(
+      180deg,
+      rgba(253, 247, 232, 0) 80%,
+      rgba(253, 247, 232, 0.5) 90%,
+      rgba(253, 247, 232, 0.88) 97%,
+      var(--cream) 100%
+    ),
+    radial-gradient(ellipse 60% 50% at 82% 16%, rgba(253, 224, 71, 0.18) 0%, transparent 64%),
+    radial-gradient(ellipse 70% 55% at 92% 88%, rgba(252, 192, 10, 0.12) 0%, transparent 60%);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero__img {
+    animation: hero-img-breathe 26s ease-in-out infinite alternate;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (max-width: 640px) {
+  .hero__img { animation: none; }
+}
+
+@keyframes hero-img-breathe {
+  0%   { transform: scale(1); }
+  100% { transform: scale(1.03); }
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  max-width: 1180px;
+  width: 100%;
+  margin: 0 auto;
+  padding: calc(var(--nav-height) + clamp(1.5rem, 4vh, 3rem)) 32px clamp(1.5rem, 4vh, 2.5rem);
+}
+
+.hero__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 520px;
+  gap: 64px;
+  align-items: center;
+}
+
+.hero__copy {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  min-width: 0;
+  max-width: 720px;
+}
+
+/* Standort-Pill über der Headline */
+.hero__location {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  align-self: flex-start;
+  margin-bottom: clamp(1rem, 2vw, 1.5rem);
+  padding: 0.5rem 1rem 0.5rem 0.85rem;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(112, 71, 28, 0.16);
+  box-shadow: 0 1px 2px rgba(54, 34, 13, 0.06), 0 8px 24px rgba(54, 34, 13, 0.08);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink-800);
+}
+
+.hero__location-pin {
+  display: inline-flex;
+  color: var(--accent-text);
+}
+
+/* Der Grad ist auf die Länge der Stellenbezeichnung abgestimmt: mit dem
+   früheren Maximum (4.4rem) lief die Zeile fünfmal um und die Headline
+   war höher als das halbe Bild. */
+.hero__title {
+  font-family: var(--font-sans);
+  font-size: clamp(2.1rem, 3.3vw, 3.3rem);
+  font-weight: 600;
+  line-height: 1.06;
+  letter-spacing: -0.035em;
+  max-width: 20ch;
+  color: var(--ink-900);
+  margin-bottom: clamp(1rem, 2vw, 1.5rem);
+  text-wrap: balance;
+}
+
+.hero__subhead {
+  font-size: clamp(1.05rem, 0.5vw + 0.95rem, 1.25rem);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--gray-600);
+  max-width: 46ch;
+  margin-bottom: clamp(1.5rem, 2.5vw, 2.25rem);
+  text-wrap: pretty;
+}
+
+.hero__benefits {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.65rem, 1.2vw, 0.85rem);
+  margin-bottom: clamp(1rem, 1.8vw, 1.35rem);
+  max-width: 620px;
+}
+
+.hero__benefit {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: clamp(0.9375rem, 0.45vw + 0.85rem, 1.0625rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink-800);
+}
+
+/* Einordnung zum Stundenwert – hält die Angabe konsistent mit der
+   Überschlagsrechnung weiter unten auf der Seite. */
+/* Steht unter dem CTA und gehört zu ihm – deshalb keine eigene
+   Randmarke, die Abstände kommen aus dem gap von .hero__actions. */
+.hero__note {
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  /* nicht --gray-500: über dem Foto blieben davon auf dem Phone nur
+     4.3:1 übrig, hier sind es rund 6:1 */
+  color: #66513b;
+  max-width: 42ch;
+}
+
+.hero__check {
+  flex-shrink: 0;
+  display: inline-flex;
+  color: var(--check);
+}
+
+.hero__check svg {
+  display: block;
+}
+
+.hero__portrait {
+  margin: 0;
+  justify-self: center;
+  width: 500px;
+  max-width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.hero__portrait::before {
+  content: "";
+  position: absolute;
+  inset: -18%;
+  background:
+    radial-gradient(ellipse 70% 65% at 50% 45%, rgba(252, 192, 10, 0.2) 0%, transparent 68%),
+    radial-gradient(ellipse 55% 50% at 50% 72%, rgba(112, 71, 28, 0.14) 0%, transparent 62%);
+  filter: blur(38px);
+  opacity: 0.8;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Das Seitenverhältnis kommt vom Foto (917x831), nicht umgekehrt: mit
+   einem eigenen Format schnitte `object-fit: cover` das Bild an, und es
+   soll vollständig zu sehen sein. Beim Bildtausch mitziehen. */
+.hero__portrait-card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 917 / 831;
+  max-width: 100%;
+  border-radius: 28px;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--white);
+  border: 1px solid rgba(112, 71, 28, 0.1);
+  box-shadow:
+    0 2px 6px rgba(54, 34, 13, 0.06),
+    0 16px 40px rgba(54, 34, 13, 0.1),
+    0 36px 72px rgba(54, 34, 13, 0.08);
+}
+
+.hero__portrait-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    148deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(253, 224, 71, 0.4) 38%,
+    rgba(112, 71, 28, 0.12) 62%,
+    rgba(255, 255, 255, 0.5) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.hero__portrait-media {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.hero__portrait-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center;
+  image-rendering: auto;
+  transform: none;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.hero__portrait-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+  padding: 2.75rem 1.35rem 1.3rem;
+  background:
+    linear-gradient(180deg, transparent 0%, rgba(21, 12, 4, 0.55) 32%, rgba(21, 12, 4, 0.92) 100%);
+  color: #fff;
+  font-size: 0.875rem;
+  line-height: 1.35;
+}
+
+.hero__portrait-caption strong {
+  font-size: 1.08rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.hero__portrait-caption span {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: rgba(255, 255, 255, 0.84);
+  font-size: 0.8125rem;
+}
+
+/* Die Angaben stehen untereinander, jede in eigener Zeile. Ein
+   Trennpunkt davor läse sich wie ein Aufzählungsrest – die Zeilen
+   trennen sich schon durch den Umbruch. */
+
+.hero__portrait.reveal {
+  transform: none;
+  transition: opacity 0.88s var(--ease);
+}
+
+.hero__portrait.reveal.is-visible {
+  transform: none;
+}
+
+.hero__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.7rem;
+}
+
+.hero__actions .btn {
+  min-height: 48px;
+}
+
+.section-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+
+.section-cta .btn {
+  min-height: 48px;
+}
+
+@media (max-width: 768px) {
+  .hero__content {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .hero__layout {
+    grid-template-columns: 1fr;
+    gap: clamp(1.75rem, 5vw, 2.5rem);
+  }
+
+  .hero__copy {
+    text-align: center;
+    align-items: center;
+    max-width: 100%;
+  }
+
+  /* ─── Rhythmus im Hero ──────────────────────────────────────
+     Auf dem Phone läuft der Hero in einer 32px-Stufe: Pille,
+     Überschrift, Fließtext und Liste stehen im selben Takt. Enger
+     gesetzt drängte sich alles im ersten Bildschirm zusammen.
+     Zwei Ausnahmen: unter der Überschrift genügt eine halbe Stufe,
+     weil ihre Zeilen ohnehin dicht stehen, und die Zeile unter dem
+     CTA gehört zu ihm und bleibt deshalb am nächsten dran.
+     ------------------------------------------------------------ */
+  .hero__location {
+    /* align-self aus der Basisregel überschreiben – auf dem Phone ist
+       die Copy zentriert, die Pille saß sonst links. */
+    align-self: center;
+    margin-bottom: 2rem;
+  }
+
+  .hero__title {
+    font-size: clamp(2rem, 8.5vw, 2.85rem);
+    line-height: 1.06;
+    max-width: 100%;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero__subhead {
+    font-size: clamp(1rem, 3.8vw, 1.125rem);
+    max-width: 34ch;
+    margin-inline: auto;
+    margin-bottom: 2rem;
+    text-wrap: pretty;
+  }
+
+  /* fit-content statt zentrierter Einzelzeilen: sonst bekommt jede Zeile
+     je nach Textlänge eine andere linke Kante und die Liste franst aus. */
+  .hero__benefits {
+    width: fit-content;
+    max-width: 100%;
+    margin-inline: auto;
+    margin-bottom: 2rem;
+  }
+
+  .hero__benefit {
+    justify-content: flex-start;
+    text-align: left;
+    width: auto;
+  }
+
+  .hero__actions {
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    gap: 0.875rem;
+  }
+
+  .hero__note { text-align: center; }
+
+  .hero__portrait {
+    justify-self: center;
+    width: min(440px, 88vw);
+  }
+
+  .section-cta {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .section-cta .btn {
+    width: 100%;
+  }
+}
+
+/* ─── Vertikaler Rhythmus ────────────────────────────────────
+   Eine Regel für alle Sections. Vorher hatte jede Section ihr
+   eigenes padding (var(--section-y) * 0.92 / 0.85 / 0.72 …),
+   wodurch die Abstände zwischen 257px und 328px schwankten.
+   ------------------------------------------------------------ */
+.section { padding-block: var(--section-y); }
+
+.section--divider {
+  position: relative;
+}
+
+.section--divider::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(720px, 70%);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(112, 71, 28, 0.15), transparent);
+  pointer-events: none;
+}
+
+.editorial--light { background: var(--white); }
+
+/* Bild rechts, alles andere links. align-items: start statt center –
+   die linke Spalte trägt jetzt Text, Liste und Versprechen und ist
+   deutlich länger als das Foto; zentriert würde das Foto in der Mitte
+   schweben und die Oberkanten liefen auseinander. */
+.editorial__intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: start;
+}
+
+.editorial__intro .editorial__copy {
+  max-width: min(44rem, 100%);
+}
+
+/* Einspaltig steht das Foto sonst hinter dem CTA – also ganz am Ende des
+   Abschnitts, wo es niemand mehr sucht. `display: contents` löst die
+   Textspalte auf, ihre Kinder werden selbst zu Rasterzeilen und lassen
+   sich einzeln einsortieren. Ohne order stehen Rubrik und Überschrift
+   weiterhin zuerst (Standardwert 0).
+
+   Die Grenze ist dieselbe, ab der das Raster einspaltig wird (1024px) –
+   liefen die beiden auseinander, gäbe es dazwischen einen Bereich mit
+   einer Spalte und dem Foto ganz unten. */
+@media (max-width: 1024px) {
+  .editorial__intro .editorial__copy { display: contents; }
+  .editorial__body { order: 1; }
+  .editorial__visual { order: 2; }
+  .about__learn { order: 3; }
+  .about__promise { order: 4; }
+  .editorial__copy .section-cta { order: 5; }
+
+  /* Aufgelöste Textspalte heißt: jedes Kind ist jetzt eine eigene
+     Rasterzeile und bekommt den Spalten-gap obendrauf. Rubrik und
+     Überschrift standen dadurch 48px statt 16px von ihrem Text entfernt.
+     Der Abstand kommt hier wieder aus den Elementen selbst – die tragen
+     ihn ohnehin (Lernliste, Versprechen, CTA); nur das Foto braucht
+     einen eigenen. */
+  .editorial__intro { row-gap: 0; }
+  .editorial__visual { margin-top: clamp(1.5rem, 4vw, 2rem); }
+}
+
+/* Das <figure> ist nur der Rahmen und füllt die Rasterzeile; die Optik
+   sitzt am <picture> darin. Nötig fürs Mitlaufen: ein sticky-Element
+   klebt nur innerhalb seines Elternkastens, und mit align-items:start
+   wäre das <figure> nur so hoch wie das Bild – es löste sich nach
+   wenigen hundert Pixeln wieder. */
+.editorial__visual {
+  margin: 0;
+  min-width: 0;
+}
+
+.editorial__visual picture {
+  display: block;
+  border-radius: 24px;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  box-shadow: 0 8px 32px rgba(21, 12, 4, 0.08);
+  transition: box-shadow 0.6s var(--ease);
+}
+
+/* Die Textspalte ist deutlich länger als das Foto. Ohne Mitlaufen bliebe
+   rechts unten eine große leere Fläche stehen. */
+@media (min-width: 1025px) {
+  .editorial__visual { align-self: stretch; }
+
+  .editorial__visual picture {
+    position: sticky;
+    top: calc(var(--nav-height) + 1.5rem);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .editorial__visual picture:hover {
+    box-shadow:
+      0 12px 40px rgba(21, 12, 4, 0.1),
+      0 36px 72px rgba(21, 12, 4, 0.06);
+  }
+}
+
+.editorial__visual img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 1s var(--ease);
+}
+
+@media (hover: hover) {
+  .editorial__visual picture:hover img {
+    transform: scale(1.04);
+  }
+}
+
+/* Beide Absätze tragen dieselbe Schrift. Vorher war der erste 19px und
+   der zweite 16px – zwei Größen in einem zusammenhängenden Fließtext
+   lesen sich wie zwei verschiedene Textsorten. */
+.editorial__body p {
+  font-size: clamp(1rem, 0.35vw + 0.93rem, 1.125rem);
+  line-height: 1.6;
+  font-weight: 400;
+  color: var(--gray-600);
+  margin-bottom: 1.1rem;
+}
+
+.editorial__lead {
+  color: var(--ink-800);
+}
+
+.editorial__body em {
+  color: var(--ink-800);
+  font-style: italic;
+}
+
+.editorial__body strong { color: var(--ink-900); font-weight: 600; }
+
+/* ─── Über uns ───────────────────────────────────────────────── */
+/* Steht in der linken Spalte neben dem Foto, deshalb keine eigene
+   Kartenfläche mehr: ein Kasten mitten in der Textspalte würde den
+   Lesefluss unterbrechen. Abgesetzt wird über eine dünne Oberkante. */
+.about__learn {
+  margin-top: clamp(1.75rem, 3vw, 2.5rem);
+  padding-top: clamp(1.25rem, 2.5vw, 1.75rem);
+  border-top: 1px solid var(--gray-200);
+}
+
+.about__learn-title {
+  font-size: clamp(1.05rem, 0.8vw + 0.9rem, 1.2rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink-900);
+  margin-bottom: 1rem;
+}
+
+.about__learn-list {
+  list-style: none;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.about__learn-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: clamp(0.9375rem, 0.35vw + 0.9rem, 1.0625rem);
+  line-height: 1.5;
+  color: var(--gray-600);
+}
+
+.about__learn-badge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.375rem;
+  height: 1.375rem;
+  margin-top: 0.1rem;
+  border-radius: 50%;
+  background: rgba(21, 127, 60, 0.12);
+  color: var(--check);
+}
+
+/* In der Textspalte gehört auch der CTA nach links, nicht in deren Mitte. */
+.editorial__copy .section-cta { justify-content: flex-start; }
+
+.about__promise {
+  margin: clamp(1.5rem, 3vw, 2rem) 0 0;
+  padding-left: 1.25rem;
+  border-left: 3px solid var(--accent);
+  font-size: clamp(0.9375rem, 0.4vw + 0.85rem, 1.0625rem);
+  line-height: 1.6;
+  color: var(--gray-600);
+  text-wrap: pretty;
+}
+
+.about__promise strong { color: var(--ink-900); font-weight: 600; }
+
+/* ─── Dein Ablauf vor Ort ────────────────────────────────────
+   Zwei Darstellungen aus einem Markup:
+
+   • bis 899px  senkrechte Liste, der Fortschritt folgt dem Scrollen
+   • ab  900px  waagerechte Anordnung auf einer S-Kurve, die von
+                selbst durchläuft – unabhängig vom Scrollstand
+
+   Beide teilen sich dieselben CSS-Variablen (--near, --fill), nur
+   die Quelle wechselt. Welche gilt, entscheidet script.js über
+   dieselbe Breite; die Zahl steht dort als TASKS_DESKTOP.
+   Ohne JavaScript bleiben alle Schritte voll sichtbar.
+   ------------------------------------------------------------ */
+.tasks {
+  position: relative;
+  /* Oben das Warmweiß, auf das der Hero ausblendet, unten das --gray-50 des
+     Verdienst-Abschnitts – der Abschnitt trägt an jeder Kante die Farbe
+     seines Nachbarn, damit keine Kante als Linie stehen bleibt. */
+  background: linear-gradient(180deg, var(--cream) 0%, #fdf9ee 26%, #fdfbf4 58%, var(--gray-50) 100%);
+  /* Hält das ::before mit z-index: -1 im Abschnitt: ohne eigenen
+     Stacking-Context rutschte es hinter den Seitenhintergrund. */
+  isolation: isolate;
+}
+
+/* Das Motiv liegt sehr flach unter dem Ablauf – es soll den Ort zeigen,
+   nicht den Text stören. Weichzeichnung und Entsättigung stecken in der
+   Datei, nicht in einem CSS-Filter: gefiltert müsste das ::before über den
+   Abschnitt hinausstehen, sonst franst die Kante aus – und der Überstand
+   verbreiterte die Seite um 14px. Die erste Deklaration ist die
+   Rückfalllinie für Browser ohne image-set(). */
+.tasks::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: url("../img/d2d-haustuer.jpg");
+  background-image: image-set(
+    url("../img/d2d-haustuer.webp") type("image/webp"),
+    url("../img/d2d-haustuer.jpg") type("image/jpeg")
+  );
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 0.2;
+  pointer-events: none;
+  /* Oben und unten ausgeblendet: sonst setzt das Motiv an der Naht
+     schlagartig ein und der weiche Übergang wäre umsonst. */
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 28%, #000 88%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 28%, #000 88%, transparent 100%);
+}
+
+/* Der Text steht auf Weiß, nicht auf dem Foto: ein aufgehellter Kern
+   hält den Kontrast, während die Kanten das Motiv durchscheinen lassen. */
+.tasks::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+    ellipse 68% 60% at 50% 50%,
+    rgba(255, 251, 240, 0.88) 0%,
+    rgba(255, 251, 240, 0.64) 46%,
+    rgba(255, 251, 240, 0) 80%
+  );
+  pointer-events: none;
+}
+
+/* Rahmen für Liste und Kurve – die Kurve liegt absolut darüber und
+   bemisst sich an genau diesem Kasten. */
+.tasks__wrap {
+  position: relative;
+  max-width: 44rem;
+  margin-inline: auto;
+}
+
+/* Ohne die Waagerechte gibt es nichts zu zeichnen. */
+.tasks__curve { display: none; }
+
+.tasks__list {
+  /* Maße des Schritts als Variablen – die Verbindungslinie rechnet
+     daraus ihre Position, damit sie immer auf der Markermitte sitzt. */
+  --task-pad: clamp(1.1rem, 2.2vw, 1.6rem);
+  --task-pad-y: clamp(1.1rem, 2.2vw, 1.5rem);
+  --task-marker: 2.875rem;
+  --task-gap: clamp(1rem, 2.5vw, 1.5rem);
+
+  position: relative;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--task-gap);
+}
+
+/* Verbindung zwischen zwei Punkten, gezeichnet am jeweils oberen Schritt.
+   Eine einzelne durchgehende Linie an der Liste ging unten über den
+   letzten Punkt hinaus: ihr Ende bemisst sich am Listenrand, der letzte
+   Marker sitzt aber deutlich darüber. Segmente lösen das exakt.
+
+   Zwei Lagen: ::before ist die graue Schiene, ::after die gelbe Füllung,
+   die beim Fortschreiten von oben nach unten wächst. Die Reihenfolge ist
+   nicht beliebig – bei gleichem z-index zeichnet der Browser ::after über
+   ::before, die Füllung muss also die zweite sein. */
+.tasks__step:not(:last-child)::before,
+.tasks__step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: calc(var(--task-pad-y) + var(--task-marker) / 2);
+  bottom: calc(-1 * (var(--task-gap) + var(--task-pad-y) + var(--task-marker) / 2));
+  left: calc(var(--task-pad) + var(--task-marker) / 2 - 1px);
+  width: 2px;
+  border-radius: 2px;
+  /* über die Flächen der Schritte – die aktive Karte hat einen eigenen
+     Hintergrund und würde die Linie sonst unterbrechen */
+  z-index: 1;
+}
+
+.tasks__step:not(:last-child)::before { background: var(--gray-200); }
+
+/* --fill kommt aus script.js und folgt dem Scrollstand zwischen zwei
+   Punkten. Bewusst ohne transition: der Wert IST die Bewegung, eine
+   zusätzliche Übergangszeit würde ihr nur hinterherlaufen. */
+.tasks__step:not(:last-child)::after {
+  background: linear-gradient(180deg, var(--accent-bright) 0%, var(--accent) 45%, var(--accent-deep) 100%);
+  transform: scaleY(var(--fill, 0));
+  transform-origin: top center;
+}
+
+.tasks__step {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(1rem, 2vw, 1.35rem);
+  padding: var(--task-pad-y) var(--task-pad);
+  border-radius: 20px;
+  background: transparent;
+  border: 1px solid transparent;
+}
+
+/* Der aktive Schritt hatte eine helle Kartenfläche, die mit --near
+   herauswuchs. Über dem Hintergrundmotiv stand sie als weißer Fleck im
+   Bild – den Zustand trägt jetzt allein die Schrift (Deckkraft) und der
+   gefüllte Marker. */
+
+/* inline-grid statt inline-flex: Ziffer und Haken liegen in derselben
+   Rasterzelle übereinander und können gegeneinander überblenden. */
+.tasks__marker {
+  position: relative;
+  z-index: 2; /* über der Schiene */
+  flex-shrink: 0;
+  display: inline-grid;
+  place-items: center;
+  width: var(--task-marker);
+  height: var(--task-marker);
+  border-radius: 50%;
+  background: var(--white);
+  border: 2px solid var(--gray-200);
+  color: var(--gray-500);
+  font-size: 1rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Der Marker füllt sich mit --near. Der Verlauf liegt in einem ::before,
+   weil ein background-image nicht interpolierbar ist – seine Deckkraft
+   dagegen schon. Er bleibt hinter Ziffer und Haken (z-index 0 gegen 1). */
+/* Die Ziffer bleibt über den ganzen Verlauf dunkel. Von Grau nach Weiß
+   zu blenden hieße, mitten im Übergang eine helle Ziffer auf halb
+   gefülltem Gelb zu haben – dort ist der Kontrast am schlechtesten.
+   Dunkel trägt auf Weiß wie auf Gelb. */
+.js-tasks .tasks__marker {
+  /* Wie beim Text: gefärbt ist nur der Punkt, an dem der Lauf gerade
+     steht. Passierte Punkte fallen zurück auf Grau – den Fortschritt
+     trägt die gefüllte Linie zwischen ihnen. */
+  border-color: color-mix(in srgb, var(--accent-bright) calc(var(--near, 0) * 100%), var(--gray-200));
+  color: color-mix(in srgb, var(--ink-900) calc(var(--near, 0) * 100%), var(--gray-500));
+  transform: scale(calc(1 + var(--near, 0) * 0.07));
+}
+
+.js-tasks .tasks__marker::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: 0;
+  border-radius: 50%;
+  background: linear-gradient(180deg, var(--accent-bright) 0%, var(--accent) 60%, var(--accent-deep) 100%);
+  box-shadow: 0 6px 18px rgb(237 160 8 / calc(var(--near, 0) * 0.35));
+  opacity: var(--near, 0);
+}
+
+.js-tasks .tasks__num,
+.js-tasks .tasks__check { z-index: 1; }
+
+.tasks__num,
+.tasks__check {
+  grid-area: 1 / 1;
+  line-height: 1;
+}
+
+.tasks__num { transition: opacity 0.3s var(--ease), transform 0.4s var(--ease); }
+
+/* Der Haken markiert das Ende des Ablaufs – „danach ist deine Aufgabe
+   erledigt“. Er gehört deshalb nur an den letzten Schritt. */
+.tasks__check {
+  display: inline-flex;
+  opacity: 0;
+  transform: scale(0.4) rotate(-14deg);
+  transition: opacity 0.3s var(--ease), transform 0.5s var(--spring);
+}
+
+.js-tasks .tasks__step:last-child.is-active .tasks__num {
+  opacity: 0;
+  transform: scale(0.4);
+}
+
+.js-tasks .tasks__step:last-child.is-active .tasks__check {
+  opacity: 1;
+  transform: scale(1) rotate(0);
+}
+
+/* Mobil wächst der letzte Punkt beim Haken deutlich stärker als die
+   anderen – „erledigt“ soll man sehen. Das Wachsen hängt an --near, läuft
+   also mit dem Scroll mit und beim Zurückscrollen wieder zurück; eine
+   Transition dagegen würde beim Wegfallen der Klasse zurückschnappen.
+   Den Akzent setzt ein einmaliger Ring, der nach außen ausläuft.
+   Nur mobil: am Desktop sitzen die Punkte auf der Kurve, dort käme
+   ein wachsender Punkt der Linie in die Quere. */
+@media (max-width: 899.98px) {
+  .js-tasks .tasks__step:last-child .tasks__marker {
+    transform: scale(calc(1 + var(--near, 0) * 0.34));
+  }
+
+  .tasks__step:last-child .tasks__marker::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    border: 2px solid var(--accent-bright);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .js-tasks .tasks__step:last-child.is-active .tasks__marker::after {
+    animation: task-erledigt 0.9s var(--ease) 0.12s;
+  }
+}
+
+@keyframes task-erledigt {
+  from { opacity: 0.8; transform: scale(1); }
+  to   { opacity: 0; transform: scale(2); }
+}
+
+.tasks__heading {
+  font-size: clamp(1.1rem, 1.2vw + 0.85rem, 1.35rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink-900);
+  margin-bottom: 0.35rem;
+  transition: color var(--dur-md) var(--ease);
+}
+
+.tasks__text {
+  font-size: clamp(0.9375rem, 0.4vw + 0.85rem, 1.0625rem);
+  line-height: 1.55;
+  color: var(--gray-600);
+  max-width: 46ch;
+  text-wrap: pretty;
+}
+
+/* Gedimmter Grundzustand – nur wenn JS die Steuerung übernommen hat,
+   sonst bliebe der Text ohne JavaScript dauerhaft blass.
+
+   Wichtig: das opacity sitzt auf dem Textblock, nicht auf .tasks__step
+   und nicht auf .tasks__marker. Ein Wert unter 1 erzeugt einen eigenen
+   Stacking-Context – läge er auf dem Schritt, wäre der z-index des
+   Markers darin gefangen; auf dem Marker schiene seine weiße Füllung
+   durch. In beiden Fällen liefe die Schiene sichtbar über den Punkt.
+
+   Die Deckkraft läuft mit --near mit: 0.44 in der Ferne, 1 auf Höhe der
+   Bezugslinie.
+
+   Bewusst ohne Restwert für bereits passierte Schritte: hebt man die auch
+   an, sind zwei Blöcke gleichzeitig dunkel und der Blick weiß nicht, wo er
+   hinschauen soll. Dunkel ist nur, wo der Punkt gerade steht – alles davor
+   und danach bleibt grau. Den Fortschritt zeigt die gefüllte Linie. */
+.js-tasks .tasks__body {
+  opacity: calc(0.44 + var(--near, 0) * 0.56);
+}
+
+.tasks__handoff {
+  max-width: 44rem;
+  margin: clamp(1.75rem, 3.5vw, 2.5rem) auto 0;
+  padding: clamp(0.35rem, 1vw, 0.6rem) 0 clamp(0.35rem, 1vw, 0.6rem) clamp(1rem, 2vw, 1.35rem);
+  background: none;
+  border: 0;
+  border-left: 3px solid var(--accent);
+  font-size: clamp(0.9375rem, 0.4vw + 0.85rem, 1.0625rem);
+  line-height: 1.55;
+  color: var(--gray-600);
+  text-wrap: pretty;
+}
+
+.tasks__handoff strong {
+  color: var(--ink-900);
+  font-weight: 600;
+}
+
+/* Ohne Bewegung: alles voll sichtbar, die Linie durchgehend gefüllt.
+   Der Ablauf bleibt damit vollständig ablesbar, nur eben statisch. */
+@media (prefers-reduced-motion: reduce) {
+  .js-tasks .tasks__body { opacity: 1; }
+  .js-tasks .tasks__marker,
+  .js-tasks .tasks__step:last-child .tasks__marker { transform: none; }
+  .tasks__step:not(:last-child)::after { transform: scaleY(1); }
+  .tasks__num,
+  .tasks__check { transition: none; }
+  .tasks__check { transform: scale(1); }
+  .js-tasks .tasks__step:last-child.is-active .tasks__num { transform: none; }
+  .js-tasks .tasks__step:last-child.is-active .tasks__marker::after { animation: none; }
+}
+
+@media (max-width: 480px) {
+  /* nur die beiden Variablen anpassen – die Schiene folgt automatisch */
+  .tasks__list {
+    --task-pad: 0.9rem;
+    --task-pad-y: 0.95rem;
+    --task-marker: 2.375rem;
+  }
+
+  .tasks__step {
+    gap: 0.85rem;
+    border-radius: 16px;
+  }
+
+  .tasks__marker {
+    width: var(--task-marker);
+    height: var(--task-marker);
+    font-size: 0.875rem;
+  }
+}
+
+/* ─── Ablauf waagerecht (ab 900px) ───────────────────────────
+   Die drei Schritte stehen nebeneinander, der mittlere tiefer –
+   daraus ergibt sich die Wellenlinie, die script.js durch die
+   Marker-Mittelpunkte legt.
+   ------------------------------------------------------------ */
+@media (min-width: 900px) {
+  .tasks__wrap {
+    max-width: 64rem;
+    /* Die Marker liegen auf der Kartenoberkante – ohne diesen Rand
+       säßen sie bündig am Sectionrand und die Kurve wäre angeschnitten. */
+    padding-top: 0.85rem;
+  }
+
+  .tasks__list {
+    /* Amplitude der Welle – der mittlere Schritt hängt um diesen Betrag
+       tiefer, die Kurve holt entsprechend weit aus. */
+    --task-versatz: clamp(9.5rem, 12vw, 14rem);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* start, nicht stretch: der mittlere Schritt soll hängen, nicht
+       die anderen auf seine Höhe ziehen. Die Zeilenhöhe ergibt sich
+       dann aus seinem margin-top – ein zusätzliches padding unten
+       würde den Abstand ein zweites Mal aufschlagen. */
+    align-items: start;
+    gap: clamp(1rem, 2.5vw, 2.25rem);
+  }
+
+  /* Keine Kartenflächen: die Kurve trägt die Gliederung, ein Kasten je
+     Schritt würde sie nur zerschneiden. Hervorgehoben wird über Schrift
+     und Marker. */
+  /* Der Abstand zwischen Punkt und Text ist der Abstand zur Kurve: sie
+     läuft durch die Punktmitten und käme dem Text sonst zu nah. */
+  .tasks__step {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: clamp(1.75rem, 3vw, 2.5rem);
+    padding: 0 0.5rem;
+  }
+
+  .tasks__step:nth-of-type(2) { margin-top: var(--task-versatz); }
+
+  /* Die senkrechte Schiene gilt nur für die Listendarstellung. */
+  .tasks__step:not(:last-child)::before,
+  .tasks__step:not(:last-child)::after { content: none; }
+
+  .tasks__text { max-width: 30ch; margin-inline: auto; }
+
+  .tasks__curve {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    /* über den Kartenflächen, unter den Markern (z-index 2) */
+    z-index: 1;
+    pointer-events: none;
+    overflow: visible;
+  }
+
+  .tasks__curve-track {
+    stroke: var(--gray-200);
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+
+  .tasks__curve-lead {
+    stroke: var(--accent);
+    stroke-width: 3;
+    stroke-linecap: round;
+    filter: drop-shadow(0 2px 6px rgba(237, 160, 8, 0.35));
+  }
+
+  .tasks__curve-head {
+    fill: var(--accent-bright);
+    stroke: var(--white);
+    stroke-width: 2;
+    filter: drop-shadow(0 2px 8px rgba(237, 160, 8, 0.5));
+    opacity: var(--kopf, 0);
+  }
+
+  /* Der Wechsel zwischen zwei Durchläufen: kurz ausblenden statt die
+     Linie sichtbar zurückschnappen zu lassen. Die Klasse sitzt auf dem
+     Rahmen, nicht auf der Liste – die Kurve ist deren Geschwister und
+     wäre von dort aus nicht erreichbar. */
+  .tasks__curve-lead { transition: opacity var(--lauf-blende) linear; }
+
+  .tasks__wrap.is-blende .tasks__curve-lead,
+  .tasks__wrap.is-blende .tasks__curve-head { opacity: 0; }
+
+  .tasks__wrap.is-blende .tasks__body,
+  .tasks__wrap.is-blende .tasks__marker,
+  .tasks__wrap.is-blende .tasks__step {
+    transition:
+      opacity var(--lauf-blende) linear,
+      background var(--lauf-blende) linear,
+      border-color var(--lauf-blende) linear,
+      color var(--lauf-blende) linear,
+      box-shadow var(--lauf-blende) linear,
+      transform var(--lauf-blende) linear;
+  }
+}
+
+/* Recruit – Für dich (glass / neon — shared iris tokens with lead-econ) */
+.editorial--recruit {
+  --lead-iris-a: #fdd406;
+  --lead-iris-b: #fcc00a;
+  --lead-iris-c: #fde047;
+  --lead-iris-d: #f0a707;
+  --lead-glass-top: rgba(255, 255, 255, 0.16);
+  --lead-glass-mid: rgba(255, 255, 255, 0.05);
+  background: var(--ink-900);
+  color: rgba(255, 255, 255, 0.7);
+  position: relative;
+  overflow: hidden;
+}
+
+.editorial--recruit::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 55% 75% at 50% 38%, rgba(252, 192, 10, 0.11) 0%, transparent 68%),
+    radial-gradient(ellipse 38% 42% at 18% 88%, rgba(253, 212, 6, 0.07) 0%, transparent 65%),
+    radial-gradient(ellipse 38% 42% at 82% 88%, rgba(253, 224, 71, 0.07) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.editorial--recruit .container {
+  position: relative;
+  z-index: 1;
+  max-width: min(72rem, calc(100% - 2rem));
+  margin-inline: auto;
+}
+
+.recruit-panel {
+  position: relative;
+  max-width: min(72rem, 100%);
+  margin-inline: auto;
+}
+
+.recruit-panel::before {
+  content: '';
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(92%, 52rem);
+  height: clamp(18rem, 55vw, 28rem);
+  background:
+    radial-gradient(ellipse at center, rgba(253, 212, 6, 0.07) 0%, rgba(252, 192, 10, 0.04) 38%, transparent 72%),
+    radial-gradient(ellipse 80% 60% at 50% 50%, rgba(253, 224, 71, 0.05) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.recruit-panel > * {
+  position: relative;
+  z-index: 1;
+}
+
+.recruit-panel__title {
+  font-family: var(--font-sans);
+  font-size: clamp(2rem, 4.5vw, 3.25rem);
+  font-weight: 600;
+  letter-spacing: -0.028em;
+  line-height: 1.12;
+  color: var(--white);
+  text-align: center;
+  margin-bottom: clamp(1.35rem, 2.5vw, 1.65rem);
+  padding-bottom: 0.15rem;
+}
+
+.recruit-panel__title::after {
+  content: '';
+  display: block;
+  width: min(5.5rem, 42%);
+  height: 2px;
+  margin: clamp(0.85rem, 2vw, 1.1rem) auto 0;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--lead-iris-a) 18%,
+    var(--lead-iris-c) 50%,
+    var(--lead-iris-b) 82%,
+    transparent
+  );
+  opacity: 0.72;
+  box-shadow: 0 0 18px rgba(253, 212, 6, 0.22), 0 0 32px rgba(253, 224, 71, 0.12);
+}
+
+.recruit-panel__intro {
+  font-size: clamp(1.05rem, 2vw, 1.2rem);
+  line-height: 1.58;
+  color: rgba(255, 255, 255, 0.78);
+  text-align: center;
+  margin-inline: auto;
+  margin-bottom: clamp(1.75rem, 3.5vw, 2.25rem);
+  max-width: min(54ch, 92%);
+}
+
+.recruit-panel__intro em {
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Hinweis am Fuß der Ja-Karte */
+.recruit-fit-card__note {
+  margin-top: 1rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: rgba(237, 226, 210, 0.72);
+  text-wrap: pretty;
+}
+
+/* Abschluss unter der Gegenüberstellung */
+/* „Benötige ich Vorerfahrung?“ – gehört inhaltlich zur Fit-Frage und
+   sitzt deshalb in diesem Panel, abgesetzt durch eine Trennlinie.
+
+   Zentriert gesetzt war der Block unruhig: drei Absätze unterschiedlicher
+   Länge ergeben drei verschieden breite Blöcke ohne gemeinsame Kante.
+   Jetzt steht die Frage links neben dem Text – zwei feste Spalten,
+   beide linksbündig. */
+/* Schlussblock unter den Karten: Vorerfahrung und Schlusswort in einem
+   Abschnitt, mittig unter dem Kartenpaar. Schmaler als die Karten darüber –
+   über die volle Panelbreite liefe die Zeile auf über 100 Zeichen.
+   Angedeutete Karte: nur Fläche, Haarlinie und Radius. Rand-Verlauf und
+   Schein bleiben den beiden Karten darüber vorbehalten, sonst stünden
+   drei gleichrangige Karten untereinander. */
+.recruit-panel__aside {
+  max-width: 50rem;
+  margin: clamp(2rem, 4vw, 3rem) auto 0;
+  padding: clamp(1.5rem, 3.5vw, 2.25rem) clamp(1.25rem, 3vw, 2rem);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: clamp(18px, 2.5vw, 24px);
+  background: linear-gradient(168deg, rgba(255, 255, 255, 0.055) 0%, rgba(255, 255, 255, 0.02) 100%);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+  text-align: left;
+}
+
+/* Eine schlichte Zwischenüberschrift, keine zweite Sektionsüberschrift –
+   sie soll „Passt die Tätigkeit zu dir?“ nicht den Rang ablaufen. */
+.recruit-panel__subtitle {
+  font-size: clamp(1.15rem, 0.6vw + 1rem, 1.35rem);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+  color: var(--white);
+  margin-bottom: clamp(0.85rem, 1.8vw, 1.15rem);
+}
+
+/* Eine Größe für alle vier Absätze: Betonung trägt der Fettdruck, nicht
+   ein größerer Grad – zwei Größen lesen sich wie zwei Textsorten. */
+.recruit-panel__aside p {
+  font-size: clamp(0.9375rem, 0.4vw + 0.85rem, 1.0625rem);
+  line-height: 1.65;
+  color: rgba(237, 226, 210, 0.78);
+  text-wrap: pretty;
+}
+
+.recruit-panel__aside p + p { margin-top: 0.9rem; }
+
+.recruit-panel__aside strong { color: var(--white); font-weight: 600; }
+
+.recruit__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(0.85rem, 2vw, 1.25rem);
+  align-items: stretch;
+  width: 100%;
+  margin-inline: auto;
+  text-align: left;
+}
+
+@media (min-width: 768px) {
+  .recruit__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 100%;
+  }
+}
+
+.recruit-fit-card {
+  position: relative;
+  border-radius: clamp(18px, 2.5vw, 24px);
+  padding: clamp(1.25rem, 2.5vw, 1.65rem) clamp(1.1rem, 2vw, 1.45rem);
+  border: 1.5px solid transparent;
+  background:
+    linear-gradient(168deg, rgba(26, 16, 7, 0.97) 0%, rgba(33, 21, 10, 0.98) 42%, rgba(35, 23, 12, 0.96) 100%) padding-box,
+    linear-gradient(125deg, var(--lead-iris-a), var(--lead-iris-b) 38%, var(--lead-iris-c) 68%, var(--lead-iris-d)) border-box;
+  background-origin: padding-box, border-box;
+  background-clip: padding-box, border-box;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.1) inset,
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+    0 24px 56px rgba(21, 12, 4, 0.48),
+    0 0 40px rgba(253, 212, 6, 0.08),
+    0 0 64px rgba(253, 224, 71, 0.05);
+  overflow: hidden;
+  transition:
+    transform 0.5s var(--ease),
+    box-shadow 0.5s var(--ease);
+}
+
+.recruit-fit-card::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background:
+    radial-gradient(ellipse 85% 65% at 8% -10%, rgba(253, 212, 6, 0.18), transparent 55%),
+    radial-gradient(ellipse 70% 55% at 96% 8%, rgba(253, 224, 71, 0.12), transparent 52%),
+    radial-gradient(ellipse 60% 70% at 48% 108%, rgba(252, 192, 10, 0.16), transparent 55%);
+  opacity: 0.85;
+  pointer-events: none;
+  transition: opacity 0.5s var(--ease);
+}
+
+.recruit-fit-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, transparent 38%, transparent 62%, rgba(253, 224, 71, 0.03) 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  pointer-events: none;
+}
+
+.recruit-fit-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.recruit-fit-card--yes::before {
+  background:
+    radial-gradient(ellipse 80% 60% at 10% -5%, rgba(52, 211, 153, 0.2), transparent 52%),
+    radial-gradient(ellipse 70% 55% at 96% 8%, rgba(253, 224, 71, 0.14), transparent 52%),
+    radial-gradient(ellipse 55% 65% at 48% 108%, rgba(252, 192, 10, 0.14), transparent 55%);
+}
+
+.recruit-fit-card--no::before {
+  background:
+    radial-gradient(ellipse 80% 60% at 10% -5%, rgba(248, 113, 113, 0.12), transparent 52%),
+    radial-gradient(ellipse 70% 55% at 96% 8%, rgba(253, 212, 6, 0.1), transparent 52%),
+    radial-gradient(ellipse 55% 65% at 48% 108%, rgba(240, 167, 7, 0.1), transparent 55%);
+  opacity: 0.75;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .recruit-fit-card:hover {
+    transform: translateY(-3px);
+  }
+
+  .recruit-fit-card--yes:hover {
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.12) inset,
+      0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+      0 28px 64px rgba(21, 12, 4, 0.52),
+      0 0 48px rgba(52, 211, 153, 0.12),
+      0 0 72px rgba(253, 224, 71, 0.1);
+  }
+
+  .recruit-fit-card--no:hover {
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.1) inset,
+      0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+      0 28px 64px rgba(21, 12, 4, 0.52),
+      0 0 44px rgba(248, 113, 113, 0.1),
+      0 0 64px rgba(253, 212, 6, 0.08);
+  }
+
+  .recruit-fit-card:hover::before {
+    opacity: 1;
+  }
+}
+
+.recruit-fit-card.reveal.is-visible {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.11) inset,
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+    0 26px 60px rgba(21, 12, 4, 0.5),
+    0 0 44px rgba(253, 212, 6, 0.1),
+    0 0 72px rgba(253, 224, 71, 0.07);
+}
+
+.recruit-fit-card--yes.reveal.is-visible {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.11) inset,
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+    0 26px 60px rgba(21, 12, 4, 0.5),
+    0 0 44px rgba(52, 211, 153, 0.1),
+    0 0 72px rgba(253, 224, 71, 0.07);
+}
+
+.recruit-fit-card__heading {
+  font-family: var(--font-sans);
+  font-size: clamp(1.05rem, 2vw, 1.4rem);
+  font-weight: 600;
+  letter-spacing: -0.018em;
+  line-height: 1.28;
+  color: rgba(255, 255, 255, 0.96);
+  margin: 0 0 clamp(0.85rem, 1.8vw, 1.1rem);
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.recruit-fit-card--no .recruit-fit-card__heading {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.recruit-fit-card__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.recruit-fit-card__item {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(0.65rem, 1.2vw, 0.85rem);
+  padding: clamp(0.65rem, 1.4vw, 0.95rem) clamp(0.75rem, 1.5vw, 1.1rem);
+  border-radius: 14px;
+  background:
+    linear-gradient(155deg, var(--lead-glass-top) 0%, var(--lead-glass-mid) 48%, rgba(21, 12, 4, 0.35) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.18),
+    0 8px 24px rgba(21, 12, 4, 0.32);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition:
+    border-color var(--dur-md) var(--ease),
+    box-shadow var(--dur-md) var(--ease),
+    transform var(--dur-md) var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .recruit-fit-card__item:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateX(2px);
+  }
+
+  .recruit-fit-card--yes .recruit-fit-card__item:hover {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.26),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.18),
+      0 10px 28px rgba(21, 12, 4, 0.36),
+      0 0 24px rgba(52, 211, 153, 0.08);
+  }
+
+  .recruit-fit-card--no .recruit-fit-card__item:hover {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.22),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.18),
+      0 10px 28px rgba(21, 12, 4, 0.36),
+      0 0 20px rgba(248, 113, 113, 0.06);
+  }
+}
+
+.recruit-fit-card__badge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(1.45rem, 2.2vw, 1.75rem);
+  height: clamp(1.45rem, 2.2vw, 1.75rem);
+  margin-top: 0.05rem;
+  border-radius: 999px;
+  font-size: clamp(0.68rem, 1.1vw, 0.82rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
+  border: 1px solid transparent;
+}
+
+.recruit-fit-card__badge--yes {
+  color: #6ee7b7;
+  background: rgba(52, 211, 153, 0.14);
+  border-color: rgba(52, 211, 153, 0.28);
+  box-shadow: 0 0 16px rgba(52, 211, 153, 0.18);
+}
+
+.recruit-fit-card__badge--no {
+  color: rgba(252, 165, 165, 0.92);
+  background: rgba(248, 113, 113, 0.12);
+  border-color: rgba(248, 113, 113, 0.22);
+  box-shadow: 0 0 14px rgba(248, 113, 113, 0.12);
+}
+
+/* Die obere Grenze greift erst am Desktop – dort waren die Punkte mit
+   knapp 16px zu klein für die Fläche, die sie einnehmen. */
+.recruit-fit-card__text {
+  font-size: clamp(0.9rem, 1.6vw, 1.125rem);
+  line-height: 1.5;
+  font-weight: 450;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.recruit-fit-card--no .recruit-fit-card__text {
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.recruit-fit-card__text strong {
+  font-weight: 600;
+  color: var(--white);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .recruit-fit-card::before {
+    animation: recruit-card-iris 18s ease-in-out infinite alternate;
+  }
+
+  .recruit-fit-card--yes::before {
+    animation-delay: -4s;
+  }
+
+  .recruit-fit-card--no::before {
+    animation-delay: -10s;
+  }
+}
+
+@keyframes recruit-card-iris {
+  0% { filter: hue-rotate(-6deg) saturate(1); opacity: 0.78; }
+  100% { filter: hue-rotate(8deg) saturate(1.08); opacity: 0.95; }
+}
+
+/* Bento benefits */
+.section--lead-econ {
+  background: var(--gray-50);
+}
+
+.section--lead-econ .lead-econ {
+  margin-top: 0;
+}
+
+/* Lead economics infographic (benefits follow-up) — iridescent glass / neon club accent */
+.lead-econ {
+  --lead-iris-a: #fdd406;
+  --lead-iris-b: #fcc00a;
+  --lead-iris-c: #fde047;
+  --lead-iris-d: #f0a707;
+  --lead-glass-top: rgba(255, 255, 255, 0.16);
+  --lead-glass-mid: rgba(255, 255, 255, 0.05);
+  margin-top: clamp(2.25rem, 4.5vw, 3.25rem);
+}
+
+.lead-econ__card {
+  position: relative;
+  border-radius: clamp(20px, 3vw, 28px);
+  /* oben und unten deutlich mehr Luft als seitlich – die Rechnung
+     braucht Raum, sonst klebt sie am Rand der Karte */
+  padding: clamp(2.75rem, 5.5vw, 4.5rem) clamp(1.25rem, 3vw, 2.5rem);
+  border: 1.5px solid transparent;
+  background:
+    linear-gradient(168deg, rgba(26, 16, 7, 0.97) 0%, rgba(33, 21, 10, 0.98) 42%, rgba(35, 23, 12, 0.96) 100%) padding-box,
+    linear-gradient(125deg, var(--lead-iris-a), var(--lead-iris-b) 38%, var(--lead-iris-c) 68%, var(--lead-iris-d)) border-box;
+  background-origin: padding-box, border-box;
+  background-clip: padding-box, border-box;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.12) inset,
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+    0 32px 72px rgba(21, 12, 4, 0.55),
+    0 0 48px rgba(253, 212, 6, 0.12),
+    0 0 80px rgba(253, 224, 71, 0.08);
+  overflow: hidden;
+  transition:
+    transform 0.5s var(--ease),
+    box-shadow 0.5s var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lead-econ__card:hover {
+    transform: translateY(-3px);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.14) inset,
+      0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+      0 36px 80px rgba(21, 12, 4, 0.58),
+      0 0 52px rgba(253, 212, 6, 0.14),
+      0 0 88px rgba(253, 224, 71, 0.1);
+  }
+}
+
+.lead-econ__card::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background:
+    radial-gradient(ellipse 85% 65% at 8% -10%, rgba(253, 212, 6, 0.22), transparent 55%),
+    radial-gradient(ellipse 70% 55% at 96% 8%, rgba(253, 224, 71, 0.16), transparent 52%),
+    radial-gradient(ellipse 60% 70% at 48% 108%, rgba(252, 192, 10, 0.2), transparent 55%),
+    radial-gradient(ellipse 45% 40% at 72% 42%, rgba(240, 167, 7, 0.12), transparent 50%);
+  opacity: 0.95;
+  pointer-events: none;
+}
+
+.lead-econ__card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.09) 0%, transparent 38%, transparent 62%, rgba(253, 224, 71, 0.04) 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  pointer-events: none;
+}
+
+.lead-econ__card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.lead-econ__header {
+  text-align: center;
+  max-width: 40rem;
+  margin: 0 auto clamp(1.75rem, 3vw, 2.25rem);
+}
+
+.lead-econ__eyebrow {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: linear-gradient(92deg, #fde68a, #fde68a 45%, #fef08a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.65rem;
+  filter: drop-shadow(0 0 14px rgba(253, 212, 6, 0.35));
+}
+
+.lead-econ__title {
+  font-family: var(--font-sans);
+  font-size: clamp(1.35rem, 2.8vw, 1.85rem);
+  font-weight: 600;
+  letter-spacing: -0.022em;
+  line-height: 1.15;
+  color: rgba(255, 255, 255, 0.96);
+  margin-bottom: 0.65rem;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
+}
+
+.lead-econ__lede {
+  font-size: 0.9375rem;
+  line-height: 1.47;
+  color: rgba(219, 202, 178, 0.88);
+}
+
+.lead-econ__lede strong { color: rgba(255, 255, 255, 0.95); font-weight: 600; }
+
+.lead-econ__flow {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  align-items: stretch;
+  gap: clamp(0.5rem, 1.5vw, 1rem);
+  max-width: 56rem;
+  margin-inline: auto;
+}
+
+.lead-econ__step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.35rem 1rem 1.25rem;
+  border-radius: 18px;
+  position: relative;
+  background:
+    linear-gradient(155deg, var(--lead-glass-top) 0%, var(--lead-glass-mid) 48%, rgba(21, 12, 4, 0.35) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.22),
+    0 14px 40px rgba(21, 12, 4, 0.45),
+    0 0 0 1px rgba(253, 212, 6, 0.06);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition:
+    border-color var(--dur-md) var(--ease),
+    box-shadow var(--dur-md) var(--ease),
+    transform var(--dur-md) var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lead-econ__step:hover {
+    border-color: rgba(255, 255, 255, 0.22);
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.32),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.22),
+      0 18px 46px rgba(21, 12, 4, 0.5),
+      0 0 0 1px rgba(255, 255, 255, 0.06);
+  }
+}
+
+.lead-econ__step::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(120% 80% at 50% -20%, rgba(255, 255, 255, 0.12), transparent 55%);
+  pointer-events: none;
+}
+
+.lead-econ__step > * {
+  position: relative;
+  z-index: 1;
+}
+
+.lead-econ__step--accent {
+  background:
+    linear-gradient(158deg, rgba(240, 167, 7, 0.22) 0%, rgba(35, 23, 12, 0.92) 38%, rgba(33, 21, 10, 0.95) 100%);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 0 0 1px rgba(253, 224, 71, 0.12),
+    0 20px 56px rgba(21, 12, 4, 0.55),
+    0 0 40px rgba(252, 192, 10, 0.15),
+    0 0 64px rgba(253, 212, 6, 0.1);
+}
+
+.lead-econ__step--accent::before {
+  background:
+    radial-gradient(100% 90% at 12% 0%, rgba(253, 212, 6, 0.18), transparent 50%),
+    radial-gradient(90% 70% at 92% 100%, rgba(253, 224, 71, 0.14), transparent 52%);
+}
+
+.lead-econ__step--accent .lead-econ__step-label { color: rgba(237, 226, 210, 0.62); }
+
+.lead-econ__step--accent .lead-econ__step-value {
+  color: rgba(255, 255, 255, 0.98);
+}
+
+.lead-econ__step--accent .lead-econ__approx {
+  color: #fef3c7;
+  opacity: 0.95;
+  text-shadow: 0 0 18px rgba(253, 224, 71, 0.45);
+}
+
+.lead-econ__step--accent .lead-econ__num { color: #fafafa; }
+
+.lead-econ__step--accent .lead-econ__unit,
+.lead-econ__step--accent .lead-econ__per { color: rgba(253, 250, 246, 0.9); }
+
+.lead-econ__step--accent .lead-econ__step-meta { color: rgba(219, 202, 178, 0.62); }
+
+.lead-econ__step-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(214, 196, 172, 0.78);
+  margin-bottom: 0.65rem;
+}
+
+/* Flex statt Inline-Fluss: die Abstände zwischen Zahl, Einheit und
+   Bezugsgröße hängen damit an einem gap statt an &nbsp; im Markup –
+   und die Bezugsgröße bekommt über flex-basis:100% in jeder Karte
+   verlässlich eine eigene Zeile. */
+.lead-econ__step-value {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.35rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  column-gap: 0.2em;
+  width: 100%;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: clamp(1.45rem, 3.2vw, 2rem);
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+  color: rgba(255, 255, 255, 0.97);
+  margin: 0 0 0.5rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+.lead-econ__step-value::after {
+  content: '';
+  position: absolute;
+  inset: -50% -80%;
+  background: linear-gradient(
+    105deg,
+    transparent 42%,
+    rgba(255, 255, 255, 0) 44%,
+    rgba(255, 255, 255, 0.55) 49.5%,
+    rgba(255, 250, 240, 0.35) 50.5%,
+    rgba(255, 255, 255, 0) 56%,
+    transparent 58%
+  );
+  transform: translateX(-120%) skewX(-12deg);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.lead-econ__approx {
+  font-weight: 700;
+  background: linear-gradient(100deg, #fde047, #fde68a 50%, #fde047);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 10px rgba(252, 192, 10, 0.35));
+}
+
+.lead-econ__num {
+  font-variant-numeric: tabular-nums;
+  position: relative;
+  z-index: 1;
+}
+
+/* „€“ und „Termine“ sind dieselbe Ebene und teilen sich deshalb eine
+   Klasse – relativ zur Zahl, damit sie beim Skalieren mitwandern. */
+.lead-econ__unit {
+  /* Der rem-Anteil ist die Untergrenze: ohne ihn rutscht die Einheit auf
+     kleinen Phones unter die Bezugsgröße darunter und die Hierarchie kippt. */
+  font-size: max(0.62em, 1rem);
+  font-weight: 700;
+  color: rgba(237, 226, 210, 0.92);
+}
+
+/* Die Bezugsgröße („pro Stunde“) ist bewusst in rem und nicht in em
+   angegeben: in em hinge ihre Größe an der Zahl darüber und fiele auf
+   dem Phone unter 7px. So ist sie in jeder Karte und bei jeder Breite
+   exakt gleich groß. */
+.lead-econ__per {
+  flex: 0 0 100%;
+  margin-top: 0.3rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.3;
+  text-transform: none;
+  color: rgba(237, 226, 210, 0.92);
+}
+
+.lead-econ__step-meta {
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: rgba(214, 196, 172, 0.82);
+  max-width: 14rem;
+  /* hält die Fußzeilen aller drei Karten auf einer Linie */
+  margin: auto 0 0;
+}
+
+.lead-econ__connector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+}
+
+.lead-econ__op {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  border-radius: 50%;
+  font-family: var(--font-sans);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: rgba(35, 23, 12, 0.92);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(237, 226, 210, 0.88) 45%, rgba(254, 215, 170, 0.75) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.65) inset,
+    0 8px 22px rgba(21, 12, 4, 0.35);
+}
+
+.lead-econ__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .lead-econ__step-value::after {
+    animation: lead-econ-sheen 5.2s ease-in-out infinite;
+  }
+
+  .lead-econ__flow > .lead-econ__step:nth-child(3) .lead-econ__step-value::after {
+    animation-delay: 1.1s;
+  }
+
+  .lead-econ__flow > .lead-econ__step:nth-child(5) .lead-econ__step-value::after {
+    animation-delay: 2.2s;
+  }
+
+  .lead-econ__num {
+    animation: lead-econ-num-shimmer 4s ease-in-out infinite alternate;
+  }
+
+  .lead-econ__flow > .lead-econ__step:nth-child(3) .lead-econ__num {
+    animation-delay: 0.6s;
+  }
+
+  .lead-econ__flow > .lead-econ__step:nth-child(5) .lead-econ__num {
+    animation-delay: 1.2s;
+  }
+
+  .lead-econ__op {
+    animation: lead-econ-op-pulse 2.75s ease-in-out infinite;
+  }
+
+  .lead-econ__flow > .lead-econ__connector:nth-child(4) .lead-econ__op {
+    animation-delay: 0.55s;
+  }
+}
+
+@keyframes lead-econ-sheen {
+  0%, 18% { transform: translateX(-130%) skewX(-12deg); opacity: 0; }
+  22% { opacity: 0.9; }
+  42%, 100% { transform: translateX(130%) skewX(-12deg); opacity: 0; }
+}
+
+@keyframes lead-econ-num-shimmer {
+  0% {
+    text-shadow:
+      0 0 0 transparent,
+      0 1px 2px rgba(0, 0, 0, 0.45);
+  }
+  100% {
+    text-shadow:
+      0 0 14px rgba(253, 212, 6, 0.45),
+      0 0 28px rgba(253, 224, 71, 0.28),
+      0 0 42px rgba(252, 192, 10, 0.22),
+      0 1px 2px rgba(0, 0, 0, 0.45);
+  }
+}
+
+@keyframes lead-econ-op-pulse {
+  0%, 100% {
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.65) inset,
+      0 8px 22px rgba(21, 12, 4, 0.35),
+      0 0 0 0 rgba(253, 212, 6, 0.25),
+      0 0 0 0 rgba(253, 224, 71, 0.12);
+  }
+  50% {
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.75) inset,
+      0 8px 22px rgba(21, 12, 4, 0.35),
+      0 0 22px 3px rgba(253, 212, 6, 0.38),
+      0 0 36px 6px rgba(253, 224, 71, 0.22);
+  }
+}
+
+@media (max-width: 960px) {
+  .lead-econ__flow {
+    grid-template-columns: 1fr;
+    gap: 0;
+    max-width: 22rem;
+  }
+
+  .lead-econ__connector {
+    min-height: 2.25rem;
+    padding: 0.35rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .lead-econ__step { padding-inline: 0.85rem; }
+}
+
+@keyframes growth-card-iris-hue {
+  0% {
+    filter: hue-rotate(-9deg) saturate(1);
+    opacity: 0.92;
+  }
+  100% {
+    filter: hue-rotate(14deg) saturate(1.08);
+    opacity: 1;
+  }
+}
+
+@keyframes growth-card-glass-pulse {
+  0% {
+    filter: contrast(1) saturate(1);
+  }
+  100% {
+    filter: contrast(1.04) saturate(1.06);
+  }
+}
+
+@keyframes growth-tile-mist {
+  0% {
+    filter: hue-rotate(-6deg);
+  }
+  100% {
+    filter: hue-rotate(10deg);
+  }
+}
+
+/* ─── Bewerbungsablauf ───────────────────────────────────────── */
+.process { background: var(--white); }
+
+.process__list {
+  list-style: none;
+  display: grid;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  max-width: 62rem;
+  margin-inline: auto;
+  counter-reset: none;
+}
+
+@media (min-width: 860px) {
+  .process__list { grid-template-columns: repeat(3, 1fr); }
+  /* zwei Schritte: sonst bliebe rechts eine leere dritte Spalte stehen */
+  .process__list--duo { grid-template-columns: repeat(2, 1fr); max-width: 46rem; }
+}
+
+.process__step {
+  position: relative;
+  padding: clamp(1.5rem, 2.5vw, 2rem) clamp(1.35rem, 2.2vw, 1.75rem);
+  border-radius: 22px;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  transition:
+    transform var(--dur-md) var(--ease),
+    box-shadow var(--dur-md) var(--ease),
+    border-color var(--dur-md) var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .process__step:hover {
+    transform: translateY(-4px);
+    border-color: rgba(112, 71, 28, 0.14);
+    box-shadow: 0 2px 6px rgba(54, 34, 13, 0.05), 0 20px 44px rgba(54, 34, 13, 0.09);
+  }
+}
+
+.process__num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-bottom: 1.1rem;
+  border-radius: 50%;
+  background: linear-gradient(180deg, var(--accent-bright) 0%, var(--accent) 60%, var(--accent-deep) 100%);
+  color: var(--white);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 6px 18px rgba(237, 160, 8, 0.28);
+}
+
+.process__heading {
+  font-size: clamp(1.05rem, 0.9vw + 0.85rem, 1.25rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink-900);
+  margin-bottom: 0.5rem;
+}
+
+.process__text {
+  font-size: clamp(0.9375rem, 0.35vw + 0.86rem, 1rem);
+  line-height: 1.6;
+  color: var(--gray-600);
+  text-wrap: pretty;
+}
+
+/* FAQ */
+.faq {
+  background: var(--gray-50);
+}
+
+.section__header--center { text-align: center; margin-bottom: 3rem; }
+
+.faq__list { max-width: 720px; margin-inline: auto; }
+
+.faq__item {
+  background: var(--white);
+  border-radius: 16px;
+  margin-bottom: 0.65rem;
+  border: 1px solid var(--gray-200);
+  overflow: hidden;
+  transition:
+    box-shadow var(--dur-md) var(--ease),
+    border-color var(--dur-md) var(--ease),
+    transform var(--dur-md) var(--ease);
+}
+
+.faq__item[open] { box-shadow: 0 8px 32px rgba(28, 18, 8, 0.08); }
+
+@media (hover: hover) and (pointer: fine) {
+  .faq__item:hover {
+    border-color: rgba(176, 154, 131, 0.55);
+    transform: translateY(-1px);
+  }
+}
+
+.faq__item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.35rem 1.5rem;
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--ink-900);
+  cursor: pointer;
+  list-style: none;
+  transition: background var(--dur-md) var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .faq__item summary:hover {
+    background: rgba(253, 250, 246, 0.85);
+  }
+
+  .faq__item[open] summary:hover {
+    background: rgba(253, 250, 246, 0.5);
+  }
+}
+
+.faq__item summary::-webkit-details-marker { display: none; }
+
+.faq__item summary::after {
+  content: '+';
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--accent-text);
+  background: var(--gray-100);
+  border-radius: 50%;
+  transition: transform 0.3s var(--spring), background 0.2s, color 0.2s;
+}
+
+.faq__item[open] summary::after {
+  content: '−';
+  background: var(--ink-900);
+  color: var(--white);
+  transform: rotate(180deg);
+}
+
+.faq__item p {
+  padding: 0 1.5rem 1.35rem;
+  font-size: 0.9375rem;
+  color: var(--gray-600);
+  line-height: 1.47;
+}
+
+/* Apply */
+.apply {
+  position: relative;
+  overflow: hidden;
+}
+
+.apply__bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(145deg, var(--ink-950) 0%, var(--ink-800) 60%, var(--ink-700) 100%);
+}
+
+.apply__bg::after {
+  content: '';
+  position: absolute;
+  top: -30%;
+  right: -15%;
+  width: 60%;
+  height: 80%;
+  background: radial-gradient(ellipse, rgba(252, 192, 10, 0.2) 0%, transparent 65%);
+}
+
+.apply__inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+/* Eigener Grad für die Stellenbezeichnung: im Standardgrad der
+   Sektionsüberschriften lief sie in der schmalen Spalte fünfmal um. */
+.apply .section__title { font-size: clamp(1.6rem, 3.1vw, 2.6rem); }
+
+.apply__text p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.0625rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.47;
+}
+
+.apply__trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.apply__trust span {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.55);
+  padding: 0.4rem 0.9rem;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition:
+    background var(--dur-md) var(--ease),
+    border-color var(--dur-md) var(--ease),
+    color var(--dur-md) var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .apply__trust span:hover {
+    background: rgba(255, 255, 255, 0.09);
+    border-color: rgba(255, 255, 255, 0.14);
+    color: rgba(255, 255, 255, 0.72);
+  }
+}
+
+/* ─── Bewerbungs-CTA (ersetzt das frühere Inline-Formular) ───── */
+.apply-cta {
+  position: relative;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  max-width: 100%;
+}
+
+.apply-cta__eyebrow {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent-bright);
+  margin-bottom: 0.85rem;
+}
+
+.apply-cta__lede {
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.78);
+  margin-bottom: 1.5rem;
+}
+
+.apply-cta__steps {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1.75rem;
+  counter-reset: none;
+}
+
+.apply-cta__steps li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.apply-cta__num {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  background: rgba(252, 192, 10, 0.22);
+  border: 1px solid rgba(253, 224, 71, 0.45);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--accent-bright);
+}
+
+/* ─── Formularfelder (im Dialog wiederverwendet) ─────────────── */
+.form__field { display: block; margin-bottom: 1rem; }
+
+.form__field span {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 0.4rem;
+}
+
+.form__field input,
+.form__field textarea,
+.form__field select {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form__field input::placeholder,
+.form__field textarea::placeholder { color: rgba(255, 255, 255, 0.28); }
+
+.form__field input:focus,
+.form__field textarea:focus,
+.form__field select:focus {
+  outline: none;
+  border-color: var(--accent-bright);
+  box-shadow: 0 0 0 3px rgba(252, 192, 10, 0.2);
+}
+
+/* Feld hat die Schritt-Prüfung nicht bestanden */
+.form__field input[aria-invalid="true"],
+.form__field select[aria-invalid="true"] {
+  border-color: #f87171;
+  box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.18);
+}
+
+.form__field textarea { resize: vertical; min-height: 88px; }
+
+.form__field select {
+  appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, rgba(255, 255, 255, 0.72) 50%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.72) 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) calc(50% - 4px),
+    calc(100% - 12px) calc(50% - 4px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 2.4rem;
+}
+
+.form__field select option { color: #111; }
+
+.form__group {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+/* Radios visuell ersetzt durch .form__option – Fokus bleibt am Input. */
+.apply-dialog input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.form__options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+}
+
+.form__options--triple { grid-template-columns: repeat(3, 1fr); }
+
+.form__option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  margin: 0;
+  padding: 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
+  text-align: center;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 16px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    border-color 0.2s,
+    background 0.2s,
+    color 0.2s,
+    box-shadow 0.2s;
+}
+
+.form__option:has(input:focus-visible) {
+  outline: none;
+  border-color: rgba(253, 216, 92, 0.9);
+  box-shadow: 0 0 0 3px rgba(253, 216, 92, 0.25);
+}
+
+.form__option:has(input:checked) {
+  color: var(--white);
+  background: linear-gradient(135deg, rgba(252, 192, 10, 0.35), rgba(255, 255, 255, 0.1));
+  border-color: rgba(253, 216, 92, 0.9);
+  box-shadow:
+    0 0 0 1px rgba(253, 216, 92, 0.35),
+    0 12px 30px rgba(0, 0, 0, 0.22);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .form__option:hover {
+    border-color: rgba(255, 255, 255, 0.28);
+    color: var(--white);
+  }
+
+  .form__option:has(input:checked):hover {
+    border-color: rgba(253, 216, 92, 0.9);
+  }
+}
+
+.form__checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+}
+
+/* Eigenes Kästchen statt Systemsteuerung: `accent-color` färbt zwar den
+   Haken, lässt aber Form, Rahmen und Radius beim Browser. Gestylt wird
+   der Input selbst – kein Ersatz-Element, damit Fokus, Tastatur und die
+   Trefferfläche unangetastet bleiben. */
+.form__checkbox input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  flex: 0 0 auto;
+  margin: 0.05rem 0 0;
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid rgba(255, 255, 255, 0.28);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  transition: background-color 0.18s var(--ease), border-color 0.18s var(--ease),
+    box-shadow 0.18s var(--ease);
+}
+
+.form__checkbox input[type="checkbox"]:hover {
+  border-color: rgba(253, 216, 92, 0.75);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.form__checkbox input[type="checkbox"]:checked {
+  background-color: var(--accent-bright);
+  border-color: var(--accent-bright);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M3.4 8.4l3 3 6.2-6.6' stroke='%23231508' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 14px 14px;
+}
+
+.form__checkbox input[type="checkbox"]:focus-visible {
+  outline: none;
+  border-color: var(--accent-bright);
+  box-shadow: 0 0 0 3px rgba(252, 192, 10, 0.28);
+}
+
+.form__checkbox span {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.68);
+  line-height: 1.5;
+}
+
+.form__checkbox a { color: var(--accent-bright); text-decoration: underline; }
+
+/* ─── Einwilligungs-Hinweis ──────────────────────────────────
+   Bewusst kein modaler Blocker: die Seite lädt vor der Entscheidung
+   ohnehin nichts von Dritten, also gibt es keinen Grund, den Inhalt
+   zu sperren. Der Banner sitzt unten und lässt sich wegklicken.
+   ------------------------------------------------------------ */
+.consent {
+  position: fixed;
+  /* Kompakte Karte unten rechts: eine volle Leiste verdeckte auf dem
+     Desktop den Hero-CTA, und genau der soll beim ersten Aufruf
+     erreichbar bleiben. Rechts unten ist der Hero frei. */
+  inset: auto 0 0 auto;
+  z-index: 1200;
+  width: min(26rem, 100%);
+  padding: 1rem;
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+.consent__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 1.1rem 1.2rem;
+  border-radius: 20px;
+  background: linear-gradient(160deg, #2a1a0c 0%, #21150a 60%, #36220d 100%);
+  border: 1px solid rgba(253, 224, 71, 0.22);
+  box-shadow: 0 20px 60px rgba(21, 12, 4, 0.5);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.consent__title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  margin-bottom: 0.35rem;
+}
+
+.consent__text {
+  font-size: 0.78125rem;
+  line-height: 1.5;
+  color: rgba(237, 226, 210, 0.82);
+  text-wrap: pretty;
+}
+
+.consent__text strong { color: var(--white); font-weight: 600; }
+
+.consent__text a {
+  color: var(--accent-bright);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Einblenden von unten */
+@media (prefers-reduced-motion: no-preference) {
+  .consent { animation: consent-in 0.45s var(--ease) both; }
+}
+
+@keyframes consent-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.consent__actions { display: flex; gap: 0.6rem; }
+
+.consent__btn {
+  flex: 1;
+  min-height: 44px;
+  padding-inline: 0.75rem;
+  font-size: 0.8125rem;
+}
+
+/* Auf dem Phone so flach wie möglich halten: der Hero-CTA liegt dort
+   dicht über dem unteren Rand und darf nicht verdeckt werden. */
+@media (max-width: 768px) {
+  .consent {
+    width: 100%;
+    padding: 0.65rem;
+    padding-bottom: max(0.65rem, env(safe-area-inset-bottom));
+  }
+
+  .consent__inner {
+    gap: 0.7rem;
+    padding: 0.9rem 1rem;
+    border-radius: 16px;
+  }
+
+  .consent__title {
+    font-size: 0.875rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .consent__text { font-size: 0.75rem; line-height: 1.45; }
+
+  .consent__btn { font-size: 0.78125rem; }
+}
+
+/* Widerrufs-Schalter im Footer – sieht aus wie die Links daneben */
+.footer__legal-btn {
+  font-family: inherit;
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.45);
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: color var(--dur-md) var(--ease);
+}
+
+.footer__legal-btn:hover { color: var(--white); }
+
+/* ─── Multi-Step-Bewerbungsdialog ────────────────────────────
+   Natives <dialog>: Fokusfalle, ESC und Top-Layer kommen vom
+   Browser, das spart Custom-JS und ist zuverlässiger.
+   ------------------------------------------------------------ */
+.apply-dialog {
+  width: min(560px, calc(100% - 2rem));
+  max-width: none;
+  max-height: min(90dvh, 46rem);
+  /* Das globale `* { margin: 0 }`-Reset entfernt sonst die
+     UA-Zentrierung des Dialogs – er klebt dann oben links. */
+  margin: auto;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  background: linear-gradient(160deg, #2a1a0c 0%, #21150a 55%, #36220d 100%);
+  color: var(--white);
+  box-shadow: 0 40px 100px rgba(21, 12, 4, 0.6);
+  overflow: hidden;
+}
+
+/* Nur im geöffneten Zustand auf flex umstellen – sonst überschreibt
+   die Regel das `display: none` des Browsers für geschlossene Dialoge. */
+.apply-dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.apply-dialog::backdrop {
+  background: rgba(21, 12, 4, 0.72);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+/* Sanftes Einblenden, wo unterstützt – sonst erscheint der Dialog direkt. */
+@media (prefers-reduced-motion: no-preference) {
+  .apply-dialog,
+  .apply-dialog::backdrop {
+    transition:
+      opacity 0.3s var(--ease),
+      transform 0.3s var(--ease),
+      overlay 0.3s allow-discrete,
+      display 0.3s allow-discrete;
+  }
+
+  .apply-dialog[open] { opacity: 1; transform: translateY(0); }
+  .apply-dialog:not([open]) { opacity: 0; transform: translateY(12px); }
+  .apply-dialog[open]::backdrop { opacity: 1; }
+
+  @starting-style {
+    .apply-dialog[open] { opacity: 0; transform: translateY(12px); }
+    .apply-dialog[open]::backdrop { opacity: 0; }
+  }
+}
+
+.apply-dialog__form {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Der Schließen-Button liegt absolut, nicht als Flex-Nachbar: als
+   Nachbar nähme er rechts Platz weg und die zentrierte Überschrift
+   säße um seine halbe Breite nach links versetzt. Das seitliche
+   Padding ist deshalb symmetrisch und hält ihn frei. */
+.apply-dialog__head {
+  position: relative;
+  padding: 1.5rem 3.5rem 0;
+  text-align: center;
+}
+
+.apply-dialog__title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--white);
+}
+
+.apply-dialog__subtitle {
+  margin-top: 0.3rem;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.apply-dialog__close {
+  position: absolute;
+  top: 1.15rem;
+  right: 1.15rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.06);
+  transition: background var(--dur-fast), color var(--dur-fast);
+}
+
+.apply-dialog__close:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--white);
+}
+
+.apply-dialog__progress {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 1.25rem 1.5rem 0;
+}
+
+.apply-dialog__bar {
+  width: 100%;
+  height: 4px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+
+.apply-dialog__bar-fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--accent) 0%, var(--accent-bright) 100%);
+  transition: width var(--dur-md) var(--ease);
+}
+
+.apply-dialog__count {
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.5);
+  font-variant-numeric: tabular-nums;
+}
+
+.apply-dialog__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  /* verhindert, dass die Seite hinter dem Dialog mitscrollt */
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 1.5rem;
+}
+
+/* Eigener Scrollbalken: der Systembalken sitzt als heller Block auf der
+   dunklen Fläche. Der Rahmen aus transparentem Border plus
+   background-clip hält den Griff schmal, ohne die Spur zu verengen. */
+.apply-dialog__body::-webkit-scrollbar { width: 12px; }
+
+.apply-dialog__body::-webkit-scrollbar-track { background: transparent; }
+
+.apply-dialog__body::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.22);
+  background-clip: content-box;
+  border: 3px solid transparent;
+  border-radius: 999px;
+}
+
+.apply-dialog__body::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(253, 216, 92, 0.55);
+}
+
+/* Nur für Firefox: sobald `scrollbar-width` gesetzt ist, ignoriert
+   Blink die ::-webkit-Regeln oben komplett. */
+@supports not selector(::-webkit-scrollbar) {
+  .apply-dialog__body {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.22) transparent;
+  }
+}
+
+.apply-step { display: block; text-align: center; }
+
+/* ─── Ausrichtung im Funnel ──────────────────────────────────
+   Frage und Hinweis stehen mittig über dem Schritt, die Eingaben
+   darunter laufen linksbündig: Beschriftung, Feldinhalt und
+   Einwilligung teilen sich eine Kante.
+   ------------------------------------------------------------ */
+.apply-dialog .form__field,
+.apply-dialog .form__field input,
+.apply-dialog .form__field textarea { text-align: left; }
+
+/* Bündig mit den Feldern darüber – vorher saß der Satz als schmaler,
+   mittiger Block sichtbar eingerückt. */
+.apply-dialog .form__checkbox {
+  justify-content: flex-start;
+  margin-top: 1.25rem;
+  text-align: left;
+}
+
+.apply-step__question {
+  font-size: 1.3rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  /* Abstand zum Schrittinhalt. Folgt ein Hinweis, zieht der ihn wieder
+     zusammen – nicht jeder Schritt hat einen. */
+  margin-bottom: 1.35rem;
+}
+
+.apply-step__hint {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.58);
+  margin-top: -0.85rem;
+  margin-bottom: 1.35rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .apply-step { animation: apply-step-in 0.32s var(--ease) both; }
+}
+
+@keyframes apply-step-in {
+  from { opacity: 0; transform: translateX(14px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.apply-dialog__error {
+  margin: 0 1.5rem;
+  text-align: center;
+  padding: 0.7rem 0.9rem;
+  border-radius: 12px;
+  background: rgba(248, 113, 113, 0.14);
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  color: #fecaca;
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
+.apply-dialog__nav {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(21, 12, 4, 0.35);
+}
+
+.apply-dialog__back { min-height: 50px; }
+
+.apply-dialog__next,
+.apply-dialog__submit {
+  flex: 1;
+  min-height: 50px;
+}
+
+.apply-dialog__success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.85rem;
+  padding: 3rem 1.75rem;
+}
+
+.apply-dialog__success-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(34, 197, 94, 0.16);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  color: #4ade80;
+  margin-bottom: 0.35rem;
+}
+
+.apply-dialog__success-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--white);
+}
+
+.apply-dialog__success-text {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.66);
+  max-width: 30rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Mobil als Vollbild-Sheet: mehr Platz, wenn die Tastatur aufgeht.
+   dvh statt vh, damit die Höhe der eingeblendeten Tastatur folgt. */
+@media (max-width: 640px) {
+  .apply-dialog {
+    width: 100%;
+    max-width: 100%;
+    height: 100dvh;
+    max-height: 100dvh;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+  }
+
+  /* Auf dem schmalen Sheet reicht seitliches Freihalten nicht: die
+     zentrierte Überschrift käme dem Schließen-Button auf wenige Pixel
+     nahe. Er bekommt deshalb eine eigene Zeile darüber, die Überschrift
+     die volle Breite. */
+  .apply-dialog__head { padding: 3.5rem 1.25rem 0; }
+  .apply-dialog__close { top: 0.7rem; right: 0.85rem; }
+  .apply-dialog__nav { padding-bottom: max(1.25rem, env(safe-area-inset-bottom)); }
+  .apply-step__question { font-size: 1.2rem; }
+}
+
+/* ─── Rechtliche Seiten (Impressum, Datenschutz) ─────────────
+   Dieselbe Kopf- und Fußzeile wie die Startseite, dazwischen eine
+   schlichte Textspalte. Die Seiten hatten früher ein eigenes,
+   dunkelblaues Inline-Stylesheet – aus der Zeit vor der Umstellung
+   auf die Markenfarben.
+
+   Das `padding-top` hält den fest stehenden Header frei: hier gibt es
+   keinen Hero, der ihn ohnehin unterlaufen würde.
+   ------------------------------------------------------------ */
+.legal {
+  padding-top: calc(var(--nav-height) + clamp(2rem, 5vw, 3.5rem));
+  padding-bottom: clamp(3rem, 7vw, 5rem);
+  background: var(--white);
+}
+
+.legal__inner { max-width: 52rem; }
+
+.legal__title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin-bottom: clamp(1.75rem, 4vw, 2.5rem);
+}
+
+.legal__section + .legal__section {
+  margin-top: clamp(2rem, 4vw, 2.75rem);
+}
+
+.legal__section h2 {
+  font-family: var(--font-sans);
+  font-size: clamp(1.15rem, 0.6vw + 1rem, 1.4rem);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+  color: var(--ink-900);
+  margin-bottom: 0.85rem;
+}
+
+.legal__section p,
+.legal__section li {
+  font-size: clamp(0.9375rem, 0.4vw + 0.85rem, 1.0625rem);
+  line-height: 1.7;
+  color: var(--gray-600);
+  text-wrap: pretty;
+}
+
+.legal__section p + p,
+.legal__section ul { margin-top: 0.9rem; }
+
+.legal__section ul {
+  padding-left: 1.15rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.legal__section strong { color: var(--ink-900); font-weight: 600; }
+
+.legal__section a {
+  color: var(--accent-text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Footer */
+.footer {
+  background: var(--ink-950);
+  padding: 3rem 0 2rem;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.footer__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  margin-bottom: 1.5rem;
+}
+
+.footer__nav { display: flex; gap: 2rem; }
+
+.footer__nav a {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.5);
+  transition: color var(--dur-md) var(--ease);
+}
+
+.footer__nav a:hover { color: var(--white); }
+
+.footer__bottom {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.8125rem;
+}
+
+.footer__legal { display: flex; gap: 1.5rem; }
+.footer__legal a {
+  color: rgba(255, 255, 255, 0.45);
+  transition: color var(--dur-md) var(--ease);
+}
+.footer__legal a:hover { color: var(--white); }
+
+/* Keyboard focus — visible rings, clipped shapes avoided where needed */
+.nav__links a:focus-visible,
+.nav__mobile a:focus-visible,
+.nav__cta:focus-visible,
+.nav__toggle:focus-visible,
+.footer__nav a:focus-visible,
+.footer__legal a:focus-visible,
+.footer__logo:focus-visible,
+.nav__logo:focus-visible {
+  outline: 2px solid rgba(253, 224, 71, 0.95);
+  outline-offset: 3px;
+}
+
+.btn:focus-visible {
+  outline: 2px solid rgba(253, 224, 71, 0.95);
+  outline-offset: 3px;
+}
+
+.faq__item summary:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
+
+/* Reveal */
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 26px, 0);
+  transition: opacity 0.88s var(--ease), transform 0.88s var(--ease);
+}
+
+.reveal.is-visible { opacity: 1; transform: translate3d(0, 0, 0); }
+
+.reveal--delay-1 { transition-delay: 0.1s; }
+.reveal--delay-2 { transition-delay: 0.2s; }
+.reveal--delay-3 { transition-delay: 0.32s; }
+
+/* ============================================================
+   Responsive
+   Breakpoints: 1024 (Tablet) · 768 (Phone) · 480 (klein) · 360 (sehr klein)
+   Grundsatz: Auf dem Phone werden CTAs und Tap-Ziele größer, nicht kleiner.
+   ============================================================ */
+
+@media (max-width: 1024px) {
+  .editorial__intro,
+  .apply__inner { grid-template-columns: 1fr; }
+}
+
+/* ─── Phone ───────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  :root {
+    --nav-height: 60px;
+    --section-y: clamp(3rem, 7vw, 4rem);
+    /* 20px Seitenluft – vorher waren es 12px, das wirkte gedrängt */
+    --container: min(1180px, calc(100% - 2.5rem));
+  }
+
+  body { line-height: 1.55; }
+
+  /* Navigation */
+  .nav__links { display: none; }
+  .nav__toggle { display: flex; }
+  .nav__mobile { display: flex; }
+
+  .nav__inner { gap: 0.5rem; }
+
+  /* Auf dem Phone trägt der Header nur Logo und Menü. Der CTA steckt im
+     aufgeklappten Menü und in jeder Section – eine dritte, dauerhaft
+     sichtbare Instanz im Balken gibt es bewusst nicht. */
+  .nav__cta { display: none; }
+
+  /* Der Button war nur 10px hoch (zwei Balken + Lücke). Das Padding
+     bringt die Trefferfläche auf 44px, ohne die Optik zu ändern. */
+  .nav__toggle {
+    width: 44px;
+    height: 44px;
+    padding: 17px 8px;
+    margin-right: -8px;
+    justify-content: center;
+  }
+
+  .nav__mobile a:not(.btn) {
+    padding: 0.5rem 1rem;
+    font-size: 1.25rem;
+  }
+
+  /* Wortmarken sind Navigationsziele und waren nur 26px hoch */
+  .nav__logo,
+  .footer__logo {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  
+
+  
+
+  /* Typografie */
+  .section__title { margin-bottom: 1rem; }
+  .section__header--center { margin-bottom: 2rem; }
+
+  .editorial__lead {
+    font-size: 1.05rem;
+    line-height: 1.55;
+  }
+
+  .editorial__body p,
+.apply__text p {
+    line-height: 1.6;
+    max-width: 36rem;
+  }
+
+  /* CTAs: große Fläche, klare Schrift – aber nicht randlos. 75 % der
+     Spaltenbreite, mittig; die Fläche bleibt weit über der 44-px-Grenze. */
+  .hero__actions,
+  .section-cta {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero__actions .btn,
+  .section-cta .btn,
+  .hero__actions .btn--lg,
+  .section-cta .btn--lg,
+  .apply-cta .btn--full {
+    width: 75%;
+    margin-inline: auto;
+    min-height: 56px;
+    padding: 1rem 1.5rem;
+    font-size: 1.0625rem;
+  }
+
+  /* Der Button in der Bewerbungskarte ist kein Flex-Kind, sondern steht
+     direkt im Block. Als inline-flex ignoriert er auto-Ränder – erst als
+     Block-Flex zentriert er sich. */
+  .apply-cta .btn--full { display: flex; }
+
+  .nav__mobile .btn { width: min(75%, 18rem); }
+
+  /* Hero */
+  .hero {
+    min-height: 100svh;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* Auf dem Phone liegt die Copy über der Bildmitte – Verlauf von oben
+     statt von links, damit sie überall auf dem Foto lesbar bleibt. Die
+     Ausblendung zur Naht steht hier mit drin: diese Regel ersetzt den
+     ganzen Verlauf, ein separater Layer von oben ginge verloren. */
+  .hero__scrim {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.94) 0%,
+        rgba(255, 255, 255, 0.9) 46%,
+        rgba(255, 254, 251, 0.74) 70%,
+        rgba(254, 252, 245, 0.8) 86%,
+        rgba(253, 249, 236, 0.92) 96%,
+        var(--cream) 100%
+      );
+  }
+
+  .hero__img {
+    object-fit: cover;
+    object-position: center 24%;
+  }
+
+  /* flex-shrink:1 ließ den Inhalt vorher über den Hero hinauslaufen */
+  .hero__content {
+    flex: 0 0 auto;
+    width: 100%;
+    padding-top: calc(var(--nav-height) + 2rem);
+    padding-bottom: 3rem;
+  }
+
+  /* Abstand zwischen Copy und Foto – der größte Bruch im Hero, denn
+     hier endet der Text und das Bild beginnt. */
+  .hero__layout { gap: 3.5rem; }
+
+  
+
+  .form__field input,
+  .form__field textarea,
+  .form__field select {
+    min-height: 52px;
+    border-radius: 14px;
+  }
+
+  .apply__inner { gap: 2.25rem; }
+
+  /* FAQ – größere Trefferfläche */
+  .faq__item summary {
+    min-height: 56px;
+    padding-block: 1.1rem;
+  }
+
+  /* Footer – Links brauchen Fläche */
+  .footer__top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+
+  .footer__bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .footer__nav {
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    margin-left: -0.6rem;
+  }
+
+  .footer__nav a,
+  .footer__legal a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding-inline: 0.6rem;
+  }
+
+  .footer__legal { margin-left: -0.6rem; }
+
+  .container,
+.apply-cta {
+    max-width: 100%;
+  }
+}
+
+/* ─── Kleine Phones ──────────────────────────────────────────
+   Nur noch Feinjustierung der Typo-Skala – Layout und Tap-Ziele
+   sitzen bereits im 768er-Block.
+   ------------------------------------------------------------ */
+@media (max-width: 480px) {
+  :root {
+    --nav-height: 56px;
+    --section-y: clamp(2.75rem, 9vw, 3.5rem);
+    --container: min(1180px, calc(100% - 2.25rem));
+  }
+
+  .btn { white-space: normal; text-align: center; }
+
+  .section__title {
+    font-size: clamp(1.7rem, 7vw, 2.25rem);
+    line-height: 1.12;
+  }
+
+  .section__title--editorial { font-size: clamp(1.8rem, 7.4vw, 2.35rem); }
+
+  .editorial__lead { font-size: 1rem; margin-bottom: 1rem; }
+  .editorial__body p { margin-bottom: 0.95rem; }
+
+  .hero__img { object-position: center 20%; }
+
+  
+
+  
+
+  .lead-econ__card,
+.apply-cta { max-width: 100%; }
+
+  .recruit-panel__title {
+    font-size: clamp(1.8rem, 7.2vw, 2.35rem);
+    margin-bottom: 1rem;
+  }
+
+  .recruit-panel__intro {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .recruit-fit-card {
+    padding: 1.25rem 1.1rem;
+    border-radius: 20px;
+  }
+
+  .recruit-fit-card__heading {
+    font-size: 1.05rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .recruit-fit-card__item {
+    padding: 0.65rem 0.7rem;
+    gap: 0.6rem;
+  }
+
+  .recruit-fit-card__text { font-size: 0.9375rem; }
+
+  .lead-econ { margin-top: 1.5rem; }
+
+  .lead-econ__card {
+    padding: 2.5rem 1.15rem;
+    border-radius: 20px;
+  }
+
+  .lead-econ__header { margin-bottom: 1.35rem; }
+
+  .lead-econ__title { font-size: 1.2rem; }
+
+  .lead-econ__lede { font-size: 0.9375rem; line-height: 1.55; }
+
+  .lead-econ__step-value { font-size: clamp(1.35rem, 5.8vw, 1.6rem); }
+
+  
+
+  
+
+  
+
+  .faq__item summary {
+    font-size: 1rem;
+    padding-inline: 1.1rem;
+    gap: 0.7rem;
+  }
+
+  .faq__item p {
+    padding: 0 1.1rem 1.15rem;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  .apply__inner { gap: 2rem; }
+  .apply__text p { font-size: 1rem; }
+
+  .apply__trust { gap: 0.5rem; }
+
+  .apply__trust span {
+    font-size: 0.8125rem;
+    padding: 0.45rem 0.8rem;
+  }
+
+  .footer { padding: 2.25rem 0 1.5rem; }
+}
+
+/* ─── Sehr kleine Phones (iPhone SE & Co.) ──────────────────── */
+@media (max-width: 360px) {
+  :root { --container: min(1180px, calc(100% - 1.75rem)); }
+
+  .form__options--triple { grid-template-columns: 1fr; }
+
+  
+
+  
+  
+}
+
+/* ─── Niedrige Viewports im Querformat ──────────────────────── */
+@media (max-width: 900px) and (max-height: 480px) and (orientation: landscape) {
+  .hero { min-height: auto; }
+
+  .hero__content {
+    padding-top: calc(var(--nav-height) + 1rem);
+    padding-bottom: 1.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .hero__img { animation: none !important; }
+  .apply-step { animation: none !important; }
+  .btn--glow { animation: none !important; }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  html { scroll-behavior: auto; }
+}

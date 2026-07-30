@@ -1,0 +1,29 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Node / Tooling
+node_modules/
+npm-debug.log*
+.cache/
+
+# Build- und Deploy-Artefakte
+dist/
+.wrangler/
+
+# Secrets – niemals committen
+.env
+.env.*
+.dev.vars
+
+# Temporäre Shell-/Tool-Ausgaben
+*.log
+*.tmp
+gv.*
+git_version_*

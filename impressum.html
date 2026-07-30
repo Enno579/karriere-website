@@ -3,86 +3,66 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Impressum von Enno Scharf.">
-  <title>Impressum | Enno Scharf</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    :root { color-scheme: dark; }
-    body {
-      margin: 0;
-      background: #071426;
-      color: #f4f7ff;
-    }
-    .legal-page {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-    .legal-header {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-      background: rgba(7, 20, 38, 0.9);
-      backdrop-filter: blur(8px);
-    }
-    .legal-header__inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      padding: 1rem 0;
-    }
-    .legal-back {
-      color: #f4f7ff;
-      text-decoration: none;
-      border: 1px solid rgba(255, 255, 255, 0.24);
-      border-radius: 999px;
-      padding: 0.5rem 0.9rem;
-      font-weight: 600;
-    }
-    .legal-main {
-      width: min(920px, 92vw);
-      margin: 0 auto;
-      padding: 2.5rem 0 3rem;
-    }
-    .legal-main h1 {
-      margin-top: 0;
-      font-size: clamp(1.8rem, 5vw, 2.5rem);
-    }
-    .legal-main h2 {
-      margin-top: 2rem;
-      font-size: clamp(1.15rem, 3.6vw, 1.45rem);
-    }
-    .legal-main p {
-      line-height: 1.7;
-      margin: 0.5rem 0 0;
-      color: rgba(244, 247, 255, 0.92);
-    }
-    .legal-main a {
-      color: #a9c7ff;
-    }
-  </style>
+  <meta name="description" content="Impressum von Scharf Photovoltaik – Enno Scharf, Hannover.">
+  <meta name="theme-color" content="#fdf6ea">
+  <title>Impressum | Scharf Photovoltaik</title>
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-  <div class="legal-page">
-    <header class="legal-header">
-      <div class="container legal-header__inner">
-        <strong>Enno Scharf</strong>
-        <a class="legal-back" href="index.html" aria-label="Zur Startseite">
-          Zur Startseite
-        </a>
-      </div>
-    </header>
 
-    <main class="legal-main">
-      <h1>Impressum</h1>
+  <div class="grain" aria-hidden="true"></div>
 
-      <section aria-labelledby="anbieter">
+  <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
+
+  <!-- Navigation – identisch zur Startseite, nur zeigen die Ziele dorthin. -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo" aria-label="Startseite">
+        <span class="logo">
+          <picture>
+            <source srcset="assets/img/logo-dunkel.webp" type="image/webp">
+            <img src="assets/img/logo-dunkel.png" alt="Scharf Photovoltaik" class="logo__img logo__img--dark" width="552" height="154" decoding="async">
+          </picture>
+          <picture>
+            <source srcset="assets/img/logo-hell.webp" type="image/webp">
+            <img src="assets/img/logo-hell.png" alt="" aria-hidden="true" class="logo__img logo__img--light" width="552" height="154" decoding="async">
+          </picture>
+        </span>
+      </a>
+      <nav class="nav__links" aria-label="Hauptnavigation">
+        <a href="index.html#hero">Startseite</a>
+        <a href="index.html#d2d">Über D2D</a>
+        <a href="index.html#about">Über uns</a>
+        <a href="index.html#process">Bewerbungsablauf</a>
+      </nav>
+      <a href="index.html#apply" class="nav__cta btn btn--primary btn--sm">Jetzt bewerben</a>
+      <button class="nav__toggle" id="navToggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="navMobile">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="nav__mobile" id="navMobile" aria-hidden="true">
+    <a href="index.html#hero">Startseite</a>
+    <a href="index.html#d2d">Über D2D</a>
+    <a href="index.html#about">Über uns</a>
+    <a href="index.html#process">Bewerbungsablauf</a>
+    <a href="index.html#apply" class="btn btn--primary">Jetzt bewerben</a>
+  </div>
+
+  <main class="legal" id="inhalt">
+    <div class="container legal__inner">
+      <span class="section__eyebrow">Rechtliches</span>
+      <h1 class="section__title legal__title">Impressum</h1>
+
+      <section class="legal__section" aria-labelledby="anbieter">
         <h2 id="anbieter">Angaben gemäß § 5 TMG</h2>
         <p>Enno Scharf<br>Podbielskistraße 276<br>30655 Hannover</p>
         <p>E-Mail: <a href="mailto:e.scharf@energieversum.de">e.scharf@energieversum.de</a></p>
         <p>Unternehmensform: Einzelunternehmen</p>
       </section>
 
-      <section aria-labelledby="haftung-inhalte">
+      <section class="legal__section" aria-labelledby="haftung-inhalte">
         <h2 id="haftung-inhalte">Haftung für Inhalte</h2>
         <p>
           Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich.
@@ -96,7 +76,7 @@
         </p>
       </section>
 
-      <section aria-labelledby="haftung-links">
+      <section class="legal__section" aria-labelledby="haftung-links">
         <h2 id="haftung-links">Haftung für Links</h2>
         <p>
           Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben.
@@ -111,7 +91,7 @@
         </p>
       </section>
 
-      <section aria-labelledby="urheberrecht">
+      <section class="legal__section" aria-labelledby="urheberrecht">
         <h2 id="urheberrecht">Urheberrecht</h2>
         <p>
           Die durch den Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht.
@@ -125,7 +105,61 @@
           Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen.
         </p>
       </section>
-    </main>
+    </div>
+  </main>
+
+  <!-- Footer – identisch zur Startseite. -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__top">
+        <a href="index.html" class="footer__logo" aria-label="Startseite">
+          <span class="logo logo--light-only">
+            <picture>
+              <source srcset="assets/img/logo-hell.webp" type="image/webp">
+              <img src="assets/img/logo-hell.png" alt="Scharf Photovoltaik" class="logo__img" width="552" height="154" loading="lazy" decoding="async">
+            </picture>
+          </span>
+        </a>
+        <nav class="footer__nav" aria-label="Footer Navigation">
+          <a href="index.html#hero">Startseite</a>
+          <a href="index.html#d2d">Über D2D</a>
+          <a href="index.html#about">Über uns</a>
+          <a href="index.html#process">Bewerbungsablauf</a>
+        </nav>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; <span id="year">2026</span> Enno Scharf · D2D Solar Recruiting. Alle Rechte vorbehalten.</p>
+        <div class="footer__legal">
+          <a href="impressum.html">Impressum</a>
+          <a href="datenschutz.html">Datenschutz</a>
+          <button type="button" class="footer__legal-btn" data-consent="reopen">Datenschutz-Einstellungen</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="consent" id="consentBanner" role="dialog" aria-modal="false"
+       aria-labelledby="consentTitle" aria-describedby="consentText" hidden>
+    <div class="consent__inner">
+      <div class="consent__body">
+        <h2 class="consent__title" id="consentTitle">Datenschutz-Einstellungen</h2>
+        <p class="consent__text" id="consentText">
+          Wir messen mit dem Meta-Pixel, wie gut unsere Stellenanzeigen ankommen –
+          nur mit Ihrer Zustimmung und jederzeit widerrufbar.
+          <a href="datenschutz.html">Mehr im Datenschutz</a>.
+        </p>
+      </div>
+      <div class="consent__actions">
+        <button type="button" class="btn btn--ghost consent__btn" data-consent="deny">
+          Nur notwendige
+        </button>
+        <button type="button" class="btn btn--primary consent__btn" data-consent="allow">
+          Akzeptieren
+        </button>
+      </div>
+    </div>
   </div>
+
+  <script src="assets/js/script.js" defer></script>
 </body>
 </html>
