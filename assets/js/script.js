@@ -766,7 +766,9 @@
   }
 
   /* ─── 7. Datenschutz-Einwilligung ────────────────────────────
-     Der Banner schaltet den Meta-Pixel frei. Vor der Einwilligung wird
+     Der Banner schaltet den Meta-Pixel frei. Der Basiscode steht dort, wo
+     Meta ihn haben will – unverändert im <head> jeder Seite –, legt dort
+     aber nur `window.startMetaPixel` ab. Vor der Einwilligung wird deshalb
      nichts von Meta geladen und kein Request abgesetzt – § 25 Abs. 1
      TDDDG verlangt die Zustimmung vorher, nicht nachher. Die Wahl liegt
      im localStorage, weil sie nie zum Server muss.
@@ -776,50 +778,19 @@
      nicht freischalten – bei abweichender Version fragen wir erneut.
      ------------------------------------------------------------ */
 
-  /* Pixel-ID aus dem Meta Events Manager. Leer = Pixel bleibt aus.
-     Die ID ist kein Geheimnis: sie steht im Quelltext jeder Seite und ist
-     im Netzwerk-Tab sichtbar. Sie gehört deshalb direkt hierher und nicht
-     in eine Umgebungsvariable.
-
-     Der <noscript>-Fallback aus dem Meta-Snippet fehlt hier absichtlich:
-     Er feuert das Zählpixel als reinen Bild-Request und lässt sich damit
-     nicht an eine Einwilligung binden – Einwilligung braucht JavaScript.
-     Wer JS aus hat, würde also ungefragt getrackt. Das kostet die paar
-     Besucher ohne JS, die sich ohnehin nicht rechtssicher zählen lassen. */
-  const META_PIXEL_ID = '850029914569710';
-
   const CONSENT_KEY = 'd2d-consent';
   const CONSENT_VERSION = 3;
   const banner = document.getElementById('consentBanner');
   let pixelLoaded = false;
 
+  /* Der Basiscode selbst steht unverändert im <head> jeder Seite, wie von
+     Meta vorgegeben – er hinterlegt dort nur `window.startMetaPixel` und
+     wartet. Erst dieser Aufruf lädt fbevents.js, initialisiert den Pixel
+     und feuert PageView. */
   function loadMetaPixel() {
-    if (pixelLoaded || !META_PIXEL_ID) return;
+    if (pixelLoaded || typeof window.startMetaPixel !== 'function') return;
     pixelLoaded = true;
-
-    /* Basiscode von Meta. Die Warteschlange nimmt init/track schon an,
-       bevor fbevents.js fertig geladen ist. */
-    if (!window.fbq) {
-      const fbq = function () {
-        fbq.callMethod
-          ? fbq.callMethod.apply(fbq, arguments)
-          : fbq.queue.push(arguments);
-      };
-      fbq.push = fbq;
-      fbq.loaded = true;
-      fbq.version = '2.0';
-      fbq.queue = [];
-      window.fbq = fbq;
-      if (!window._fbq) window._fbq = fbq;
-
-      const tag = document.createElement('script');
-      tag.async = true;
-      tag.src = 'https://connect.facebook.net/en_US/fbevents.js';
-      document.head.appendChild(tag);
-    }
-
-    window.fbq('init', META_PIXEL_ID);
-    window.fbq('track', 'PageView');
+    window.startMetaPixel();
   }
 
   function revokeMetaPixel() {

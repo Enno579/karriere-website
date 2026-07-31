@@ -2901,6 +2901,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 .form__options--triple { grid-template-columns: repeat(3, 1fr); }
 
+/* Für Antworten, die aus ganzen Formulierungen bestehen – nebeneinander
+   brächen sie mehrzeilig um und die Schaltflächen würden ungleich hoch. */
+.form__options--stack { grid-template-columns: 1fr; }
+
 .form__option {
   position: relative;
   display: flex;

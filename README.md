@@ -43,12 +43,21 @@ Das Formular ist ein **Multi-Step-Dialog**, der über jeden „Jetzt bewerben“
 geöffnet wird (natives `<dialog>`-Element, Fokus-Trap und ESC out of the box).
 
 - Versand: `POST` an Formspree (`https://formspree.io/f/xlgvoyrr`)
-- Drei Schritte: Führerschein und Auto, Stunden pro Woche, Kontaktdaten
-- Freitext und Einwilligungshäkchen stehen im dritten Schritt. Sie waren früher
-  ein eigener vierter Schritt – beides sind aber keine Fragen, und die Seite
-  verspricht außen „3 Fragen“.
+- Vier Schritte: Führerschein und Auto, Deutschkenntnisse, Stunden pro Woche,
+  Kontaktdaten
+- Freitext und Einwilligungshäkchen stehen im letzten Schritt. Sie waren früher
+  ein eigener Schritt – beides sind aber keine Fragen, und die Seite
+  verspricht außen „4 Fragen“. Wer eine Frage ergänzt oder streicht, zieht die
+  Zahl an vier Stellen in `index.html` mit (Hero-Notiz, Bewerbungsablauf,
+  `apply-cta` samt Schrittliste, Dialog-Untertitel) – die Fortschrittsanzeige
+  im Dialog zählt selbst.
+- Oben heißt es „Fragen“, im Bewerbungsblock „Bewerbung in 4 **Schritten**“:
+  „Bewerbung in 4 Fragen“ klingt über der nummerierten Liste schief.
+- Die Antworten zu den Deutschkenntnissen sind ganze Formulierungen und stehen
+  deshalb untereinander (`.form__options--stack`), nicht in Spalten.
 - **Die Feldnamen sind deutsch** (`Vorname`, `Nachname`, `E-Mail`, `Telefon`,
-  `Führerschein und Auto`, `Stunden pro Woche`, `Nachricht`, `Datenschutz`) –
+  `Führerschein und Auto`, `Deutschkenntnisse`, `Stunden pro Woche`,
+  `Nachricht`, `Datenschutz`) –
   Formspree zeigt sie unverändert als Beschriftung in der Benachrichtigung.
   Ältere Einsendungen tragen noch die englischen Namen.
 - Damit hängt die **Antwortadresse** an einem eigenen Feld: Formspree liest sie
@@ -64,14 +73,14 @@ geöffnet wird (natives `<dialog>`-Element, Fokus-Trap und ESC out of the box).
 
 Zentriert sind im Dialog nur Frage und Hinweis über dem jeweiligen Schritt.
 Alles, was man ausfüllt, läuft linksbündig: Beschriftung, Feldinhalt und der
-Einwilligungssatz teilen sich im dritten Schritt eine Kante. Die Kontaktfelder
+Einwilligungssatz teilen sich im letzten Schritt eine Kante. Die Kontaktfelder
 stehen einzeln untereinander – Vor- und Nachname nebeneinander mussten sich die
 Breite teilen und wirkten gedrängt.
 
-Nicht jeder Schritt hat einen Hinweis unter der Frage (der dritte hat keinen).
-Den Abstand zum Schrittinhalt trägt deshalb die Frage, und ein folgender
+Nicht jeder Schritt hat einen Hinweis unter der Frage (der Kontaktschritt hat
+keinen). Den Abstand zum Schrittinhalt trägt deshalb die Frage, und ein folgender
 Hinweis zieht ihn mit `margin-top: -0.85rem` wieder auf seinen kleineren Wert
-zusammen – so bleiben die 22px über dem ersten Feld in allen drei Schritten
+zusammen – so bleiben die 22px über dem ersten Feld in allen Schritten
 gleich, ohne `:has()`.
 
 Das Einwilligungskästchen ist selbst gestaltet (`appearance: none` plus
@@ -334,28 +343,42 @@ beim Laden (CLS).
 
 Richtwerte: Hero max. 1920px Breite, Inhaltsbilder max. 1200px, JPEG-Qualität 80.
 
-## Datenschutz-Hinweis
+## Einwilligung und Meta-Pixel
 
-Die Seite setzt **keine Cookies**, lädt **nichts von Dritten** und misst keine
-Reichweite. Seit das Video raus ist, gibt es technisch nichts mehr
-freizuschalten – der Hinweis steht als Information da.
+Die Seite lädt genau einen Drittanbieter: den **Meta-Pixel**, und den erst nach
+ausdrücklicher Zustimmung. Eigene Cookies setzt sie keine.
 
+- **Der Basiscode steht unverändert im `<head>` jeder Seite**, direkt über
+  `</head>` – so gibt Meta die Einbindung vor
+  (<https://www.facebook.com/business/help/2254103654917599>). Er legt dort nur
+  `window.startMetaPixel` ab und wartet; `fbevents.js` wird erst mit dem Aufruf
+  aus `script.js` (Abschnitt 7) geladen. Vor der Zustimmung geht kein Request
+  an Meta.
+- Damit steht das Snippet **dreimal im Repo** – wie Kopf- und Fußzeile auch.
+  Wer die Pixel-ID ändert, ändert sie in `index.html`, `impressum.html` und
+  `datenschutz.html`.
+- Der **`<noscript>`-Fallback aus dem Meta-Snippet fehlt bewusst**: Er feuert
+  das Zählpixel als reinen Bild-Request und lässt sich nicht an eine
+  Einwilligung binden – das braucht JavaScript.
+- Das Standard-Event **`Lead`** feuert in `script.js`, sobald Formspree den
+  Versand bestätigt hat – nicht schon beim Klick. Bewusst ohne Parameter: In
+  den Pixel gehören keine Bewerberdaten.
 - Banner erscheint beim ersten Besuch (`#consentBanner`), zwei Schaltflächen:
-  *Nur notwendige* und *Akzeptieren*
+  *Nur notwendige* und *Akzeptieren*. Erneut aufrufbar über
+  *Datenschutz-Einstellungen* im Footer (`[data-consent="reopen"]`).
 - Gespeichert wird im **localStorage** unter `d2d-consent` als
-  `{ v: 2, accepted: <bool>, ts: … }`, nicht in einem Cookie – der Wert muss nie
-  zum Server. Gespeichert wird allein, damit der Hinweis nicht bei jedem Besuch
-  wieder erscheint.
-- Ältere Einträge (`v: 1`, Schlüssel `youtube`) gelten als ungültig; der Hinweis
-  erscheint dann einmalig erneut. Das ist Absicht – der Text hat sich geändert.
-- Erneut aufrufbar über *Datenschutz-Einstellungen* im Footer
-  (`[data-consent="reopen"]`)
+  `{ v: 3, accepted: <bool>, ts: … }`, nicht in einem Cookie – der Wert muss nie
+  zum Server.
+- Ältere Einträge (`v: 1`, `v: 2`) gelten als ungültig und werden erneut
+  abgefragt: Sie galten für eine Seite ohne Tracking und dürfen den Pixel nicht
+  freischalten. **Wer den Umfang der Einwilligung ändert, zählt
+  `CONSENT_VERSION` hoch.**
+- Ein Widerruf kann ein geladenes Skript nicht zurücknehmen; `revokeMetaPixel()`
+  schickt `fbq('consent', 'revoke')`, danach sendet Meta nichts mehr.
 
-**Kommt wieder ein Drittanbieter dazu** (Video, Karte, Tracking), gehört die
-eigentliche Freischaltung an die Stelle in `script.js`, wo heute nur gespeichert
-wird – und der Abschnitt „Cookies und lokale Speicherung“ in `datenschutz.html`
-muss mit. Solange nichts geladen wird, darf die Erklärung auch nichts anderes
-behaupten.
+**Kommt ein weiterer Drittanbieter dazu** (Video, Karte, weiteres Tracking),
+gehört seine Freischaltung an dieselbe Stelle in `script.js` – und der
+Abschnitt „Cookies und lokale Speicherung“ in `datenschutz.html` muss mit.
 
 ## Fit-Check („Passt Door-to-Door zu dir?“)
 
